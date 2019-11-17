@@ -107,7 +107,7 @@ public class Treehash {
     }
 
     public void update() {
-        byte[] seed = generator.next();
+        byte[] seed = generator.nextStateAndSeed();
         doAlgorithm(seed);
     }
 

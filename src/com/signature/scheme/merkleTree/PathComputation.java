@@ -54,7 +54,7 @@ public class PathComputation {
         for (int i=0;i<treeHeight-2;i++){
             limit = (int) (3*Math.pow(2,i));
             while(j<limit){
-                generator.nextSeed();
+                generator.nextState();
                 j++;
             }
             seedNextArray[i] = generator.state;
@@ -67,12 +67,12 @@ public class PathComputation {
 
     public void doAlgorithm() {
         generator.state = seed;
-        byte[] seedForPK = generator.next();
+        byte[] seedForPK = generator.nextStateAndSeed();
         seed = generator.state;
 
         for (int i=0;i<treeHeight-2;i++){
             generator.state = seedNextArray[i];
-            generator.nextSeed();
+            generator.nextState();
             seedNextArray[i] = generator.state;
         }
 

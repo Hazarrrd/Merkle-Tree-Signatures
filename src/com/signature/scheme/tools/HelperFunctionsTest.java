@@ -1,6 +1,8 @@
 package com.signature.scheme.tools;
 
 import org.junit.jupiter.api.Test;
+import com.signature.scheme.merkleTree.Node;
+import java.util.Stack;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -43,6 +45,15 @@ class HelperFunctionsTest {
         byte[] array3 = {0,1,0,1,1};
         a = HelperFunctions.fromByteArray(array3);
         assertEquals(11, a);
+
+        byte [] array4 = {63};
+        a = HelperFunctions.fromByteArray(array4);
+        assertEquals(63, 63);
+        /*
+        byte [] array5 = {63,1};
+        a = HelperFunctions.fromByteArray(array5);
+        System.out.println(a);
+        assertEquals(190, a);*/
     }
 
     @Test
@@ -72,7 +83,7 @@ class HelperFunctionsTest {
         HelperFunctions.fillBytesRandomly(array);
         HelperFunctions.fillBytesRandomly(array2);
         for (int i = 0;i<k;i++){
-            //System.out.println("a) " + array[i] + " b) " + array2[i]);
+           // System.out.println("a) " + array[i] + " b) " + array2[i]);
             if(array[i]!=array2[i])
                 bool = true;
         }
@@ -81,13 +92,62 @@ class HelperFunctionsTest {
 
     @Test
     void xorTwoByteArrays() {
+
+        byte[] array1 = {1,0,1,1,0,9};
+        byte[] array2 = {1,1,0,0,0,4};
+        byte[] array3 = HelperFunctions.xorTwoByteArrays(array1,array2);
+      /*  for (int i = 0;i<array3.length;i++){
+            System.out.println("a) " + array1[i] + " b) " + array2[i] + "c) " + array3[i]);
+        }*/
+        assertEquals(array3[0],0);
+        assertEquals(array3[1],1);
+        assertEquals(array3[2],1);
+        assertEquals(array3[3],1);
+        assertEquals(array3[4],0);
+        assertEquals(array3[5],13);
+
+        array1 = new byte[5];
+        array2 = new byte[5];
+        array3 = new byte[5];
+        HelperFunctions.fillBytesRandomly(array1);
+        HelperFunctions.fillBytesRandomly(array2);
+        array3 = HelperFunctions.xorTwoByteArrays(array1,array2);
+       /* for (int i = 0;i<array3.length;i++){
+            System.out.println("a) " + array1[i] + " b) " + array2[i] + " c) " + array3[i]);
+        }*/
+
     }
 
     @Test
     void log2() {
+        assertEquals(HelperFunctions.log2(8),3);
+        assertEquals(HelperFunctions.log2(4),2);
+        assertEquals(HelperFunctions.log2(16),4);
+        assertNotEquals(HelperFunctions.log2(9),8);
+        assertNotEquals(HelperFunctions.log2(9),10);
     }
 
     @Test
     void reverseStack() {
+        Stack<Node> stack = new Stack();
+        byte[] array = new byte[5];
+        stack.push(new Node(0,array,1));
+        stack.push(new Node(0,array,2));
+        stack.push(new Node(0,array,3));
+        stack.push(new Node(0,array,4));
+        stack.push(new Node(0,array,5));
+        Stack<Node>[] stackArray = new Stack[5];
+        stackArray[1] = stack;
+        stackArray[0] = new Stack<Node>();
+        stackArray[2] = new Stack<Node>();
+        stackArray[3] = new Stack<Node>();
+        stackArray[4] = new Stack<Node>();
+
+        assertEquals(stackArray[1].pop().index,5);
+        HelperFunctions.reverseStack(stackArray);
+        assertEquals(stackArray[1].pop().index,1);
+        assertEquals(stackArray[1].pop().index,2);
+        assertEquals(stackArray[1].pop().index,3);
+
     }
 }

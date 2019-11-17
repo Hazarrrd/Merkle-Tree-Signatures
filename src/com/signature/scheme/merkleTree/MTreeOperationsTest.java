@@ -1,6 +1,8 @@
 package com.signature.scheme.merkleTree;
 
 import com.signature.scheme.tools.HelperFunctions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,5 +24,21 @@ class MTreeOperationsTest {
 
     @org.junit.jupiter.api.Test
     void testLeafCalc() {
+    }
+
+    @BeforeEach
+    void setUp() {
+    }
+
+    @Test
+    void testComputeParent() {
+    }
+
+    @Test
+    void testLeafCalc1() {
+    }
+
+    @Test
+    void testLeafCalc2() {
     }
 }

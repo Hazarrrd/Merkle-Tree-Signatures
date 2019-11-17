@@ -47,7 +47,7 @@ public class SignatureGenerator {
         Node[] authPath = privateKey.upperPathState.auth;
         int index = privateKey.upperPathState.leafIndex;
         privateKey.upperPathState.doAlgorithm();
-        byte[] seed = fsGenerator.next();
+        byte[] seed = fsGenerator.nextStateAndSeed();
         byte[][] msgSignature = generateMsgSignature(seed,new PseudorndFunction(n),l1,l2,w,x,m);
         Signature lowerSignature = new Signature(authPath,msgSignature,index,true);
         privateKey.lowerSignature = lowerSignature;
@@ -59,7 +59,7 @@ public class SignatureGenerator {
         Node[] authPath = privateKey.lowerPathState.auth;
         int index = privateKey.lowerPathState.leafIndex;
         privateKey.lowerPathState.doAlgorithm();
-        byte[] seed = fsGenerator.next();
+        byte[] seed = fsGenerator.nextStateAndSeed();
         byte[][] msgSignature = generateMsgSignature(seed,new PseudorndFunction(n),l1,l2,w,x,m);
         return new Signature(authPath,msgSignature,index,false);
     }

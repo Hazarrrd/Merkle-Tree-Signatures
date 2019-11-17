@@ -10,6 +10,7 @@ import java.util.Stack;
 
 public class HelperFunctions {
 
+    //Nieoptymalnie, do naprawy BROOOOOKEN !!!!!
     public static byte[] intToByteArray (int number,int l){
         int size = ceilLogTwo(l);
         byte[] array = new byte[size];
@@ -24,7 +25,7 @@ public class HelperFunctions {
         return array;
     }
 
-    //Nieoptymalnie, do naprawy
+    //Nieoptymalnie, do naprawy BROOOOOKEN !!!!!
     public static int fromByteArray(byte[] bytes) {
         int result =0;
         int size = bytes.length;
@@ -54,7 +55,7 @@ public class HelperFunctions {
         HashFunction.k = hashKey;
     }
 
-    //Maybe is this too strong ? TOEDIT!!!
+    //Maybe is this too strong ? TOEDIT!!! ZMIENIA MOOOOOODY
     public static void fillBytesRandomly(byte[] bytes) {
        /* try {
             SecureRandom.getInstanceStrong().nextBytes(bytes);
@@ -63,11 +64,19 @@ public class HelperFunctions {
         }*/
         SecureRandom random = new SecureRandom();
         random.nextBytes(bytes);
+       /* for(int i =0;i<bytes.length;i++){
+            if(bytes[i]%2 == 0){
+                bytes[i] = 1;
+            } else{
+                bytes[i] = 0;
+            }
+        }*/
     }
 
     public static byte[] xorTwoByteArrays(byte[] a, byte[] b) {
         int i = 0;
         byte[] output = new byte[a.length];
+       // System.out.println(a.length + " " + b.length);
         for (byte j : a)
             output[i] = (byte) (j ^ b[i++]);
         return output;
@@ -83,7 +92,8 @@ public class HelperFunctions {
         Stack<Node>[] stackReversed = new Stack[stack.length];
         for(int h=0;h<stack.length;h++){
             stackReversed[h] = new Stack<Node>();
-            for(int i =0;i<stack[h].size();i++)
+            int size = stack[h].size();
+            for(int i =0;i<size;i++)
                 stackReversed[h].push(stack[h].pop());
             stack[h] = stackReversed[h];
         }

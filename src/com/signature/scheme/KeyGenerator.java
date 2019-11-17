@@ -100,7 +100,7 @@ public class KeyGenerator {
         Stack <Node> stack = new Stack<Node>();
 
         for(int i=0;i<howManyKeys; i++){
-            leaf = MTreeOperations.leafCalc(this.n,generator.next(),l,x,w,lBitmask,i);
+            leaf = MTreeOperations.leafCalc(this.n,generator.nextStateAndSeed(),l,x,w,lBitmask,i);
             stack = Treehash.standardTreehash(leaf,stack,bitmask,auth,treeHashArray,retain,Height,K);
         }
         reverseStack(retain);
