@@ -11,19 +11,19 @@ public class HashFunction {
     public static byte[] k;
     public static PseudorndFunction f;
 
-    public static byte[] computeHash(byte[] input){
-        if(input.length != 2*n){
+    public static byte[] computeHash(byte[] input) {
+        if (input.length != 2 * n) {
             System.err.println("Bad input to hash function (should be 2n)");
             return null;
         }
         byte[] a = Arrays.copyOfRange(input, 0, n);
-        byte[] b = Arrays.copyOfRange(input, n, 2*n);
-        byte[] temp ;
+        byte[] b = Arrays.copyOfRange(input, n, 2 * n);
+        byte[] temp;
         f.setKey(k);
         temp = f.encrypt(a);
-        f.setKey(xorTwoByteArrays(temp,a));
+        f.setKey(xorTwoByteArrays(temp, a));
         temp = f.encrypt(b);
-        return xorTwoByteArrays(temp,b);
+        return xorTwoByteArrays(temp, b);
     }
 
 }

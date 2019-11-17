@@ -1,8 +1,10 @@
-package com.signature.scheme.tools;
+package com.signature.scheme.tests.tools;
 
+import com.signature.scheme.tools.HelperFunctions;
+import com.signature.scheme.tools.PseudorndFunction;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PseudorndFunctionTest {
 
@@ -16,7 +18,7 @@ class PseudorndFunctionTest {
 
     @Test
     void encrypt() {
-        int n=16;
+        int n = 16;
         PseudorndFunction f = new PseudorndFunction(n);
         byte[] array = new byte[n];
         byte[] array2 = new byte[n];
@@ -25,18 +27,18 @@ class PseudorndFunctionTest {
         HelperFunctions.fillBytesRandomly(array2);
         f.setKey(array);
         array3 = f.encrypt(array2);
-        assertEquals(n,array2.length);
-        assertEquals(n,array.length);
-        assertEquals(n,array3.length);
-        boolean bool=false;
+        assertEquals(n, array2.length);
+        assertEquals(n, array.length);
+        assertEquals(n, array3.length);
+        boolean bool = false;
         bool = checkIfSame(array2, array3);
-        assertEquals(false,bool);
+        assertEquals(false, bool);
     }
 
     @Test
     void composeFunction() {
 
-        int n=16;
+        int n = 16;
         PseudorndFunction f = new PseudorndFunction(n);
         byte[] array = new byte[n];
         byte[] array2 = new byte[n];
@@ -45,27 +47,27 @@ class PseudorndFunctionTest {
         HelperFunctions.fillBytesRandomly(array);
         HelperFunctions.fillBytesRandomly(array2);
         f.setKey(array);
-        array3 = f.composeFunction(array2,array,5);
-        array4 = f.composeFunction(array2,array,4);
-        assertEquals(n,array2.length);
-        assertEquals(n,array.length);
-        assertEquals(n,array3.length);
-        boolean bool=false;
+        array3 = f.composeFunction(array2, array, 5);
+        array4 = f.composeFunction(array2, array, 4);
+        assertEquals(n, array2.length);
+        assertEquals(n, array.length);
+        assertEquals(n, array3.length);
+        boolean bool = false;
         bool = checkIfSame(array2, array3);
-        assertEquals(false,bool);
+        assertEquals(false, bool);
         bool = checkIfSame(array3, array4);
-        assertEquals(false,bool);
-        array4 = f.composeFunction(array2,array4,1);
+        assertEquals(false, bool);
+        array4 = f.composeFunction(array2, array4, 1);
         bool = checkIfSame(array4, array3);
-        assertEquals(true,bool);
-        array4 = f.composeFunction(array2,array4,1);
+        assertEquals(true, bool);
+        array4 = f.composeFunction(array2, array4, 1);
         bool = checkIfSame(array4, array3);
-        assertEquals(false,bool);
+        assertEquals(false, bool);
     }
 
     @Test
     void decrypt() {
-        int n=16;
+        int n = 16;
         PseudorndFunction f = new PseudorndFunction(n);
         byte[] array = new byte[n];
         byte[] array2 = new byte[n];
@@ -74,29 +76,29 @@ class PseudorndFunctionTest {
         HelperFunctions.fillBytesRandomly(array2);
         f.setKey(array);
         array3 = f.encrypt(array2);
-        assertEquals(n,array2.length);
-        assertEquals(n,array.length);
-        assertEquals(n,array3.length);
-        boolean bool=true;
+        assertEquals(n, array2.length);
+        assertEquals(n, array.length);
+        assertEquals(n, array3.length);
+        boolean bool = true;
         bool = checkIfSame(array2, array3);
-        assertEquals(false,bool);
+        assertEquals(false, bool);
 
         array3 = f.decrypt(array3);
         bool = checkIfSame(array2, array3);
-        assertEquals(true,bool);
+        assertEquals(true, bool);
 
         array3 = f.encrypt(array3);
         array3 = f.encrypt(array3);
         bool = checkIfSame(array2, array3);
-        assertEquals(false,bool);
+        assertEquals(false, bool);
 
         array3 = f.decrypt(array3);
         bool = checkIfSame(array2, array3);
-        assertEquals(false,bool);
+        assertEquals(false, bool);
 
         array3 = f.decrypt(array3);
         bool = checkIfSame(array2, array3);
-        assertEquals(true,bool);
+        assertEquals(true, bool);
     }
 
     private boolean checkIfSame(byte[] array2, byte[] array3) {

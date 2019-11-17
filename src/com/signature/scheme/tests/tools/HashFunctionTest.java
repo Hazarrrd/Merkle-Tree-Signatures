@@ -1,8 +1,10 @@
-package com.signature.scheme.tools;
+package com.signature.scheme.tests.tools;
 
+import com.signature.scheme.tools.HashFunction;
+import com.signature.scheme.tools.HelperFunctions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class HashFunctionTest {
 
@@ -16,19 +18,19 @@ class HashFunctionTest {
         byte[] arrayOutput = HashFunction.computeHash(array);
         byte[] arrayOutput2 = HashFunction.computeHash(array);
         byte[] arrayOutput3 = HashFunction.computeHash(array2);
-        assertEquals(arrayOutput.length,arrayOutput2.length);
-        assertEquals(arrayOutput.length,32);
-        for(int i=0;i<arrayOutput.length;i++){
-            if(arrayOutput[i] != arrayOutput2[i]){
+        assertEquals(arrayOutput.length, arrayOutput2.length);
+        assertEquals(arrayOutput.length, 32);
+        for (int i = 0; i < arrayOutput.length; i++) {
+            if (arrayOutput[i] != arrayOutput2[i]) {
                 bool = false;
             }
         }
-        assertEquals(bool,true);
-        for(int i=0;i<arrayOutput.length;i++){
-            if(arrayOutput[i] != arrayOutput3[i]){
+        assertEquals(bool, true);
+        for (int i = 0; i < arrayOutput.length; i++) {
+            if (arrayOutput[i] != arrayOutput3[i]) {
                 bool = false;
             }
         }
-        assertEquals(bool,false);
+        assertEquals(bool, false);
     }
 }

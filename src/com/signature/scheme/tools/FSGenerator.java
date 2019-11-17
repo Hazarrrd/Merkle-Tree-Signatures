@@ -16,15 +16,15 @@ public class FSGenerator {
         int n = state.length;
         starter0 = new byte[n];
         starter1 = new byte[n];
-        for(int i=0;i<n;i++){
-            starter0[i]=0;
-            starter1[i]=0;
+        for (int i = 0; i < n; i++) {
+            starter0[i] = 0;
+            starter1[i] = 0;
         }
-        starter1[n-1]=1;
+        starter1[n - 1] = 1;
 
     }
 
-    public byte[] nextStateAndSeed(){
+    public byte[] nextStateAndSeed() {
 
         //BITY DO POPRAWY
         otsSeedGenerator.setKey(state);
@@ -33,13 +33,13 @@ public class FSGenerator {
         return otsSeedGenerator.encrypt(starter1);
     }
 
-    public byte[] nextState(){
+    public byte[] nextState() {
         nextStateGenerator.setKey(state);
         this.state = nextStateGenerator.encrypt(starter0);
         return this.state;
     }
 
-    public byte[] getSeedValue(){
+    public byte[] getSeedValue() {
         otsSeedGenerator.setKey(state);
         return otsSeedGenerator.encrypt(starter1);
     }

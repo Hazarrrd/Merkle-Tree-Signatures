@@ -2,7 +2,6 @@ package com.signature.scheme;
 
 import com.signature.scheme.merkleTree.PathComputation;
 import com.signature.scheme.merkleTree.Treehash;
-import com.signature.scheme.tools.FSGenerator;
 
 public class PrivateKey {
 
