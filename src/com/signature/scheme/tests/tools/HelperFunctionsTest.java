@@ -159,4 +159,27 @@ class HelperFunctionsTest {
         assertEquals(stackArray[1].pop().index, 3);
 
     }
+
+    @Test
+    void msgDigest(){
+        String msg1 = "msgTest";
+        String msg2 = "msgTest2";
+        String msg3 = "msgTest";
+        byte[] hash1 = HelperFunctions.messageDigestSHA3_256(msg1);
+        byte[] hash2 = HelperFunctions.messageDigestSHA3_256(msg2);
+        byte[] hash3 = HelperFunctions.messageDigestSHA3_256(msg3);
+        assertEquals(hash1.length,32);
+        assertEquals(hash2.length,32);
+        assertEquals(hash3.length,32);
+        assertArrayEquals(hash1,hash3);
+        Boolean bool = false;
+        for(int i = 0;i<hash1.length;i++){
+            if(hash1[i]!=hash2[i]){
+                bool = true;
+                break;
+            }
+        }
+        assertEquals(bool,true);
+
+    }
 }

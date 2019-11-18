@@ -2,6 +2,9 @@ package com.signature.scheme.tools;
 
 import com.signature.scheme.merkleTree.Node;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Stack;
 
@@ -91,6 +94,16 @@ public class HelperFunctions {
         for (byte j : a)
             output[i] = (byte) (j ^ b[i++]);
         return output;
+    }
+
+    public static byte[] messageDigestSHA3_256(String msg) {
+        MessageDigest digest = null;
+        try {
+            digest = MessageDigest.getInstance("SHA3-256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return digest.digest(msg.getBytes(StandardCharsets.UTF_8));
     }
 
     //POTENCJALNIE TRACI DOKLADNOSC

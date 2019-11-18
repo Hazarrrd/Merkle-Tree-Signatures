@@ -13,19 +13,19 @@ import java.util.Stack;
 
 import static com.signature.scheme.tools.HelperFunctions.*;
 
-public class KeyGenerator {
+public class KeysKeeper {
 
     //Private Key
-    PrivateKey privateKey;
+    public PrivateKey privateKey;
     //Public Key
-    PublicKey publicKey;
+    public PublicKey publicKey;
     //Parameters
-    ParametersBase params;
+    public ParametersBase params;
 
-    public KeyGenerator(int m, int n, int kU, int kL, int upperH, int lowerH, int wL, int wU){
+    public KeysKeeper(int m, int n, int kU, int kL, int upperH, int lowerH, int wL, int wU){
         privateKey = new PrivateKey();
         publicKey = new PublicKey();
-        byte[] x = KeyGenerator.generateX(n);
+        byte[] x = KeysKeeper.generateX(n);
         params = new ParametersBase(m,n,kU,kL,upperH,lowerH,wL,wU,x);
 
         publicKey.bitmaskMain = params.bitmaskMain;
@@ -36,6 +36,13 @@ public class KeyGenerator {
 
 
     public void generateKeys() {
+        //generate upper and lower trees
+        byte[] lowerRoot = generateTrees();
+        //SIGN lower by upper
+        SignatureGenerator.signLowerTree(privateKey, params.n, params.lu1, params.lu2, params.wU, publicKey.X, lowerRoot);
+    }
+
+    public byte[] generateTrees() {
         HelperFunctions.setHashFuncton(params.n);
 
         FSGenerator lowerGenerator = generateFSGenerator(params.n);
@@ -56,8 +63,8 @@ public class KeyGenerator {
             treeHashArray[i] = new Treehash(new Stack<Node>(),i,params.bitmaskMain,params.bitmaskLTree,params.n,params.lU,params.X,params.wU);
         }
 
-        publicKey.upperRoot = generateRootOfTree(upperGenerator, publicKey, params.lU, params.wU, auth, treeHashArray, retain, params.upperH, params.kU,params.n);
-        privateKey.upperPathState = new PathComputation(params.upperH, params.kU, params.n, params.lU, publicKey, params.wU, privateKey.upperGenState, auth, treeHashArray, retain);
+        publicKey.upperRoot = generateRootOfTree(upperGenerator, params.lU, params.wU, auth, treeHashArray, retain, params.upperH, params.kU,params.n);
+        privateKey.upperPathComputation = new PathComputation(params.upperH, params.kU, params.n, params.lU, publicKey, params.wU, privateKey.upperGenState, auth, treeHashArray, retain);
 
         auth = new Node[params.lowerH];
         treeHashArray = new Treehash[params.lowerH - params.kL];
@@ -69,14 +76,12 @@ public class KeyGenerator {
             treeHashArray[i] = new Treehash(new Stack<Node>(),i,params.bitmaskMain,params.bitmaskLTree,params.n,params.lL,params.X,params.wL);
         }
 
-        byte[] lowerRoot = generateRootOfTree(lowerGenerator, publicKey, params.lL, params.wL, auth, treeHashArray, retain, params.lowerH, params.kL,params.n);
-        privateKey.lowerPathState = new PathComputation(params.lowerH, params.kL, params.n, params.lL, publicKey, params.wL, privateKey.lowerGenState, auth, treeHashArray, retain);
-
-        //SIGN lower by upper
-        SignatureGenerator.signLowerTree(privateKey, params.n, params.lu1, params.lu2, params.wU, publicKey.X, lowerRoot, params.lowerH);
+        byte[] lowerRoot = generateRootOfTree(lowerGenerator, params.lL, params.wL, auth, treeHashArray, retain, params.lowerH, params.kL,params.n);
+        privateKey.lowerPathComputation = new PathComputation(params.lowerH, params.kL, params.n, params.lL, publicKey, params.wL, privateKey.lowerGenState, auth, treeHashArray, retain);
+        return lowerRoot;
     }
 
-    private byte[] generateRootOfTree(FSGenerator generator,PublicKey publicKey, int l, int w, Node[] auth, Treehash[] treeHashArray, Stack<Node>[] retain, int treeHeight, int K, int n) {
+    public byte[] generateRootOfTree(FSGenerator generator, int l, int w, Node[] auth, Treehash[] treeHashArray, Stack<Node>[] retain, int treeHeight, int K, int n) {
         int howManyKeys = (int) Math.pow(2, treeHeight);
         Node leaf;
         Stack<Node> stack = new Stack<Node>();

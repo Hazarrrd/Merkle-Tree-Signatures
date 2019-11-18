@@ -6,7 +6,7 @@ import static com.signature.scheme.tools.HelperFunctions.*;
 
 public class ParametersBase {
     //msg length
-    public int m = 100;
+    public int m = 32;
     public int lu1;
     public int lu2;
     public int lU;
@@ -19,7 +19,7 @@ public class ParametersBase {
     //Path Computation Algorithm parameter k for upper tree, such that internalH - kU is even and ((internalH-kU)/2) + 1 <= pow(2,internalH-kL+1)
     public int kU=4;
     //Path Computation Algorithm parameter k for lower tree, such that internalH - kL is even and ((internalH-kU)/2) + 1 <= pow(2,internalH-kL+1)
-    int kL=4;
+    public int kL=4;
     public int upperH = 10;
     public int lowerH = 10;
     public int maxH;
@@ -55,7 +55,7 @@ public class ParametersBase {
         this.maxH = Math.max(upperH, lowerH);
         bitmaskMain = generateBitmask(maxH, false, n);
         bitmaskLTree = generateBitmask(maxL, true, n);
-        this.X = KeyGenerator.generateX(n);
+        this.X = KeysKeeper.generateX(n);
         this.seed = new byte[n];
         HelperFunctions.fillBytesRandomly(seed);
         HelperFunctions.setHashFuncton(n);

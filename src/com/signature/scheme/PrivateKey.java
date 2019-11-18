@@ -8,9 +8,9 @@ public class PrivateKey {
     public byte[] lowerGenState;
     public byte[] nextGenState;
     public byte[] upperGenState;
-    public PathComputation upperPathState;
-    public PathComputation lowerPathState;
-    public PathComputation nextPathState;
+    public PathComputation upperPathComputation;
+    public PathComputation lowerPathComputation;
+    public PathComputation nextPathComputation;
     public Signature lowerSignature;
     public Treehash nextThreehash;
 
