@@ -1,5 +1,6 @@
 package com.signature.scheme;
 
+import com.signature.scheme.tools.HashFunction;
 import com.signature.scheme.tools.HelperFunctions;
 
 import static com.signature.scheme.tools.HelperFunctions.*;
@@ -31,6 +32,7 @@ public class ParametersBase {
     public int wL=16;
     public byte[] X;
     public byte[] seed;
+    public byte[] hashFunctionKey;
 
     public ParametersBase(int m, int n, int kU, int kL, int upperH, int lowerH, int wL, int wU, byte[] x) {
         this.m = m;
@@ -47,7 +49,9 @@ public class ParametersBase {
         setLengths(m, n, wL, wU);
         this.bitmaskMain = generateBitmask(maxH, false, n);
         this.bitmaskLTree = generateBitmask(maxL, true, n);
-        HelperFunctions.setHashFuncton(n);
+        byte[] hashFunctionKey = new byte[n];
+        HelperFunctions.fillBytesRandomly(hashFunctionKey);
+        this.hashFunctionKey = hashFunctionKey;
     }
 
     public ParametersBase() {
@@ -58,7 +62,9 @@ public class ParametersBase {
         this.X = KeysKeeper.generateX(n);
         this.seed = new byte[n];
         HelperFunctions.fillBytesRandomly(seed);
-        HelperFunctions.setHashFuncton(n);
+        byte[] hashFunctionKey = new byte[n];
+        HelperFunctions.fillBytesRandomly(hashFunctionKey);
+        this.hashFunctionKey = hashFunctionKey;
     }
 
     private void setLengths(int m, int n, int wL, int wU) {

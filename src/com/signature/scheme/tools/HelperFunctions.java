@@ -61,14 +61,6 @@ public class HelperFunctions {
         return counter;
     }
 
-    public static void setHashFuncton(int n) {
-        HashFunction.n = n;
-        HashFunction.f = new PseudorndFunction(n);
-        byte[] hashKey = new byte[n];
-        fillBytesRandomly(hashKey);
-        HashFunction.k = hashKey;
-    }
-
     //Maybe is this too strong ? TOEDIT!!! ZMIENIA MOOOOOODY
     public static void fillBytesRandomly(byte[] bytes) {
        /* try {

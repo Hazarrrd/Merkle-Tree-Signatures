@@ -9,7 +9,6 @@ public class Main {
     public static void main(String[] args) {
         KeysKeeper keysKeeper = new KeysKeeper(32,32,4,4,10,10,8,8);
         keysKeeper.generateKeys();
-        HelperFunctions.setHashFuncton(keysKeeper.params.n);
         SignatureGenerator signatureGenerator = new SignatureGenerator(keysKeeper);
         SignatureVerficator signatureVerficator = new SignatureVerficator(keysKeeper.publicKey,keysKeeper.params);
         byte[] m = new byte[100];

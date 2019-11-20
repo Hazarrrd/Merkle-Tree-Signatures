@@ -3,6 +3,7 @@ package com.signature.scheme.signing;
 import com.signature.scheme.*;
 import com.signature.scheme.merkleTree.Node;
 import com.signature.scheme.tools.FSGenerator;
+import com.signature.scheme.tools.HashFunction;
 import com.signature.scheme.tools.HelperFunctions;
 import com.signature.scheme.tools.PseudorndFunction;
 
@@ -61,6 +62,7 @@ public class SignatureGenerator {
         int index = privateKey.upperPathComputation.leafIndex;
         privateKey.upperPathComputation.doAlgorithm();
         byte[] seed = fsGenerator.nextStateAndSeed();
+        privateKey.upperGenState = fsGenerator.state;
         byte[][] msgSignature = generateMsgSignature(seed, new PseudorndFunction(n), l1, l2, w, x, msg);
         Signature lowerSignature = new Signature(authPath, msgSignature, index);
         privateKey.lowerSignature = lowerSignature;
@@ -68,6 +70,7 @@ public class SignatureGenerator {
     }
 
     public Signature signMessage(String msg) {
+        HashFunction.setFunction(keysKeeper.params.hashFunctionKey,keysKeeper.params.n);
         byte [] msgDigest = HelperFunctions.messageDigestSHA3_256(msg);
         PrivateKey privateKey = this.keysKeeper.privateKey;
         ParametersBase params = this.keysKeeper.params;
@@ -78,7 +81,9 @@ public class SignatureGenerator {
         int index = privateKey.lowerPathComputation.leafIndex;
         privateKey.lowerPathComputation.doAlgorithm();
         byte[] seed = fsGenerator.nextStateAndSeed();
-        byte[][] msgSignature = generateMsgSignature(seed, new PseudorndFunction(n), params.ll1, params.ll2, params.wU, params.X,msgDigest);
+        privateKey.lowerGenState = fsGenerator.state;
+        byte[][] msgSignature = generateMsgSignature(seed, new PseudorndFunction(n), params.ll1, params.ll2, params.wL, params.X,msgDigest);
+
         return new Signature(authPath, msgSignature, index, privateKey.lowerSignature);
     }
 }

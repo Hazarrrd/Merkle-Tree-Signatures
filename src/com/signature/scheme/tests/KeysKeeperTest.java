@@ -5,6 +5,7 @@ import com.signature.scheme.merkleTree.Node;
 import com.signature.scheme.merkleTree.Treehash;
 import com.signature.scheme.signing.SignatureGenerator;
 import com.signature.scheme.tools.FSGenerator;
+import com.signature.scheme.tools.HashFunction;
 import com.signature.scheme.tools.HelperFunctions;
 import com.signature.scheme.tools.PseudorndFunction;
 import org.junit.jupiter.api.Test;
@@ -51,6 +52,7 @@ class KeysKeeperTest {
     void generateRootOfTree() {
         ParametersBase params = new ParametersBase();
         KeysKeeper keysKeeper = new KeysKeeper(params.m,params.n,params.kU,params.kL,params.upperH,params.lowerH,params.wL,params.wU);
+        HashFunction.setFunction(params.hashFunctionKey,params.n);
 
         Node[] auth = new Node[params.upperH];
         Treehash[] treeHashArray = new Treehash[params.upperH - params.kU];

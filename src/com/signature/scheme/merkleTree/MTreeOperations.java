@@ -63,11 +63,11 @@ public class MTreeOperations {
     }
 
     public static Node computeRoot(int h, int index, Node node, Node[] auth, byte[][] bitmask) {
-        for (int i = 1; i <= h; i++) {
+        for (int i = 0; i < h; i++) {
             if (Math.floor(index / Math.pow(2, i)) % 2 == 0) {
-                node = MTreeOperations.computeParent(node, auth[i - 1], bitmask[i - 1]);
+                node = MTreeOperations.computeParent(node, auth[i], bitmask[i]);
             } else {
-                node = MTreeOperations.computeParent(auth[i - 1], node, bitmask[i - 1]);
+                node = MTreeOperations.computeParent(auth[i], node, bitmask[i]);
             }
         }
         return node;

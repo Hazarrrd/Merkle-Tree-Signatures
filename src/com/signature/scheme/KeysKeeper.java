@@ -6,6 +6,7 @@ import com.signature.scheme.merkleTree.PathComputation;
 import com.signature.scheme.merkleTree.Treehash;
 import com.signature.scheme.signing.SignatureGenerator;
 import com.signature.scheme.tools.FSGenerator;
+import com.signature.scheme.tools.HashFunction;
 import com.signature.scheme.tools.HelperFunctions;
 import com.signature.scheme.tools.PseudorndFunction;
 
@@ -33,9 +34,21 @@ public class KeysKeeper {
         publicKey.X = params.X;
     }
 
+    public KeysKeeper(ParametersBase params){
+        privateKey = new PrivateKey();
+        publicKey = new PublicKey();
+        byte[] x = KeysKeeper.generateX(params.n);
+        this.params = params;
+
+        publicKey.bitmaskMain = this.params.bitmaskMain;
+        publicKey.bitmaskLTree = this.params.bitmaskLTree;
+        publicKey.X = this.params.X;
+    }
+
 
 
     public void generateKeys() {
+        HashFunction.setFunction(params.hashFunctionKey,params.n);
         //generate upper and lower trees
         byte[] lowerRoot = generateTrees();
         //SIGN lower by upper
@@ -43,7 +56,6 @@ public class KeysKeeper {
     }
 
     public byte[] generateTrees() {
-        HelperFunctions.setHashFuncton(params.n);
 
         FSGenerator lowerGenerator = generateFSGenerator(params.n);
         FSGenerator nextGenerator = generateFSGenerator(params.n);
@@ -78,6 +90,7 @@ public class KeysKeeper {
 
         byte[] lowerRoot = generateRootOfTree(lowerGenerator, params.lL, params.wL, auth, treeHashArray, retain, params.lowerH, params.kL,params.n);
         privateKey.lowerPathComputation = new PathComputation(params.lowerH, params.kL, params.n, params.lL, publicKey, params.wL, privateKey.lowerGenState, auth, treeHashArray, retain);
+        publicKey.lowerRoot = lowerRoot;
         return lowerRoot;
     }
 

@@ -6,6 +6,7 @@ import com.signature.scheme.Signature;
 import com.signature.scheme.WOTSkeyGenerator;
 import com.signature.scheme.merkleTree.MTreeOperations;
 import com.signature.scheme.merkleTree.Node;
+import com.signature.scheme.tools.HashFunction;
 import com.signature.scheme.tools.HelperFunctions;
 import com.signature.scheme.tools.PseudorndFunction;
 
@@ -14,15 +15,16 @@ import java.util.Arrays;
 public class SignatureVerficator {
 
     PublicKey publicKey;
+    ParametersBase params;
 
     public SignatureVerficator(PublicKey publicKey, ParametersBase params) {
         this.publicKey = publicKey;
         this.params = params;
     }
 
-    ParametersBase params;
-
     public Boolean verifySignature(Signature signature, String msg) {
+
+        HashFunction.setFunction(params.hashFunctionKey,params.n);
 
         byte [] msgDigest = HelperFunctions.messageDigestSHA3_256(msg);
         byte[][] bitmask = publicKey.bitmaskMain;
@@ -38,6 +40,7 @@ public class SignatureVerficator {
         byte [][] OTSpublicKey = WOTSkeyGenerator.computeOTSPublicKey(msgDigest, ll1, ll2, wL, x, signature.msgSignature);
 
         //Computing root of lower tree
+
         Node node = MTreeOperations.leafCalc(n, lL, OTSpublicKey, publicKey.bitmaskLTree,signature.index);
         node = MTreeOperations.computeRoot(lowerH, signature.index, node, signature.lowerAuthPath, bitmask);
 

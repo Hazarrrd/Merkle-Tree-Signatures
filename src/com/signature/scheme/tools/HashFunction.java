@@ -26,4 +26,10 @@ public class HashFunction {
         return xorTwoByteArrays(temp, b);
     }
 
+    public static void setFunction (byte[] hashKey,int outputSize){
+            n = outputSize;
+            f = new PseudorndFunction(n);
+            k = hashKey;
+    }
+
 }

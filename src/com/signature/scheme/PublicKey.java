@@ -7,4 +7,5 @@ public class PublicKey {
     public byte[] X;
     public byte[] upperRoot;
 
+    public byte[] lowerRoot;
 }

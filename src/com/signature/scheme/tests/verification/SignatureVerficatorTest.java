@@ -14,22 +14,28 @@ class SignatureVerficatorTest {
     @Test
     void verifySignature() {
         ParametersBase params = new ParametersBase();
-        KeysKeeper keysKeeper = new KeysKeeper(params.m,params.n,params.kU,params.kL,params.upperH,params.lowerH,params.wL,params.wU);
+        KeysKeeper keysKeeper = new KeysKeeper(params);
         keysKeeper.generateKeys();
-        SignatureVerficator signatureVerficator = new SignatureVerficator(keysKeeper.publicKey,params);
+        SignatureVerficator signatureVerficator = new SignatureVerficator(keysKeeper.publicKey,keysKeeper.params);
         SignatureGenerator signatureGenerator = new SignatureGenerator(keysKeeper);
-        Signature signature1 = signatureGenerator.signMessage("Wiadomosc");
-        //Signature signature2 = signatureGenerator.signMessage("Wiadomosc");
-      //  Signature signature3 = signatureGenerator.signMessage("Wiadomoscc");
+        Signature signature1 = signatureGenerator.signMessage("TEST");
+        Signature signature2 = signatureGenerator.signMessage("TEST");
+        Signature signature3 = signatureGenerator.signMessage("TESTt");
 
-       // KeysKeeper keysKeeper2 = new KeysKeeper(params.m,params.n,params.kU,params.kL,params.upperH,params.lowerH,params.wL,params.wU);
-      //  keysKeeper2.generateKeys();
-       // SignatureGenerator signatureGenerator2 = new SignatureGenerator(keysKeeper);
-     //   Signature signature4 = signatureGenerator2.signMessage("Wiadomosc");
+        KeysKeeper keysKeeper2 = new KeysKeeper(params);
+        keysKeeper2.generateKeys();
+        SignatureGenerator signatureGenerator2 = new SignatureGenerator(keysKeeper2);
+        Signature signature4 = signatureGenerator2.signMessage("TEST");
 
-        assertEquals(signatureVerficator.verifySignature(signature1,"Wiadomosc"),true);
-       // assertEquals(signatureVerficator.verifySignature(signature2,"Wiadomosc"),true);
-      //  assertEquals(signatureVerficator.verifySignature(signature3,"Wiadomosc"),false);
-       // assertEquals(signatureVerficator.verifySignature(signature4,"Wiadomosc"),false);
+        assertEquals(signatureVerficator.verifySignature(signature1,"TEST"),true);
+        assertEquals(signatureVerficator.verifySignature(signature1,"TESTt"),false);
+        assertEquals(signatureVerficator.verifySignature(signature2,"TEST"),true);
+        assertEquals(signatureVerficator.verifySignature(signature3,"TEST"),false);
+        assertEquals(signatureVerficator.verifySignature(signature4,"TEST"),false);
+        int size = (int) Math.pow(2,params.lowerH);
+        for(int i =0;i<size-5;i++){
+            Signature signature5 = signatureGenerator.signMessage("TESTtt");
+            assertEquals(signatureVerficator.verifySignature(signature5,"TESTtt"),true);
+        }
     }
 }

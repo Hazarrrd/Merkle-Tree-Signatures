@@ -73,15 +73,6 @@ class HelperFunctionsTest {
         assertNotEquals(HelperFunctions.ceilLogTwo(16), 5);
     }
 
-    @Test
-    void setHashFuncton() {
-        HelperFunctions.setHashFuncton(5);
-        Assertions.assertEquals(HashFunction.n, 5);
-        assertNotNull(HashFunction.k);
-        HelperFunctions.setHashFuncton(6);
-        assertEquals(HashFunction.n, 6);
-        assertNotNull(HashFunction.k);
-    }
 
     @Test
     void fillBytesRandomly() {
