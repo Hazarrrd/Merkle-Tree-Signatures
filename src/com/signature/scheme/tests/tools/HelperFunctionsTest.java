@@ -182,4 +182,11 @@ class HelperFunctionsTest {
         assertEquals(bool,true);
 
     }
+
+    @Test
+    void byteArrayToBinaryString(){
+        byte[] array = {1,2,3};
+        String string = HelperFunctions.byteArrayToBinaryString(array);
+        assertEquals("000000010000001000000011",string);
+    }
 }

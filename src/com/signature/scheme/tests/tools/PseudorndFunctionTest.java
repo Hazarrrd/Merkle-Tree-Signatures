@@ -4,6 +4,7 @@ import com.signature.scheme.tools.HelperFunctions;
 import com.signature.scheme.tools.PseudorndFunction;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PseudorndFunctionTest {
@@ -23,6 +24,7 @@ class PseudorndFunctionTest {
         byte[] array = new byte[n];
         byte[] array2 = new byte[n];
         byte[] array3 = new byte[n];
+        byte[] array4 = new byte[n];
         HelperFunctions.fillBytesRandomly(array);
         HelperFunctions.fillBytesRandomly(array2);
         f.setKey(array);
@@ -33,6 +35,16 @@ class PseudorndFunctionTest {
         boolean bool = false;
         bool = checkIfSame(array2, array3);
         assertEquals(false, bool);
+
+        f.setKey(array);
+        array4 = f.encrypt(array2);
+        assertArrayEquals(array3,array4);
+
+
+        PseudorndFunction f2 = new PseudorndFunction(n);
+        f2.setKey(array);
+        array4 = f.encrypt(array2);
+        assertArrayEquals(array3,array4);
     }
 
     @Test

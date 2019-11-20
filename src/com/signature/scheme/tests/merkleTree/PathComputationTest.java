@@ -83,7 +83,6 @@ class PathComputationTest {
             assertEquals(node.index,0);
             assertEquals(stack.peek().index,node.index);
             assertEquals(stack.peek().value.length,node.value.length);
-            System.out.println(i + " __ " + size);
             assertArrayEquals(node.value,stack.peek().value);
 
 

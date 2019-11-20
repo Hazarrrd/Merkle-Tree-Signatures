@@ -78,4 +78,18 @@ class MTreeOperationsTest {
         assertEquals(a.value.length, param.n);
         assertEquals(a.index, 0);
     }
+
+    @Test
+    void computeRoot () {
+        ParametersBase params = new ParametersBase();
+        Node[] auth = new Node[params.lowerH];
+        for (int i = 0; i < params.lowerH; i++) {
+            auth[i] = new Node(i,params.seed,1);
+        }
+        Node node = new Node(0,params.seed,0);
+        node = MTreeOperations.computeRoot(params.lowerH,0,node,auth,params.bitmaskMain);
+        assertEquals(node.index,0);
+        assertEquals(node.height,params.lowerH);
+        assertEquals(node.value.length,params.n);
+    }
 }

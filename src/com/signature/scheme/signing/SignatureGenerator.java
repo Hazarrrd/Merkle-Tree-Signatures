@@ -21,23 +21,34 @@ public class SignatureGenerator {
         int n = f.n;
         int wBytes = HelperFunctions.ceilLogTwo(w);
         int actualMsgIndex = 0;
+        int nextMsgIndex=wBytes;
         byte[] privatePart;
         int msgPartBaseW;
         int controlSum = 0;
-        byte[][] signature = new byte[n][l];
+        String msgBinaryString = HelperFunctions.byteArrayToBinaryString(msgDigest);
+        while (msgBinaryString.length() % wBytes != 0){
+            msgBinaryString += "0";
+        }
+        byte[][] signature = new byte[l][n];
         for (int i = 0; i < l1; i++) {
             privatePart = WOTSkeyGenerator.getPrivPart(l, f, i, seed);
-            msgPartBaseW = HelperFunctions.fromByteArray(Arrays.copyOfRange(msgDigest, actualMsgIndex, actualMsgIndex + wBytes));
+            msgPartBaseW = Integer.parseInt(msgBinaryString.substring(actualMsgIndex, nextMsgIndex),2);
             controlSum += (w - 1 - msgPartBaseW);
-            actualMsgIndex += wBytes;
+            actualMsgIndex = nextMsgIndex;
+            nextMsgIndex += wBytes;
             signature[i] = f.composeFunction(x, privatePart, msgPartBaseW);
         }
         actualMsgIndex = 0;
-        byte[] byteControlSum = HelperFunctions.intToByteArray(controlSum, l2);
+        nextMsgIndex = wBytes;
+        String controlSumBinaryString = Integer.toBinaryString(controlSum);
+        while (controlSumBinaryString.length() % wBytes != 0){
+            controlSumBinaryString += "0";
+        }
         for (int i = 0; i < l2; i++) {
             privatePart = WOTSkeyGenerator.getPrivPart(l, f, i + l1, seed);
-            msgPartBaseW = HelperFunctions.fromByteArray(Arrays.copyOfRange(byteControlSum, actualMsgIndex, actualMsgIndex + wBytes));
-            actualMsgIndex += wBytes;
+            msgPartBaseW = Integer.parseInt(controlSumBinaryString.substring(actualMsgIndex, nextMsgIndex), 2);
+            actualMsgIndex = nextMsgIndex;
+            nextMsgIndex += wBytes;
             signature[l1 + i] = f.composeFunction(x, privatePart, msgPartBaseW);
         }
 
@@ -46,7 +57,7 @@ public class SignatureGenerator {
 
     public static Signature signLowerTree(PrivateKey privateKey, int n, int l1, int l2, int w, byte[] x, byte[] msg) {
         FSGenerator fsGenerator = new FSGenerator(new PseudorndFunction(n), new PseudorndFunction(n), privateKey.upperGenState);
-        Node[] authPath = privateKey.upperPathComputation.auth;
+        Node[] authPath = (privateKey.upperPathComputation.auth).clone();
         int index = privateKey.upperPathComputation.leafIndex;
         privateKey.upperPathComputation.doAlgorithm();
         byte[] seed = fsGenerator.nextStateAndSeed();
@@ -63,7 +74,7 @@ public class SignatureGenerator {
         int n = params.n;
 
         FSGenerator fsGenerator = new FSGenerator(new PseudorndFunction(n), new PseudorndFunction(n), privateKey.lowerGenState);
-        Node[] authPath = privateKey.lowerPathComputation.auth;
+        Node[] authPath = (privateKey.lowerPathComputation.auth).clone();
         int index = privateKey.lowerPathComputation.leafIndex;
         privateKey.lowerPathComputation.doAlgorithm();
         byte[] seed = fsGenerator.nextStateAndSeed();

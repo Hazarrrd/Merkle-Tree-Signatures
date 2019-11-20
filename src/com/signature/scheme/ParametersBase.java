@@ -26,9 +26,9 @@ public class ParametersBase {
     public byte[][] bitmaskMain;
     public byte[][] bitmaskLTree;
     //Winternitz parameter for upper tree
-    public int wU=8;
+    public int wU=4;
     //Winternitz parmeter for lower tree
-    public int wL=8;
+    public int wL=16;
     public byte[] X;
     public byte[] seed;
 

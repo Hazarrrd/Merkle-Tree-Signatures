@@ -22,7 +22,7 @@ class KeysKeeperTest {
         keysKeeper.generateKeys();
         assertEquals(keysKeeper.privateKey.lowerSignature.upperAuthPath.length,params.lowerH);
         assertEquals(keysKeeper.privateKey.lowerSignature.treeIndex,0);
-        assertEquals(keysKeeper.privateKey.lowerSignature.lowerTreeSignature.length,params.n);
+        assertEquals(keysKeeper.privateKey.lowerSignature.lowerTreeSignature[0].length,params.n);
     }
 
     @Test

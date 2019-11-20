@@ -21,12 +21,12 @@ class SignatureGeneratorTest {
 
         SignatureGenerator signatureGenerator = new SignatureGenerator(keysKeeper);
         int size = (int) Math.pow(2,params.lowerH);
-        for(int j = 0;j<size;j++) {
+        for(int j = 0;j<size-1;j++) {
             Signature signature = signatureGenerator.signMessage("TESTOWA WIDOMOSC");
 
             assertEquals(signature.treeIndex, 0);
-            assertEquals(signature.lowerTreeSignature.length, params.n);
-            assertEquals(signature.upperAuthPath.length, params.upperH - 1);
+            assertEquals(signature.lowerTreeSignature[0].length, params.n);
+            assertEquals(signature.upperAuthPath.length, params.upperH );
             for (int i = 0; i < signature.upperAuthPath.length; i++) {
                 assertEquals(signature.upperAuthPath[i].height, i);
                 assertEquals(signature.upperAuthPath[i].value.length, params.n);
@@ -34,8 +34,8 @@ class SignatureGeneratorTest {
             }
 
             assertEquals(signature.index, j);
-            assertEquals(signature.msgSignature.length, params.n);
-            assertEquals(signature.lowerAuthPath.length, params.upperH - 1);
+            assertEquals(signature.msgSignature[0].length, params.n);
+            assertEquals(signature.lowerAuthPath.length, params.upperH);
             for (int i = 0; i < signature.lowerAuthPath.length; i++) {
                 assertEquals(signature.lowerAuthPath[i].height, i);
                 assertEquals(signature.lowerAuthPath[i].value.length, params.n);
@@ -51,12 +51,12 @@ class SignatureGeneratorTest {
 
         Signature signature = SignatureGenerator.signLowerTree(keysKeeper.privateKey,params.n,params.ll1,params.ll2,params.wL,params.X,root);
         assertEquals(signature.treeIndex,0);
-        assertEquals(signature.lowerTreeSignature.length,params.n);
-        assertEquals(signature.lowerAuthPath.length,params.upperH-1);
-        for (int i =0;i<signature.lowerAuthPath.length;i++){
-            assertEquals(signature.lowerAuthPath[i].height , i);
-            assertEquals(signature.lowerAuthPath[i].value.length , params.n);
-            assertEquals(signature.lowerAuthPath[i].index , 1);
+        assertEquals(signature.lowerTreeSignature[0].length,params.n);
+        assertEquals(signature.upperAuthPath.length,params.upperH);
+        for (int i =0;i<signature.upperAuthPath.length;i++){
+            assertEquals(signature.upperAuthPath[i].height , i);
+            assertEquals(signature.upperAuthPath[i].value.length , params.n);
+            assertEquals(signature.upperAuthPath[i].index , 1);
         }
     }
 }

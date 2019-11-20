@@ -125,4 +125,22 @@ public class HelperFunctions {
     }
 
 
+    public static String byteArrayToBinaryString(byte[] byteArray) {
+            char[] bits = new char[8 * byteArray.length];
+            for(int i = 0; i < byteArray.length; i++) {
+                byte temp = byteArray[i];
+                int mask = 1;
+                int byteNum = i * 8;
+                for(int j = 7; j >= 0; j--) {
+                    int bitValue = temp & mask;
+                    if(bitValue == 0) {
+                        bits[byteNum + j] = '0';
+                    } else {
+                        bits[byteNum + j] = '1';
+                    }
+                    mask <<= 1;
+                }
+            }
+            return String.valueOf(bits);
+    }
 }
