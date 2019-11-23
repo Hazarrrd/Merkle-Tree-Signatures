@@ -1,7 +1,10 @@
 package com.signature.scheme;
 
+import com.signature.scheme.merkleTree.Node;
 import com.signature.scheme.merkleTree.PathComputation;
 import com.signature.scheme.merkleTree.Treehash;
+
+import java.util.Stack;
 
 public class PrivateKey {
 
@@ -10,8 +13,7 @@ public class PrivateKey {
     public byte[] upperGenState;
     public PathComputation upperPathComputation;
     public PathComputation lowerPathComputation;
-    public PathComputation nextPathComputation;
     public Signature lowerSignature;
-    public Treehash nextThreehash;
+    public TreehashNext nextThreehash;
 
 }

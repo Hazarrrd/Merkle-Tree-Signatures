@@ -19,7 +19,7 @@ class KeysKeeperTest {
     @Test
     void generateKeys() {
         ParametersBase params = new ParametersBase();
-        KeysKeeper keysKeeper = new KeysKeeper(params.m,params.n,params.kU,params.kL,params.upperH,params.lowerH,params.wL,params.wU);
+        KeysKeeper keysKeeper = new KeysKeeper(params.m,params.n,params.kU,params.kL,params.upperH,params.lowerH,params.wL,params.wU,params.treeGrowth);
         keysKeeper.generateKeys();
         assertEquals(keysKeeper.privateKey.lowerSignature.upperAuthPath.length,params.lowerH);
         assertEquals(keysKeeper.privateKey.lowerSignature.treeIndex,0);
@@ -29,7 +29,7 @@ class KeysKeeperTest {
     @Test
     void generateTrees() {
         ParametersBase params = new ParametersBase();
-        KeysKeeper keysKeeper = new KeysKeeper(params.m,params.n,params.kU,params.kL,params.upperH,params.lowerH,params.wL,params.wU);
+        KeysKeeper keysKeeper = new KeysKeeper(params.m,params.n,params.kU,params.kL,params.upperH,params.lowerH,params.wL,params.wU,params.treeGrowth);
         byte[] root = keysKeeper.generateTrees();
         assertEquals(root.length,params.n);
         PrivateKey privateKey = keysKeeper.privateKey;
@@ -51,7 +51,7 @@ class KeysKeeperTest {
     @Test
     void generateRootOfTree() {
         ParametersBase params = new ParametersBase();
-        KeysKeeper keysKeeper = new KeysKeeper(params.m,params.n,params.kU,params.kL,params.upperH,params.lowerH,params.wL,params.wU);
+        KeysKeeper keysKeeper = new KeysKeeper(params.m,params.n,params.kU,params.kL,params.upperH,params.lowerH,params.wL,params.wU,params.treeGrowth);
         HashFunction.setFunction(params.hashFunctionKey,params.n);
 
         Node[] auth = new Node[params.upperH];

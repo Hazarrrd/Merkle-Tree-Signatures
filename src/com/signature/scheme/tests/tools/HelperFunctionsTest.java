@@ -21,7 +21,6 @@ class HelperFunctionsTest {
         assertEquals(0, array[2]);
         assertEquals(0, array[3]);
         assertEquals(6, array[4]);
-        //System.out.println(array[0] + " " + array[1]);
         // 6 -> 110
         byte[] array2 = HelperFunctions.intToByteArray(6, 5);
         assertEquals(5, array2.length);
@@ -61,7 +60,7 @@ class HelperFunctionsTest {
         /*
         byte [] array5 = {63,1};
         a = HelperFunctions.fromByteArray(array5);
-        System.out.println(a);
+
         assertEquals(190, a);*/
     }
 
@@ -83,7 +82,6 @@ class HelperFunctionsTest {
         HelperFunctions.fillBytesRandomly(array);
         HelperFunctions.fillBytesRandomly(array2);
         for (int i = 0; i < k; i++) {
-            // System.out.println("a) " + array[i] + " b) " + array2[i]);
             if (array[i] != array2[i])
                 bool = true;
         }
@@ -96,9 +94,7 @@ class HelperFunctionsTest {
         byte[] array1 = {1, 0, 1, 1, 0, 9};
         byte[] array2 = {1, 1, 0, 0, 0, 4};
         byte[] array3 = HelperFunctions.xorTwoByteArrays(array1, array2);
-      /*  for (int i = 0;i<array3.length;i++){
-            System.out.println("a) " + array1[i] + " b) " + array2[i] + "c) " + array3[i]);
-        }*/
+
         assertEquals(array3[0], 0);
         assertEquals(array3[1], 1);
         assertEquals(array3[2], 1);
@@ -112,9 +108,7 @@ class HelperFunctionsTest {
         HelperFunctions.fillBytesRandomly(array1);
         HelperFunctions.fillBytesRandomly(array2);
         array3 = HelperFunctions.xorTwoByteArrays(array1, array2);
-       /* for (int i = 0;i<array3.length;i++){
-            System.out.println("a) " + array1[i] + " b) " + array2[i] + " c) " + array3[i]);
-        }*/
+
 
     }
 

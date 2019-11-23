@@ -57,12 +57,10 @@ class PathComputationTest {
             auth = pathComputation.auth;
             byte[] pkseed = generator.nextStateAndSeed();
             Node node = MTreeOperations.leafCalc(params.n,pkseed,params.lU,params.X,params.wU,params.bitmaskLTree,i);
-          //  System.out.println("11");
+
             assertArrayEquals(node.value,publicKey[i]);
             for (int j = 1; j <= params.upperH; j++) {
-             //   System.out.println(Arrays.toString(auth[j-1].value));
-              //  System.out.println(Arrays.toString(node.value));
-             //   System.out.println("");
+
                 /*if (Math.floor(i / Math.pow(2, j-1)) % 2 == 0) {
                     node = MTreeOperations.computeParent(node, auth[j - 1], params.maskMain[j - 1]);
                 } else {
@@ -70,10 +68,9 @@ class PathComputationTest {
                 }*/
                 if (node.index % 2 == 0) {
                     node = MTreeOperations.computeParent(node, auth[j - 1], params.bitmaskMain[j - 1]);
-                  //  System.out.println("NODE -- AUTH");
+
                 } else {
                     node = MTreeOperations.computeParent(auth[j - 1], node, params.bitmaskMain[j - 1]);
-                   // System.out.println("AUTH -- NODE");
                 }
             }
 

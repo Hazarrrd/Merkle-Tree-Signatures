@@ -82,7 +82,6 @@ public class HelperFunctions {
     public static byte[] xorTwoByteArrays(byte[] a, byte[] b) {
         int i = 0;
         byte[] output = new byte[a.length];
-        // System.out.println(a.length + " " + b.length);
         for (byte j : a)
             output[i] = (byte) (j ^ b[i++]);
         return output;

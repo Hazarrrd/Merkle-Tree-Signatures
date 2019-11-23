@@ -35,14 +35,20 @@ public class SignatureVerficator {
         int ll2 = params.ll2;
         int lL = params.lL;
         int wL = params.wL;
-        int lowerH = params.lowerH;
+        int lowerH = signature.lowerAuthPath.length;
 
         byte [][] OTSpublicKey = WOTSkeyGenerator.computeOTSPublicKey(msgDigest, ll1, ll2, wL, x, signature.msgSignature);
 
+    //    if(signature.treeIndex==1) {
+   //         for (int i =0;i<OTSpublicKey.length;i++)
+  //              System.out.println("VERIFY OTSpkey: " + i + " // " + Arrays.toString(OTSpublicKey[i]));
+   //     }
         //Computing root of lower tree
 
         Node node = MTreeOperations.leafCalc(n, lL, OTSpublicKey, publicKey.bitmaskLTree,signature.index);
+
         node = MTreeOperations.computeRoot(lowerH, signature.index, node, signature.lowerAuthPath, bitmask);
+
 
         //Generating OTSpublicKey from upper tree
         int lu1 =params.lu1;

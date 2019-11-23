@@ -20,12 +20,12 @@ public class PathComputation {
     private Stack<Node>[] retainStack;
     private byte[][] seedNextArray;
     private Treehash[] treehashArray;
-    private int leafNumber;
+    public int leafNumber;
     private int updatesNumber;
     FSGenerator generator;
     byte[][] maskMain;
     byte[][] maskL;
-    byte[] seed;
+    public byte[] seed;
     private int n;
     private int l;
     private byte[] x;
@@ -116,7 +116,6 @@ public class PathComputation {
             for (int h = 0; h <= minimum; h++) {
                 int index = (int) (leafIndex + 1 + 3 * pow(2, h));
                 if (index < this.leafNumber) {
-                   // System.out.println("LECI INICJALIZACJA [] " + leafIndex + " dla wysokosci " + h + " --- " + index);
                     this.treehashArray[h].initialize(seedNextArray[h], index);
                 }
             }
@@ -133,7 +132,6 @@ public class PathComputation {
                 }
             }
             if (toUpdate != null) {
-               // System.out.println("LECI UPDATE [] " + leafIndex + " dla wysokosci " + toUpdate.maxHeight);
                 toUpdate.update();
                 min = Integer.MAX_VALUE;
                 toUpdate = null;

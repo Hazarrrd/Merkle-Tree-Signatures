@@ -12,17 +12,16 @@ import static com.signature.scheme.tools.HelperFunctions.reverseStack;
 public class Treehash {
     private int index;
     public Stack<Node> stack;
-    FSGenerator generator;
+    public FSGenerator generator;
     public Node node = null;
     int height;
-    byte[][] maskL;
-    byte[][] maskMain;
-    final int maxHeight;
-    private int n;
-    private byte[] seedActive;
-    private int l;
-    private byte[] x;
-    private int w;
+    public byte[][] maskL;
+    public byte[][] maskMain;
+    public final int maxHeight;
+    public int n;
+    public int l;
+    public byte[] x;
+    public int w;
 
     public Treehash(Stack<Node> stack, int maxHeight, byte[][] maskMain,byte[][] maskL, int n, int l, byte[] x, int w) {
         this.stack = stack;
@@ -116,7 +115,6 @@ public class Treehash {
     public void initialize(byte[] seedNext, int index) {
         generator = new FSGenerator(new PseudorndFunction(n),new PseudorndFunction(n),seedNext);
         this.node = null;
-        this.seedActive = seedNext;
         this.index = index;
         this.height = this.maxHeight;
     }

@@ -7,7 +7,7 @@ import com.signature.scheme.verfication.SignatureVerficator;
 public class Main {
 
     public static void main(String[] args) {
-        KeysKeeper keysKeeper = new KeysKeeper(32,32,4,4,10,10,8,8);
+        KeysKeeper keysKeeper = new KeysKeeper(32,32,4,4,10,10,8,8,1);
         keysKeeper.generateKeys();
         SignatureGenerator signatureGenerator = new SignatureGenerator(keysKeeper);
         SignatureVerficator signatureVerficator = new SignatureVerficator(keysKeeper.publicKey,keysKeeper.params);

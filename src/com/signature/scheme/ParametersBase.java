@@ -18,29 +18,35 @@ public class ParametersBase {
     //security parameter
     public int n = 16;
     //Path Computation Algorithm parameter k for upper tree, such that internalH - kU is even and ((internalH-kU)/2) + 1 <= pow(2,internalH-kL+1)
-    public int kU=4;
+    public int kU=2;
     //Path Computation Algorithm parameter k for lower tree, such that internalH - kL is even and ((internalH-kU)/2) + 1 <= pow(2,internalH-kL+1)
-    public int kL=4;
-    public int upperH = 10;
-    public int lowerH = 10;
+    public int kL=2;
+    public int upperH = 6;
+    public int lowerH = 6;
     public int maxH;
     public byte[][] bitmaskMain;
     public byte[][] bitmaskLTree;
     //Winternitz parameter for upper tree
     public int wU=4;
     //Winternitz parmeter for lower tree
-    public int wL=16;
+    public int wL=4;
     public byte[] X;
     public byte[] seed;
     public byte[] hashFunctionKey;
+    public int treeGrowth = 1;
+    public int nextH;
+    public int nextSize;
 
-    public ParametersBase(int m, int n, int kU, int kL, int upperH, int lowerH, int wL, int wU, byte[] x) {
+    public ParametersBase(int m, int n, int kU, int kL, int upperH, int lowerH, int wL, int wU, byte[] x, int treeGrowth) {
+        this.treeGrowth = treeGrowth;
         this.m = m;
         this.n = n;
         this.kU = kU;
         this.kL = kL;
         this.upperH = upperH;
         this.lowerH = lowerH;
+        this.nextH = lowerH*treeGrowth;
+        this.nextSize = (int) Math.pow(2,nextH);
         this.maxH = Math.max(upperH, lowerH);
         this.wL = wL;
         this.wU = wU;
@@ -61,6 +67,8 @@ public class ParametersBase {
         bitmaskLTree = generateBitmask(maxL, true, n);
         this.X = KeysKeeper.generateX(n);
         this.seed = new byte[n];
+        this.nextH = lowerH*treeGrowth;
+        this.nextSize = (int) Math.pow(2,nextH);
         HelperFunctions.fillBytesRandomly(seed);
         byte[] hashFunctionKey = new byte[n];
         HelperFunctions.fillBytesRandomly(hashFunctionKey);

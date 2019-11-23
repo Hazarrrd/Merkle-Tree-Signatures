@@ -10,6 +10,7 @@ import com.signature.scheme.tools.HashFunction;
 import com.signature.scheme.tools.HelperFunctions;
 import com.signature.scheme.tools.PseudorndFunction;
 
+import java.util.Arrays;
 import java.util.Stack;
 
 import static com.signature.scheme.tools.HelperFunctions.*;
@@ -23,11 +24,11 @@ public class KeysKeeper {
     //Parameters
     public ParametersBase params;
 
-    public KeysKeeper(int m, int n, int kU, int kL, int upperH, int lowerH, int wL, int wU){
+    public KeysKeeper(int m, int n, int kU, int kL, int upperH, int lowerH, int wL, int wU,int treeGrowth){
         privateKey = new PrivateKey();
         publicKey = new PublicKey();
         byte[] x = KeysKeeper.generateX(n);
-        params = new ParametersBase(m,n,kU,kL,upperH,lowerH,wL,wU,x);
+        params = new ParametersBase(m,n,kU,kL,upperH,lowerH,wL,wU,x,treeGrowth);
 
         publicKey.bitmaskMain = params.bitmaskMain;
         publicKey.bitmaskLTree = params.bitmaskLTree;
@@ -37,7 +38,6 @@ public class KeysKeeper {
     public KeysKeeper(ParametersBase params){
         privateKey = new PrivateKey();
         publicKey = new PublicKey();
-        byte[] x = KeysKeeper.generateX(params.n);
         this.params = params;
 
         publicKey.bitmaskMain = this.params.bitmaskMain;
@@ -64,7 +64,7 @@ public class KeysKeeper {
         privateKey.lowerGenState = lowerGenerator.initialState;
         privateKey.nextGenState = nextGenerator.initialState;
         privateKey.upperGenState = upperGenerator.initialState;
-
+        privateKey.nextThreehash = new TreehashNext(new Stack<Node>(),params.nextH,params.bitmaskMain,params.bitmaskLTree,params.n,params.lL,params.X,params.wL,params.kL,privateKey.nextGenState);
         Node[] auth = new Node[params.upperH];
         Treehash[] treeHashArray = new Treehash[params.upperH - params.kU];
         //Rozwaz zmianę wielkości tablicy
