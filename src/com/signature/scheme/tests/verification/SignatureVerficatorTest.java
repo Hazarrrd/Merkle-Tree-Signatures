@@ -32,13 +32,15 @@ class SignatureVerficatorTest {
         assertEquals(signatureVerficator.verifySignature(signature2,"TEST"),true);
        // assertEquals(signatureVerficator.verifySignature(signature3,"TEST"),false);
        // assertEquals(signatureVerficator.verifySignature(signature4,"TEST"),false);
-        int size = (int) Math.pow(2,params.lowerH);
-        Signature[] signatures = new Signature[4*(size-2)];
-        for(int i =0;i<4*(size-2);i++){
+        System.out.println(params.maxH + " " + params.lowerH+((params.upperSize-2)*params.treeGrowth));
+        int size = params.signaturesNumber -1 ;
+        Signature[] signatures = new Signature[size];
+        for(int i =0;i<size-3;i++){
            signatures[i] = signatureGenerator.signMessage("TESTtt" + i);
+            System.out.println(i+ 3 + " " + signatures[i].treeIndex + " " + signatures[i].index );
         }
 
-        for(int i =0;i<4*(size-2);i++){
+        for(int i =0;i<size-3;i++){
            // System.out.println(i+3);
             assertEquals(signatureVerficator.verifySignature(signatures[i],"TESTtt" + i),true);
         }

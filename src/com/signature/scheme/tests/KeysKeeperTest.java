@@ -21,7 +21,7 @@ class KeysKeeperTest {
         ParametersBase params = new ParametersBase();
         KeysKeeper keysKeeper = new KeysKeeper(params.m,params.n,params.kU,params.kL,params.upperH,params.lowerH,params.wL,params.wU,params.treeGrowth);
         keysKeeper.generateKeys();
-        assertEquals(keysKeeper.privateKey.lowerSignature.upperAuthPath.length,params.lowerH);
+        assertEquals(keysKeeper.privateKey.lowerSignature.upperAuthPath.length,params.upperH);
         assertEquals(keysKeeper.privateKey.lowerSignature.treeIndex,0);
         assertEquals(keysKeeper.privateKey.lowerSignature.lowerTreeSignature[0].length,params.n);
     }

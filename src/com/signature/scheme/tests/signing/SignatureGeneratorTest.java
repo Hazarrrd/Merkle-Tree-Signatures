@@ -22,6 +22,7 @@ class SignatureGeneratorTest {
         SignatureGenerator signatureGenerator = new SignatureGenerator(keysKeeper);
         int size = (int) Math.pow(2,params.lowerH);
         for(int j = 0;j<size;j++) {
+            System.out.println(j);
             Signature signature = signatureGenerator.signMessage("TESTOWA WIDOMOSC");
 
             assertEquals(signature.treeIndex, 0);
@@ -35,7 +36,7 @@ class SignatureGeneratorTest {
 
             assertEquals(signature.index, j);
             assertEquals(signature.msgSignature[0].length, params.n);
-            assertEquals(signature.lowerAuthPath.length, params.upperH);
+            assertEquals(signature.lowerAuthPath.length, params.lowerH);
             for (int i = 0; i < signature.lowerAuthPath.length; i++) {
                 assertEquals(signature.lowerAuthPath[i].height, i);
                 assertEquals(signature.lowerAuthPath[i].value.length, params.n);
@@ -57,7 +58,6 @@ class SignatureGeneratorTest {
 
             assertEquals(signature.index, j);
             assertEquals(signature.msgSignature[0].length, params.n);
-            assertEquals(signature.lowerAuthPath.length, params.upperH);
             for (int i = 0; i < signature.lowerAuthPath.length; i++) {
                 assertEquals(signature.lowerAuthPath[i].height, i);
                 assertEquals(signature.lowerAuthPath[i].value.length, params.n);

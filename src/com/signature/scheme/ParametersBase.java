@@ -21,8 +21,9 @@ public class ParametersBase {
     public int kU=2;
     //Path Computation Algorithm parameter k for lower tree, such that internalH - kL is even and ((internalH-kU)/2) + 1 <= pow(2,internalH-kL+1)
     public int kL=2;
-    public int upperH = 6;
-    public int lowerH = 6;
+    public int upperH = 4;
+    public int lowerH = 2;
+    public int signaturesNumber;
     public int maxH;
     public byte[][] bitmaskMain;
     public byte[][] bitmaskLTree;
@@ -36,6 +37,8 @@ public class ParametersBase {
     public int treeGrowth = 1;
     public int nextH;
     public int nextSize;
+    public int lowerSize;
+    public int upperSize;
 
     public ParametersBase(int m, int n, int kU, int kL, int upperH, int lowerH, int wL, int wU, byte[] x, int treeGrowth) {
         this.treeGrowth = treeGrowth;
@@ -45,9 +48,13 @@ public class ParametersBase {
         this.kL = kL;
         this.upperH = upperH;
         this.lowerH = lowerH;
-        this.nextH = lowerH*treeGrowth;
-        this.nextSize = (int) Math.pow(2,nextH);
-        this.maxH = Math.max(upperH, lowerH);
+        this.nextH = lowerH + treeGrowth;
+        this.lowerSize = (int) Math.pow(2,lowerH);
+        this.upperSize = (int) Math.pow(2,upperH);
+        this.nextSize = (int) (this.lowerSize*Math.pow(2,treeGrowth));
+        int temp = (int) (lowerH + (Math.pow(2,upperH)-2)*treeGrowth);
+        this.maxH = Math.max(upperH, temp);
+        System.out.println(this.maxH + " KURDE " + temp + " " + upperH);
         this.wL = wL;
         this.wU = wU;
         this.X = x;
@@ -58,21 +65,29 @@ public class ParametersBase {
         byte[] hashFunctionKey = new byte[n];
         HelperFunctions.fillBytesRandomly(hashFunctionKey);
         this.hashFunctionKey = hashFunctionKey;
+
+        this.signaturesNumber = (int) (Math.pow(2,lowerH + upperSize -1) - Math.pow(2,lowerH));
     }
 
     public ParametersBase() {
         setLengths(m, n, wL, wU);
-        this.maxH = Math.max(upperH, lowerH);
-        bitmaskMain = generateBitmask(maxH, false, n);
-        bitmaskLTree = generateBitmask(maxL, true, n);
+
         this.X = KeysKeeper.generateX(n);
         this.seed = new byte[n];
-        this.nextH = lowerH*treeGrowth;
-        this.nextSize = (int) Math.pow(2,nextH);
+        this.nextH = lowerH + treeGrowth;
+        this.lowerSize = (int) Math.pow(2,lowerH);
+        this.upperSize = (int) Math.pow(2,upperH);
+        this.nextSize = (int) (this.lowerSize*Math.pow(2,treeGrowth));
+        int temp = (int) (lowerH + (Math.pow(2,upperH)-2)*treeGrowth);
+        this.maxH = Math.max(upperH, temp);
+        System.out.println(this.maxH + " KURDE " + temp + " " + upperH);
+        bitmaskMain = generateBitmask(maxH, false, n);
+        bitmaskLTree = generateBitmask(maxL, true, n);
         HelperFunctions.fillBytesRandomly(seed);
         byte[] hashFunctionKey = new byte[n];
         HelperFunctions.fillBytesRandomly(hashFunctionKey);
         this.hashFunctionKey = hashFunctionKey;
+        this.signaturesNumber = (int) (Math.pow(2,lowerH + upperSize -1) - Math.pow(2,lowerH));
     }
 
     private void setLengths(int m, int n, int wL, int wU) {

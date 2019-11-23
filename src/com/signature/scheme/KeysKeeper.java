@@ -64,7 +64,12 @@ public class KeysKeeper {
         privateKey.lowerGenState = lowerGenerator.initialState;
         privateKey.nextGenState = nextGenerator.initialState;
         privateKey.upperGenState = upperGenerator.initialState;
-        privateKey.nextThreehash = new TreehashNext(new Stack<Node>(),params.nextH,params.bitmaskMain,params.bitmaskLTree,params.n,params.lL,params.X,params.wL,params.kL,privateKey.nextGenState);
+        int kLa = params.kL;
+        if(params.treeGrowth % 2 != 0){
+            //params.kL ++;
+            kLa++;
+        }
+        privateKey.nextThreehash = new TreehashNext(new Stack<Node>(),params.nextH,params.bitmaskMain,params.bitmaskLTree,params.n,params.lL,params.X,params.wL,kLa,privateKey.nextGenState);
         Node[] auth = new Node[params.upperH];
         Treehash[] treeHashArray = new Treehash[params.upperH - params.kU];
         //Rozwaz zmianę wielkości tablicy

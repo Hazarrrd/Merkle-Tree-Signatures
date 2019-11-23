@@ -98,15 +98,24 @@ public class SignatureGenerator {
 
         Signature signature = new Signature(authPath, msgSignature, index, privateKey.lowerSignature);
 
-        for (int i = 0;i<params.treeGrowth;i++){
+        int nodesToCalculate = (int) Math.pow(2,params.treeGrowth);
+        for (int i = 0;i<nodesToCalculate;i++){
             privateKey.nextThreehash.calculateNextNodes();
         }
 
 
 
-        if(index == params.nextSize-1){
+        if(index == params.lowerSize-1){
+            int kLA = params.kL;
+            int kLB = params.kL;
+            if(params.treeGrowth % 2 != 0 && signature.treeIndex%2 == 0){
+                //params.kL ++;
+                kLA++;
+            } else {
+                kLB++;
+            }
             privateKey.lowerGenState = privateKey.nextGenState;
-            privateKey.lowerPathComputation = new PathComputation(params.nextH,params.kL,params.n,params.lL,keysKeeper.publicKey,params.wL
+            privateKey.lowerPathComputation = new PathComputation(params.nextH,kLA,params.n,params.lL,keysKeeper.publicKey,params.wL
                     ,privateKey.nextGenState,privateKey.nextThreehash.authNext,privateKey.nextThreehash.treeHashArrayNext,privateKey.nextThreehash.retainNext);
             byte[] initialState = new byte[n];
             fillBytesRandomly(initialState);
@@ -114,10 +123,11 @@ public class SignatureGenerator {
             byte [] lowerRootValue = privateKey.nextThreehash.stack.pop().value;
             keysKeeper.publicKey.lowerRoot = lowerRootValue;
             SignatureGenerator.signLowerTree(privateKey, params.n, params.lu1, params.lu2, params.wU, keysKeeper.publicKey.X, lowerRootValue);
-            privateKey.nextThreehash = new TreehashNext(new Stack<>(),params.nextH,params.bitmaskMain,params.bitmaskLTree,params.n,params.lL,params.X,params.wL,params.kL,privateKey.nextGenState);
             params.lowerH = params.nextH;
-            params.nextH = params.lowerH * params.treeGrowth;
-            params.nextSize = (int) Math.pow(2,params.nextH);
+            params.nextH = params.lowerH + params.treeGrowth;
+            params.lowerSize = params.nextSize;
+            params.nextSize = (int) (params.nextSize*Math.pow(2,params.treeGrowth));
+            privateKey.nextThreehash = new TreehashNext(new Stack<>(),params.nextH,params.bitmaskMain,params.bitmaskLTree,params.n,params.lL,params.X,params.wL,kLB,privateKey.nextGenState);
         } else {
             privateKey.lowerPathComputation.doAlgorithm();
         }
