@@ -18,10 +18,10 @@ public class ParametersBase {
     //security parameter
     public int n = 16;
     //Path Computation Algorithm parameter k for upper tree, such that internalH - kU is even and ((internalH-kU)/2) + 1 <= pow(2,internalH-kL+1)
-    public int kU=2;
+    public int kU=1;
     //Path Computation Algorithm parameter k for lower tree, such that internalH - kL is even and ((internalH-kU)/2) + 1 <= pow(2,internalH-kL+1)
     public int kL=2;
-    public int upperH = 4;
+    public int upperH = 3;
     public int lowerH = 2;
     public int signaturesNumber;
     public int maxH;

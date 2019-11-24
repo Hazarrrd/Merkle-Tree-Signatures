@@ -70,8 +70,8 @@ class SignatureGeneratorTest {
         ParametersBase params = new ParametersBase();
         KeysKeeper keysKeeper = new KeysKeeper(params.m,params.n,params.kU,params.kL,params.upperH,params.lowerH,params.wL,params.wU,params.treeGrowth);
         byte[] root = keysKeeper.generateTrees();
-
-        Signature signature = SignatureGenerator.signLowerTree(keysKeeper.privateKey,params.n,params.ll1,params.ll2,params.wL,params.X,root);
+        SignatureGenerator.signLowerTree(keysKeeper.privateKey,params.n,params.ll1,params.ll2,params.wL,params.X,root);
+        Signature signature = keysKeeper.privateKey.lowerSignature;
         assertEquals(signature.treeIndex,0);
         assertEquals(signature.lowerTreeSignature[0].length,params.n);
         assertEquals(signature.upperAuthPath.length,params.upperH);

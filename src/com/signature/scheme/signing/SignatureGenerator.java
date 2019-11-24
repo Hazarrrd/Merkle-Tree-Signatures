@@ -30,6 +30,52 @@ public class SignatureGenerator {
         n = params.n;
     }
 
+    public static void signLowerTree(PrivateKey privateKey, int n, int l1, int l2, int w, byte[] x, byte[] msg) {
+        FSGenerator fsGenerator = new FSGenerator(new PseudorndFunction(n), new PseudorndFunction(n), privateKey.upperGenState);
+        Node[] authPath = (privateKey.upperPathComputation.auth).clone();
+        int index = privateKey.upperPathComputation.leafIndex;
+        byte[] seed = fsGenerator.nextStateAndSeed();
+        privateKey.upperGenState = fsGenerator.state;
+
+        //make a signature of lower tree
+        byte[][] msgSignature = generateMsgSignature(seed, new PseudorndFunction(n), l1, l2, w, x, msg);
+        Signature lowerSignature = new Signature(authPath, msgSignature, index);
+        privateKey.lowerSignature = lowerSignature;
+        if(index < privateKey.upperPathComputation.leafNumber-1){
+            privateKey.upperPathComputation.doAlgorithm();
+        };
+
+    }
+
+    public Signature signMessage(String msg) {
+        byte[] msgDigest = HelperFunctions.messageDigestSHA3_256(msg);
+        HashFunction.setFunction(keysKeeper.params.hashFunctionKey,keysKeeper.params.n);
+        FSGenerator fsGenerator = new FSGenerator(new PseudorndFunction(n), new PseudorndFunction(n), privateKey.lowerGenState);
+        Node[] authPath = (privateKey.lowerPathComputation.auth).clone();
+        int index = privateKey.lowerPathComputation.leafIndex;
+        byte[] seed = fsGenerator.nextStateAndSeed();
+        privateKey.lowerGenState = fsGenerator.state;
+
+        //make the signature of msg
+        byte[][] msgSignature = generateMsgSignature(seed, new PseudorndFunction(n), params.ll1, params.ll2, params.wL, params.X,msgDigest);
+        Signature signature = new Signature(authPath, msgSignature, index, privateKey.lowerSignature);
+
+        //Prepare next lower tree
+        int nodesToCalculate = (int) Math.pow(2,params.treeGrowth);
+        for (int i = 0;i<nodesToCalculate;i++){
+            privateKey.nextThreehash.calculateNextNodes();
+        }
+
+        // Prepere for the next signature
+        if(index == params.lowerSize-1){
+            replaceLowerWithNext(signature.treeIndex);
+        } else {
+            privateKey.lowerPathComputation.doAlgorithm();
+        }
+
+        return signature;
+    }
+
     private static byte[][] generateMsgSignature(byte[] seed, PseudorndFunction f, int l1, int l2, int w, byte[] x, byte[] msgDigest) {
         int l = l1 + l2;
         int n = f.n;
@@ -69,69 +115,29 @@ public class SignatureGenerator {
         return signature;
     }
 
-    public static Signature signLowerTree(PrivateKey privateKey, int n, int l1, int l2, int w, byte[] x, byte[] msg) {
-        FSGenerator fsGenerator = new FSGenerator(new PseudorndFunction(n), new PseudorndFunction(n), privateKey.upperGenState);
-        Node[] authPath = (privateKey.upperPathComputation.auth).clone();
-        int index = privateKey.upperPathComputation.leafIndex;
-        byte[] seed = fsGenerator.nextStateAndSeed();
-        privateKey.upperGenState = fsGenerator.state;
-        byte[][] msgSignature = generateMsgSignature(seed, new PseudorndFunction(n), l1, l2, w, x, msg);
-        Signature lowerSignature = new Signature(authPath, msgSignature, index);
-        privateKey.lowerSignature = lowerSignature;
-        if(index < privateKey.upperPathComputation.leafNumber-1){
-            privateKey.upperPathComputation.doAlgorithm();
-        };
-        return lowerSignature;
-    }
-
-    public Signature signMessage(String msg) {
-        byte[] msgDigest = HelperFunctions.messageDigestSHA3_256(msg);
-        HashFunction.setFunction(keysKeeper.params.hashFunctionKey,keysKeeper.params.n);
-
-        FSGenerator fsGenerator = new FSGenerator(new PseudorndFunction(n), new PseudorndFunction(n), privateKey.lowerGenState);
-        Node[] authPath = (privateKey.lowerPathComputation.auth).clone();
-        int index = privateKey.lowerPathComputation.leafIndex;
-        byte[] seed = fsGenerator.nextStateAndSeed();
-        privateKey.lowerGenState = fsGenerator.state;
-
-        byte[][] msgSignature = generateMsgSignature(seed, new PseudorndFunction(n), params.ll1, params.ll2, params.wL, params.X,msgDigest);
-
-        Signature signature = new Signature(authPath, msgSignature, index, privateKey.lowerSignature);
-
-        int nodesToCalculate = (int) Math.pow(2,params.treeGrowth);
-        for (int i = 0;i<nodesToCalculate;i++){
-            privateKey.nextThreehash.calculateNextNodes();
-        }
-
-
-
-        if(index == params.lowerSize-1){
-            int kLA = params.kL;
-            int kLB = params.kL;
-            if(params.treeGrowth % 2 != 0 && signature.treeIndex%2 == 0){
-                //params.kL ++;
-                kLA++;
-            } else {
-                kLB++;
-            }
-            privateKey.lowerGenState = privateKey.nextGenState;
-            privateKey.lowerPathComputation = new PathComputation(params.nextH,kLA,params.n,params.lL,keysKeeper.publicKey,params.wL
-                    ,privateKey.nextGenState,privateKey.nextThreehash.authNext,privateKey.nextThreehash.treeHashArrayNext,privateKey.nextThreehash.retainNext);
-            byte[] initialState = new byte[n];
-            fillBytesRandomly(initialState);
-            privateKey.nextGenState = initialState;
-            byte [] lowerRootValue = privateKey.nextThreehash.stack.pop().value;
-            keysKeeper.publicKey.lowerRoot = lowerRootValue;
-            SignatureGenerator.signLowerTree(privateKey, params.n, params.lu1, params.lu2, params.wU, keysKeeper.publicKey.X, lowerRootValue);
-            params.lowerH = params.nextH;
-            params.nextH = params.lowerH + params.treeGrowth;
-            params.lowerSize = params.nextSize;
-            params.nextSize = (int) (params.nextSize*Math.pow(2,params.treeGrowth));
-            privateKey.nextThreehash = new TreehashNext(new Stack<>(),params.nextH,params.bitmaskMain,params.bitmaskLTree,params.n,params.lL,params.X,params.wL,kLB,privateKey.nextGenState);
+    public void replaceLowerWithNext(int treeIndex) {
+        int kLA = params.kL;
+        int kLB = params.kL;
+        if(params.treeGrowth % 2 != 0 && treeIndex%2 == 0){
+            //params.kL ++;
+            kLA++;
         } else {
-            privateKey.lowerPathComputation.doAlgorithm();
+            kLB++;
         }
-
-        return signature;
+        privateKey.lowerGenState = privateKey.nextGenState;
+        privateKey.lowerPathComputation = new PathComputation(params.nextH,kLA,params.n,params.lL,keysKeeper.publicKey,params.wL
+                ,privateKey.nextGenState,privateKey.nextThreehash.authNext,privateKey.nextThreehash.treeHashArrayNext,privateKey.nextThreehash.retainNext);
+        byte[] initialState = new byte[n];
+        fillBytesRandomly(initialState);
+        privateKey.nextGenState = initialState;
+        byte [] lowerRootValue = privateKey.nextThreehash.stack.pop().value;
+        keysKeeper.publicKey.lowerRoot = lowerRootValue;
+        SignatureGenerator.signLowerTree(privateKey, params.n, params.lu1, params.lu2, params.wU, keysKeeper.publicKey.X, lowerRootValue);
+        params.lowerH = params.nextH;
+        params.nextH = params.lowerH + params.treeGrowth;
+        params.lowerSize = params.nextSize;
+        params.nextSize = (int) (params.nextSize*Math.pow(2,params.treeGrowth));
+        privateKey.nextThreehash = new TreehashNext(new Stack<>(),params.nextH,params.bitmaskMain,params.bitmaskLTree,params.n,params.lL,params.X,params.wL,kLB,privateKey.nextGenState);
     }
+
 }
