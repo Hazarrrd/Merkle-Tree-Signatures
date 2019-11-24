@@ -1,8 +1,6 @@
-package com.signature.scheme;
+package com.signature.scheme.signing;
 
 import com.signature.scheme.merkleTree.Node;
-
-import java.util.ArrayList;
 
 public class StructureSignature {
 

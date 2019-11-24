@@ -1,6 +1,6 @@
 package com.signature.scheme.merkleTree;
 
-import com.signature.scheme.PublicKey;
+import com.signature.scheme.keys.PublicKey;
 import com.signature.scheme.tools.FSGenerator;
 import com.signature.scheme.tools.PseudorndFunction;
 

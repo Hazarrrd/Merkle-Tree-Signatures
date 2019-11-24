@@ -1,12 +1,8 @@
-package com.signature.scheme;
+package com.signature.scheme.merkleTree;
 
-import com.signature.scheme.merkleTree.MTreeOperations;
-import com.signature.scheme.merkleTree.Node;
-import com.signature.scheme.merkleTree.Treehash;
 import com.signature.scheme.tools.FSGenerator;
 import com.signature.scheme.tools.PseudorndFunction;
 
-import java.util.Arrays;
 import java.util.Stack;
 
 public class TreehashNext extends Treehash {

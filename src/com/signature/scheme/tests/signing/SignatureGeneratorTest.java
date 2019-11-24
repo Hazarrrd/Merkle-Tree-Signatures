@@ -1,12 +1,14 @@
 package com.signature.scheme.tests.signing;
 
-import com.signature.scheme.*;
+import com.signature.scheme.ParametersBase;
+import com.signature.scheme.keys.KeysKeeper;
+import com.signature.scheme.keys.PrivateKey;
+import com.signature.scheme.keys.PublicKey;
+import com.signature.scheme.signing.Signature;
 import com.signature.scheme.signing.SignatureGenerator;
-import com.signature.scheme.tools.FSGenerator;
-import com.signature.scheme.tools.HelperFunctions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SignatureGeneratorTest {
 

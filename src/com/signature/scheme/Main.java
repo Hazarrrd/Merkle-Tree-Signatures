@@ -1,5 +1,7 @@
 package com.signature.scheme;
 
+import com.signature.scheme.keys.KeysKeeper;
+import com.signature.scheme.signing.Signature;
 import com.signature.scheme.signing.SignatureGenerator;
 import com.signature.scheme.tools.HelperFunctions;
 import com.signature.scheme.verfication.SignatureVerficator;

@@ -1,9 +1,11 @@
-package com.signature.scheme.tests;
+package com.signature.scheme.tests.keys;
 
-import com.signature.scheme.*;
+import com.signature.scheme.ParametersBase;
+import com.signature.scheme.keys.KeysKeeper;
+import com.signature.scheme.keys.PrivateKey;
+import com.signature.scheme.keys.PublicKey;
 import com.signature.scheme.merkleTree.Node;
 import com.signature.scheme.merkleTree.Treehash;
-import com.signature.scheme.signing.SignatureGenerator;
 import com.signature.scheme.tools.FSGenerator;
 import com.signature.scheme.tools.HashFunction;
 import com.signature.scheme.tools.HelperFunctions;
@@ -12,7 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Stack;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class KeysKeeperTest {
 

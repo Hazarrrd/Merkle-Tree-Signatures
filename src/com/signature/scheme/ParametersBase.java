@@ -1,6 +1,6 @@
 package com.signature.scheme;
 
-import com.signature.scheme.tools.HashFunction;
+import com.signature.scheme.keys.KeysKeeper;
 import com.signature.scheme.tools.HelperFunctions;
 
 import static com.signature.scheme.tools.HelperFunctions.*;

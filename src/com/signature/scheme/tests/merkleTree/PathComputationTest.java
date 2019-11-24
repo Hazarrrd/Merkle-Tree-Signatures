@@ -1,7 +1,7 @@
 package com.signature.scheme.tests.merkleTree;
 
 import com.signature.scheme.ParametersBase;
-import com.signature.scheme.PublicKey;
+import com.signature.scheme.keys.PublicKey;
 import com.signature.scheme.merkleTree.MTreeOperations;
 import com.signature.scheme.merkleTree.Node;
 import com.signature.scheme.merkleTree.PathComputation;
@@ -12,7 +12,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Stack;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PathComputationTest {
 

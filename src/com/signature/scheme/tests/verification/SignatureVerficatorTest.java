@@ -1,16 +1,13 @@
 package com.signature.scheme.tests.verification;
 
-import com.signature.scheme.KeysKeeper;
 import com.signature.scheme.ParametersBase;
-import com.signature.scheme.Signature;
+import com.signature.scheme.keys.KeysKeeper;
+import com.signature.scheme.signing.Signature;
 import com.signature.scheme.signing.SignatureGenerator;
 import com.signature.scheme.verfication.SignatureVerficator;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SignatureVerficatorTest {
 

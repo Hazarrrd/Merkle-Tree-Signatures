@@ -1,4 +1,4 @@
-package com.signature.scheme;
+package com.signature.scheme.keys;
 
 
 import com.signature.scheme.tools.HelperFunctions;

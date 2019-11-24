@@ -1,4 +1,4 @@
-package com.signature.scheme;
+package com.signature.scheme.keys;
 
 public class PublicKey {
 

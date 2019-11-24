@@ -1,10 +1,8 @@
-package com.signature.scheme;
+package com.signature.scheme.keys;
 
-import com.signature.scheme.merkleTree.Node;
 import com.signature.scheme.merkleTree.PathComputation;
-import com.signature.scheme.merkleTree.Treehash;
-
-import java.util.Stack;
+import com.signature.scheme.merkleTree.TreehashNext;
+import com.signature.scheme.signing.Signature;
 
 public class PrivateKey {
 

@@ -1,19 +1,16 @@
-package com.signature.scheme;
+package com.signature.scheme.keys;
 
-import com.signature.scheme.merkleTree.MTreeOperations;
-import com.signature.scheme.merkleTree.Node;
-import com.signature.scheme.merkleTree.PathComputation;
-import com.signature.scheme.merkleTree.Treehash;
+import com.signature.scheme.ParametersBase;
+import com.signature.scheme.merkleTree.*;
 import com.signature.scheme.signing.SignatureGenerator;
 import com.signature.scheme.tools.FSGenerator;
 import com.signature.scheme.tools.HashFunction;
 import com.signature.scheme.tools.HelperFunctions;
 import com.signature.scheme.tools.PseudorndFunction;
 
-import java.util.Arrays;
 import java.util.Stack;
 
-import static com.signature.scheme.tools.HelperFunctions.*;
+import static com.signature.scheme.tools.HelperFunctions.fillBytesRandomly;
 
 public class KeysKeeper {
 

@@ -1,4 +1,4 @@
-package com.signature.scheme;
+package com.signature.scheme.signing;
 
 import com.signature.scheme.merkleTree.Node;
 

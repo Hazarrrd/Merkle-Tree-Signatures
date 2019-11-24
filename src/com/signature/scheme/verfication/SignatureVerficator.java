@@ -1,13 +1,15 @@
 package com.signature.scheme.verfication;
 
-import com.signature.scheme.*;
+import com.signature.scheme.ParametersBase;
+import com.signature.scheme.keys.PublicKey;
+import com.signature.scheme.keys.WOTSkeyGenerator;
 import com.signature.scheme.merkleTree.MTreeOperations;
 import com.signature.scheme.merkleTree.Node;
+import com.signature.scheme.signing.Signature;
+import com.signature.scheme.signing.StructureSignature;
 import com.signature.scheme.tools.HashFunction;
 import com.signature.scheme.tools.HelperFunctions;
-import com.signature.scheme.tools.PseudorndFunction;
 
-import java.awt.font.FontRenderContext;
 import java.util.ArrayList;
 import java.util.Arrays;
 

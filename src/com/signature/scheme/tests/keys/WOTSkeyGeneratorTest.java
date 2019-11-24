@@ -1,13 +1,11 @@
-package com.signature.scheme.tests;
+package com.signature.scheme.tests.keys;
 
 import com.signature.scheme.ParametersBase;
-import com.signature.scheme.WOTSkeyGenerator;
-import com.signature.scheme.signing.SignatureGenerator;
+import com.signature.scheme.keys.WOTSkeyGenerator;
 import com.signature.scheme.tools.HelperFunctions;
-import com.signature.scheme.tools.PseudorndFunction;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class WOTSkeyGeneratorTest {
 

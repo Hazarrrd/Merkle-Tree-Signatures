@@ -1,10 +1,9 @@
 package com.signature.scheme.merkleTree;
 
-import com.signature.scheme.WOTSkeyGenerator;
+import com.signature.scheme.keys.WOTSkeyGenerator;
 import com.signature.scheme.tools.HashFunction;
 import com.signature.scheme.tools.PseudorndFunction;
 
-import java.util.Arrays;
 import java.util.Stack;
 
 import static com.signature.scheme.tools.HelperFunctions.xorTwoByteArrays;
