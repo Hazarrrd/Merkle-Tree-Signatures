@@ -29,9 +29,7 @@ public class WOTSkeyGenerator {
         byte[][] OTSpublicKey = new byte[l1 + l2][f.n];
 
         String msgBinaryString = HelperFunctions.byteArrayToBinaryString(msgDigest);
-        while (msgBinaryString.length() % wBytes != 0 && msgBinaryString.length() != l1*wBytes){
-            msgBinaryString += "0";
-        }
+        msgBinaryString = HelperFunctions.stringPadding(l1, wBytes, msgBinaryString);
 
         for (int i = 0; i < l1; i++) {
             msgPartBaseW = Integer.parseInt(msgBinaryString.substring(actualMsgIndex, nextMsgIndex),2);
@@ -44,9 +42,7 @@ public class WOTSkeyGenerator {
         actualMsgIndex = 0;
         nextMsgIndex=wBytes;
         String controlSumBinaryString = Integer.toBinaryString(controlSum);
-        while (controlSumBinaryString.length() % wBytes != 0 && controlSumBinaryString.length() != l2*wBytes){
-            controlSumBinaryString += "0";
-        }
+        controlSumBinaryString = HelperFunctions.stringPadding(l2, wBytes, controlSumBinaryString);
         for (int i = 0; i < l2; i++) {
             msgPartBaseW = Integer.parseInt(controlSumBinaryString.substring(actualMsgIndex, nextMsgIndex), 2);
             actualMsgIndex = nextMsgIndex;

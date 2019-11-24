@@ -30,6 +30,11 @@ class KeysKeeperTest {
     void generateTrees() {
         ParametersBase params = new ParametersBase();
         KeysKeeper keysKeeper = new KeysKeeper(params.m,params.n,params.kU,params.kL,params.upperH,params.lowerH,params.wL,params.wU,params.treeGrowth);
+        keysKeeper.privateKey = new PrivateKey();
+        keysKeeper.publicKey = new PublicKey();
+        keysKeeper.publicKey.bitmaskMain = keysKeeper.params.bitmaskMain;
+        keysKeeper.publicKey.bitmaskLTree = keysKeeper.params.bitmaskLTree;
+        keysKeeper.publicKey.X = keysKeeper.params.X;
         byte[] root = keysKeeper.generateTrees();
         assertEquals(root.length,params.n);
         PrivateKey privateKey = keysKeeper.privateKey;
@@ -63,6 +68,12 @@ class KeysKeeperTest {
             treeHashArray[i] = new Treehash(new Stack<Node>(),i,params.bitmaskMain,params.bitmaskLTree,params.n,params.lU,params.X,params.wU);
         }
         FSGenerator upperGenerator = new FSGenerator(new PseudorndFunction(params.n),new PseudorndFunction(params.n),params.seed);
+
+        keysKeeper.privateKey = new PrivateKey();
+        keysKeeper.publicKey = new PublicKey();
+        keysKeeper.publicKey.bitmaskMain = keysKeeper.params.bitmaskMain;
+        keysKeeper.publicKey.bitmaskLTree = keysKeeper.params.bitmaskLTree;
+        keysKeeper.publicKey.X = keysKeeper.params.X;
 
         keysKeeper.publicKey.upperRoot = keysKeeper.generateRootOfTree(upperGenerator,params.lU, params.wU, auth, treeHashArray, retain, params.upperH, params.kU,params.n);
 

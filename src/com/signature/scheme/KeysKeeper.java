@@ -25,29 +25,26 @@ public class KeysKeeper {
     public ParametersBase params;
 
     public KeysKeeper(int m, int n, int kU, int kL, int upperH, int lowerH, int wL, int wU,int treeGrowth){
-        privateKey = new PrivateKey();
-        publicKey = new PublicKey();
         byte[] x = KeysKeeper.generateX(n);
         params = new ParametersBase(m,n,kU,kL,upperH,lowerH,wL,wU,x,treeGrowth);
 
-        publicKey.bitmaskMain = params.bitmaskMain;
-        publicKey.bitmaskLTree = params.bitmaskLTree;
-        publicKey.X = params.X;
     }
 
     public KeysKeeper(ParametersBase params){
-        privateKey = new PrivateKey();
-        publicKey = new PublicKey();
         this.params = params;
 
-        publicKey.bitmaskMain = this.params.bitmaskMain;
-        publicKey.bitmaskLTree = this.params.bitmaskLTree;
-        publicKey.X = this.params.X;
     }
 
 
 
     public void generateKeys() {
+
+        privateKey = new PrivateKey();
+        publicKey = new PublicKey();
+        publicKey.bitmaskMain = params.bitmaskMain;
+        publicKey.bitmaskLTree = params.bitmaskLTree;
+        publicKey.X = params.X;
+
         HashFunction.setFunction(params.hashFunctionKey,params.n);
         //generate upper and lower trees
         byte[] lowerRoot = generateTrees();

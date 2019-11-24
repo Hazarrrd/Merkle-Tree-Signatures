@@ -115,6 +115,15 @@ public class HelperFunctions {
         }
     }
 
+    public static String stringPadding(int l, int wBytes, String msgBinaryString) {
+       /* while (msgBinaryString.length() != l * wBytes) {
+            msgBinaryString += "0";
+        }*/
+        while (msgBinaryString.length() % l !=0) {
+            msgBinaryString += "0";
+        }
+        return msgBinaryString;
+    }
 
     public static String byteArrayToBinaryString(byte[] byteArray) {
             char[] bits = new char[8 * byteArray.length];

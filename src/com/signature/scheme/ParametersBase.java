@@ -38,6 +38,7 @@ public class ParametersBase {
     public int nextH;
     public int nextSize;
     public int lowerSize;
+    public int initialLowerSize;
     public int upperSize;
 
     public ParametersBase(int m, int n, int kU, int kL, int upperH, int lowerH, int wL, int wU, byte[] x, int treeGrowth) {
@@ -46,15 +47,13 @@ public class ParametersBase {
         this.n = n;
         this.kU = kU;
         this.kL = kL;
+
+        this.initialLowerSize = lowerH;
         this.upperH = upperH;
         this.lowerH = lowerH;
-        this.nextH = lowerH + treeGrowth;
-        this.lowerSize = (int) Math.pow(2,lowerH);
-        this.upperSize = (int) Math.pow(2,upperH);
-        this.nextSize = (int) (this.lowerSize*Math.pow(2,treeGrowth));
-        int temp = (int) (lowerH + (Math.pow(2,upperH)-2)*treeGrowth);
-        this.maxH = Math.max(upperH, temp);
-        System.out.println(this.maxH + " KURDE " + temp + " " + upperH);
+        this.upperSize = (int) Math.pow(2, upperH);
+        setTreeSizees(lowerH, treeGrowth, upperH);
+
         this.wL = wL;
         this.wU = wU;
         this.X = x;
@@ -74,13 +73,11 @@ public class ParametersBase {
 
         this.X = KeysKeeper.generateX(n);
         this.seed = new byte[n];
-        this.nextH = lowerH + treeGrowth;
-        this.lowerSize = (int) Math.pow(2,lowerH);
-        this.upperSize = (int) Math.pow(2,upperH);
-        this.nextSize = (int) (this.lowerSize*Math.pow(2,treeGrowth));
-        int temp = (int) (lowerH + (Math.pow(2,upperH)-2)*treeGrowth);
-        this.maxH = Math.max(upperH, temp);
-        System.out.println(this.maxH + " KURDE " + temp + " " + upperH);
+
+        this.initialLowerSize= lowerH;
+        this.upperSize = (int) Math.pow(2, upperH);
+        setTreeSizees(lowerH, treeGrowth, upperH);
+
         bitmaskMain = generateBitmask(maxH, false, n);
         bitmaskLTree = generateBitmask(maxL, true, n);
         HelperFunctions.fillBytesRandomly(seed);
@@ -88,6 +85,14 @@ public class ParametersBase {
         HelperFunctions.fillBytesRandomly(hashFunctionKey);
         this.hashFunctionKey = hashFunctionKey;
         this.signaturesNumber = (int) (Math.pow(2,lowerH + upperSize -1) - Math.pow(2,lowerH));
+    }
+
+    public void setTreeSizees(int lowerH, int treeGrowth, int upperH) {
+        this.nextH = lowerH + treeGrowth;
+        this.lowerSize = (int) Math.pow(2, lowerH);
+        this.nextSize = (int) (this.lowerSize * Math.pow(2, treeGrowth));
+        int temp = (int) (lowerH + (Math.pow(2, upperH) - 2) * treeGrowth);
+        this.maxH = Math.max(upperH, temp);
     }
 
     private void setLengths(int m, int n, int wL, int wU) {

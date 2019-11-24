@@ -10,6 +10,7 @@ import com.signature.scheme.tools.HashFunction;
 import com.signature.scheme.tools.HelperFunctions;
 import com.signature.scheme.tools.PseudorndFunction;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Stack;
 
@@ -19,15 +20,42 @@ import static com.signature.scheme.tools.HelperFunctions.fillBytesRandomly;
 public class SignatureGenerator {
 
     private final int n;
-    private final PrivateKey privateKey;
+    private PrivateKey privateKey;
     KeysKeeper keysKeeper;
     ParametersBase params;
+    ArrayList<StructureSignature> upperSignatures;
 
     public SignatureGenerator(KeysKeeper keysKeeper) {
         this.keysKeeper = keysKeeper;
         privateKey = this.keysKeeper.privateKey;
         params = this.keysKeeper.params;
         n = params.n;
+        upperSignatures = new ArrayList<>();
+    }
+
+    private  void replaceStructure() {
+        //Generating new structure and replacing actual
+        PublicKey publicKey = keysKeeper.publicKey;
+        params.setTreeSizees(params.initialLowerSize,params.treeGrowth,params.upperH);
+        this.keysKeeper.generateKeys();
+        //Signing new structure by old
+        StructureSignature structureSignature = signNextStruct(privateKey, params.n, params.lu1, params.lu2, params.wU, publicKey.X, keysKeeper.publicKey.upperRoot);
+        upperSignatures.add(structureSignature);
+        privateKey = this.keysKeeper.privateKey;
+    }
+
+    private StructureSignature signNextStruct(PrivateKey privateKey, int n, int l1, int l2, int w, byte[] x, byte[] msg) {
+        FSGenerator fsGenerator = new FSGenerator(new PseudorndFunction(n), new PseudorndFunction(n), privateKey.upperGenState);
+        Node[] authPath = (privateKey.upperPathComputation.auth).clone();
+        int index = privateKey.upperPathComputation.leafIndex;
+        byte[] seed = fsGenerator.nextStateAndSeed();
+        privateKey.upperGenState = fsGenerator.state;
+
+        //make a signature of lower tree
+        byte[][] msgSignature = generateMsgSignature(seed, new PseudorndFunction(n), l1, l2, w, x, msg);
+        StructureSignature lowerSignature = new StructureSignature(authPath, msgSignature);
+        return lowerSignature;
+
     }
 
     public static void signLowerTree(PrivateKey privateKey, int n, int l1, int l2, int w, byte[] x, byte[] msg) {
@@ -41,10 +69,7 @@ public class SignatureGenerator {
         byte[][] msgSignature = generateMsgSignature(seed, new PseudorndFunction(n), l1, l2, w, x, msg);
         Signature lowerSignature = new Signature(authPath, msgSignature, index);
         privateKey.lowerSignature = lowerSignature;
-        if(index < privateKey.upperPathComputation.leafNumber-1){
-            privateKey.upperPathComputation.doAlgorithm();
-        };
-
+        privateKey.upperPathComputation.doAlgorithm();
     }
 
     public Signature signMessage(String msg) {
@@ -58,22 +83,33 @@ public class SignatureGenerator {
 
         //make the signature of msg
         byte[][] msgSignature = generateMsgSignature(seed, new PseudorndFunction(n), params.ll1, params.ll2, params.wL, params.X,msgDigest);
-        Signature signature = new Signature(authPath, msgSignature, index, privateKey.lowerSignature);
-
-        //Prepare next lower tree
-        int nodesToCalculate = (int) Math.pow(2,params.treeGrowth);
-        for (int i = 0;i<nodesToCalculate;i++){
-            privateKey.nextThreehash.calculateNextNodes();
-        }
+        Signature signature = new Signature(authPath, msgSignature, index, privateKey.lowerSignature, (ArrayList<StructureSignature>) upperSignatures.clone());
 
         // Prepere for the next signature
         if(index == params.lowerSize-1){
-            replaceLowerWithNext(signature.treeIndex);
+            if(signature.treeIndex != (params.upperSize-2)) {
+                //Prepare next lower tree
+                buildNextTree();
+                replaceLowerWithNext(signature.treeIndex);
+            }
+            else{
+                replaceStructure();
+            }
+
         } else {
+            //Prepare next lower tree
+            buildNextTree();
             privateKey.lowerPathComputation.doAlgorithm();
         }
 
         return signature;
+    }
+
+    private void buildNextTree() {
+        int nodesToCalculate = (int) Math.pow(2, params.treeGrowth);
+        for (int i = 0; i < nodesToCalculate; i++) {
+            privateKey.nextThreehash.calculateNextNodes();
+        }
     }
 
     private static byte[][] generateMsgSignature(byte[] seed, PseudorndFunction f, int l1, int l2, int w, byte[] x, byte[] msgDigest) {
@@ -86,9 +122,7 @@ public class SignatureGenerator {
         int msgPartBaseW;
         int controlSum = 0;
         String msgBinaryString = HelperFunctions.byteArrayToBinaryString(msgDigest);
-        while (msgBinaryString.length() % wBytes != 0 && msgBinaryString.length() != l1*wBytes){
-            msgBinaryString += "0";
-        }
+        msgBinaryString = HelperFunctions.stringPadding(l1, wBytes, msgBinaryString);
         byte[][] signature = new byte[l][n];
         for (int i = 0; i < l1; i++) {
             privatePart = WOTSkeyGenerator.getPrivPart(l, f, i, seed);
@@ -101,9 +135,7 @@ public class SignatureGenerator {
         actualMsgIndex = 0;
         nextMsgIndex = wBytes;
         String controlSumBinaryString = Integer.toBinaryString(controlSum);
-        while (controlSumBinaryString.length() % wBytes != 0 && controlSumBinaryString.length() != l2*wBytes){
-            controlSumBinaryString += "0";
-        }
+        controlSumBinaryString = HelperFunctions.stringPadding(l2, wBytes, controlSumBinaryString);
         for (int i = 0; i < l2; i++) {
             privatePart = WOTSkeyGenerator.getPrivPart(l, f, i + l1, seed);
             msgPartBaseW = Integer.parseInt(controlSumBinaryString.substring(actualMsgIndex, nextMsgIndex), 2);

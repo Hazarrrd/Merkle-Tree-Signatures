@@ -1,9 +1,6 @@
 package com.signature.scheme.tests.signing;
 
-import com.signature.scheme.KeysKeeper;
-import com.signature.scheme.ParametersBase;
-import com.signature.scheme.PrivateKey;
-import com.signature.scheme.Signature;
+import com.signature.scheme.*;
 import com.signature.scheme.signing.SignatureGenerator;
 import com.signature.scheme.tools.FSGenerator;
 import com.signature.scheme.tools.HelperFunctions;
@@ -69,6 +66,11 @@ class SignatureGeneratorTest {
     void signLowerTree() {
         ParametersBase params = new ParametersBase();
         KeysKeeper keysKeeper = new KeysKeeper(params.m,params.n,params.kU,params.kL,params.upperH,params.lowerH,params.wL,params.wU,params.treeGrowth);
+        keysKeeper.privateKey = new PrivateKey();
+        keysKeeper.publicKey = new PublicKey();
+        keysKeeper.publicKey.bitmaskMain = keysKeeper.params.bitmaskMain;
+        keysKeeper.publicKey.bitmaskLTree = keysKeeper.params.bitmaskLTree;
+        keysKeeper.publicKey.X = params.X;
         byte[] root = keysKeeper.generateTrees();
         SignatureGenerator.signLowerTree(keysKeeper.privateKey,params.n,params.ll1,params.ll2,params.wL,params.X,root);
         Signature signature = keysKeeper.privateKey.lowerSignature;
