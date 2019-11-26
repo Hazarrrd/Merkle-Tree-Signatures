@@ -19,7 +19,7 @@ class SignatureGeneratorTest {
         keysKeeper.generateKeys();
 
         SignatureGenerator signatureGenerator = new SignatureGenerator(keysKeeper);
-        int size = (int) Math.pow(2,params.lowerH);
+        int size = (int) params.lowerSize;
         for(int j = 0;j<size;j++) {
             System.out.println(j);
             Signature signature = signatureGenerator.signMessage("TESTOWA WIDOMOSC");

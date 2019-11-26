@@ -152,11 +152,13 @@ public class SignatureGenerator {
     public void replaceLowerWithNext(int treeIndex) {
         int kLA = params.kL;
         int kLB = params.kL;
-        if(params.treeGrowth % 2 != 0 && treeIndex%2 == 0){
-            //params.kL ++;
-            kLA++;
-        } else {
-            kLB++;
+        if (params.treeGrowth % 2 != 0) {
+            if (treeIndex % 2 == 0) {
+                //params.kL ++;
+                kLA++;
+            } else {
+                kLB++;
+            }
         }
         privateKey.lowerGenState = privateKey.nextGenState;
         privateKey.lowerPathComputation = new PathComputation(params.nextH,kLA,params.n,params.lL,keysKeeper.publicKey,params.wL
@@ -165,7 +167,6 @@ public class SignatureGenerator {
         fillBytesRandomly(initialState);
         privateKey.nextGenState = initialState;
         byte [] lowerRootValue = privateKey.nextThreehash.stack.pop().value;
-        keysKeeper.publicKey.lowerRoot = lowerRootValue;
         SignatureGenerator.signLowerTree(privateKey, params.n, params.lu1, params.lu2, params.wU, keysKeeper.publicKey.X, lowerRootValue);
         params.lowerH = params.nextH;
         params.nextH = params.lowerH + params.treeGrowth;

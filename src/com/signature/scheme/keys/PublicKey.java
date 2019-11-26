@@ -6,6 +6,4 @@ public class PublicKey {
     public byte[][] bitmaskMain;
     public byte[] X;
     public byte[] upperRoot;
-
-    public byte[] lowerRoot;
 }

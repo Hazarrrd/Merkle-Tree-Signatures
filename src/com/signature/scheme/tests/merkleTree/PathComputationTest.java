@@ -23,7 +23,7 @@ class PathComputationTest {
         byte[][] publicKey;
 
         ParametersBase params = new ParametersBase();
-        int size = (int) Math.pow(2,params.upperH);
+        int size = params.upperSize;
         publicKey = new byte[size][params.n];
         stack = new Stack<Node>();
         Node[] auth = new Node[params.upperH];
@@ -62,11 +62,6 @@ class PathComputationTest {
             assertArrayEquals(node.value,publicKey[i]);
             for (int j = 1; j <= params.upperH; j++) {
 
-                /*if (Math.floor(i / Math.pow(2, j-1)) % 2 == 0) {
-                    node = MTreeOperations.computeParent(node, auth[j - 1], params.maskMain[j - 1]);
-                } else {
-                    node = MTreeOperations.computeParent(auth[j - 1], node, params.maskMain[j - 1]);
-                }*/
                 if (node.index % 2 == 0) {
                     node = MTreeOperations.computeParent(node, auth[j - 1], params.bitmaskMain[j - 1]);
 

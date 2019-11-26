@@ -119,7 +119,7 @@ public class HelperFunctions {
        /* while (msgBinaryString.length() != l * wBytes) {
             msgBinaryString += "0";
         }*/
-        while (msgBinaryString.length() % l !=0) {
+        while (msgBinaryString.length() < l * wBytes) {
             msgBinaryString += "0";
         }
         return msgBinaryString;

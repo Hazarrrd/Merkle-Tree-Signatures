@@ -89,7 +89,6 @@ public class KeysKeeper {
 
         byte[] lowerRoot = generateRootOfTree(lowerGenerator, params.lL, params.wL, auth, treeHashArray, retain, params.lowerH, params.kL,params.n);
         privateKey.lowerPathComputation = new PathComputation(params.lowerH, params.kL, params.n, params.lL, publicKey, params.wL, privateKey.lowerGenState, auth, treeHashArray, retain);
-        publicKey.lowerRoot = lowerRoot;
         return lowerRoot;
     }
 

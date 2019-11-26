@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Stack;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TreehashTest {
 
@@ -28,7 +28,7 @@ class TreehashTest {
 
     @Test
     void standardTreehash() {
-        int size = (int) Math.pow(2,params.upperH);
+        int size = params.upperSize;
         publicKey = new byte[size][params.n];
         stack = new Stack<Node>();
         for (int i = 0; i < size; i++)
@@ -44,7 +44,7 @@ class TreehashTest {
 
     @Test
     void StandardTreehasGenArrays() {
-        int size = (int) Math.pow(2,params.upperH);
+        int size = params.upperSize;
         publicKey = new byte[size][params.n];
         stack = new Stack<Node>();
         Node[] auth = new Node[params.upperH];
@@ -103,7 +103,7 @@ class TreehashTest {
         assertEquals(stack.peek().value.length ,params.n);
         assertEquals(stack.peek().index,0);
 
-        int size = (int) Math.pow(2,params.upperH);
+        int size = params.upperSize;
         publicKey = new byte[size][params.n];
         stack = new Stack<Node>();
         for (int i = 0; i < size; i++)
@@ -122,7 +122,7 @@ class TreehashTest {
     void treeHashInstance() {
         Treehash treehash = new Treehash(new Stack<Node>(),params.upperH,params.bitmaskMain,params.bitmaskLTree,params.n,params.lU,params.X,params.wU);
         treehash.initialize(params.seed,0);
-        int size = (int) Math.pow(2,params.upperH);
+        int size = params.upperSize;
         for(int i =0;i<size;i++)
             treehash.update();
 

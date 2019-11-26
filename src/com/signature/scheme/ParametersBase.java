@@ -18,30 +18,33 @@ public class ParametersBase {
     //security parameter
     public int n = 16;
     //Path Computation Algorithm parameter k for upper tree, such that internalH - kU is even and ((internalH-kU)/2) + 1 <= pow(2,internalH-kL+1)
-    public int kU=1;
+    public int kU = 4;
     //Path Computation Algorithm parameter k for lower tree, such that internalH - kL is even and ((internalH-kU)/2) + 1 <= pow(2,internalH-kL+1)
-    public int kL=2;
-    public int upperH = 3;
-    public int lowerH = 2;
-    public int signaturesNumber;
+    public int kL = 4;
+    public int upperH = 10;
+    public int lowerH = 10;
+    public long signaturesNumber;
     public int maxH;
     public byte[][] bitmaskMain;
     public byte[][] bitmaskLTree;
     //Winternitz parameter for upper tree
-    public int wU=4;
+    public int wU = 16;
     //Winternitz parmeter for lower tree
-    public int wL=4;
+    public int wL = 16;
     public byte[] X;
     public byte[] seed;
     public byte[] hashFunctionKey;
-    public int treeGrowth = 1;
+    public int treeGrowth = 0;
     public int nextH;
-    public int nextSize;
-    public int lowerSize;
+    public long nextSize;
+    public long lowerSize;
     public int initialLowerSize;
     public int upperSize;
 
     public ParametersBase(int m, int n, int kU, int kL, int upperH, int lowerH, int wL, int wU, byte[] x, int treeGrowth) {
+        if ((((upperH - kU) / 2) + 1) > (Math.pow(2, (lowerH - kL + 1)))) {
+            System.out.println("ERROR KL AND KU");
+        }
         this.treeGrowth = treeGrowth;
         this.m = m;
         this.n = n;
@@ -65,12 +68,17 @@ public class ParametersBase {
         HelperFunctions.fillBytesRandomly(hashFunctionKey);
         this.hashFunctionKey = hashFunctionKey;
 
-        this.signaturesNumber = (int) (Math.pow(2,lowerH + upperSize -1) - Math.pow(2,lowerH));
+        if (treeGrowth == 1)
+            this.signaturesNumber = (int) (Math.pow(2, lowerH + upperSize - 1) - Math.pow(2, lowerH));
+        else
+            this.signaturesNumber = (int) ((upperSize - 1) * lowerSize);
     }
 
     public ParametersBase() {
         setLengths(m, n, wL, wU);
-
+        if ((((upperH - kU) / 2) + 1) > (Math.pow(2, (lowerH - kL + 1)))) {
+            System.out.println("ERROR KL AND KU");
+        }
         this.X = KeysKeeper.generateX(n);
         this.seed = new byte[n];
 
@@ -84,7 +92,10 @@ public class ParametersBase {
         byte[] hashFunctionKey = new byte[n];
         HelperFunctions.fillBytesRandomly(hashFunctionKey);
         this.hashFunctionKey = hashFunctionKey;
-        this.signaturesNumber = (int) (Math.pow(2,lowerH + upperSize -1) - Math.pow(2,lowerH));
+        if (treeGrowth == 1)
+            this.signaturesNumber = (int) (Math.pow(2, lowerH + upperSize - 1) - Math.pow(2, lowerH));
+        else
+            this.signaturesNumber = (int) ((upperSize - 1) * lowerSize);
     }
 
     public void setTreeSizees(int lowerH, int treeGrowth, int upperH) {
