@@ -2,9 +2,10 @@ package com.signature.scheme.signing;
 
 import com.signature.scheme.merkleTree.Node;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Signature {
+public class Signature implements Serializable {
     public Node[] upperAuthPath;
     public byte[][] lowerTreeSignature;
     public Node[] lowerAuthPath;

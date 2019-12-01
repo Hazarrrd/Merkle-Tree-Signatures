@@ -1,7 +1,8 @@
 package com.signature.scheme.keys;
 
-public class PublicKey {
+import java.io.Serializable;
 
+public class PublicKey implements Serializable {
     public byte[][] bitmaskLTree;
     public byte[][] bitmaskMain;
     public byte[] X;

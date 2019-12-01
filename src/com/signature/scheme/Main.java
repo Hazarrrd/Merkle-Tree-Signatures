@@ -1,28 +1,40 @@
 package com.signature.scheme;
 
 import com.signature.scheme.keys.KeysKeeper;
-import com.signature.scheme.signing.Signature;
-import com.signature.scheme.signing.SignatureGenerator;
-import com.signature.scheme.tools.HelperFunctions;
-import com.signature.scheme.verfication.SignatureVerficator;
+import com.signature.scheme.tools.FileWriteReadHelper;
+
 
 public class Main {
 
     public static void main(String[] args) {
-        KeysKeeper keysKeeper = new KeysKeeper(32,32,4,4,10,12,8,8,1);
-        keysKeeper.generateKeys();
-        SignatureGenerator signatureGenerator = new SignatureGenerator(keysKeeper);
-        SignatureVerficator signatureVerficator = new SignatureVerficator(keysKeeper.publicKey,keysKeeper.params);
-        byte[] m = new byte[100];
-        HelperFunctions.fillBytesRandomly(m);
-        String msg = "TestingMsg";
-        Signature signature = signatureGenerator.signMessage(msg);
-        Boolean isValid = signatureVerficator.verifySignature(signature,msg);
-        if(isValid){
-            System.out.println("SIGNATURE IS FINE");
-        } else {
-            System.out.println("SIGNATURE IS FALSED");
-        }
+        generateAndCheckSomeSignatures();
+        String path = "/home/janek/IdeaProjects/MerkleSignatures/appData";
+        VerifyApplication verifyApplication = new VerifyApplication(path);
+        String pathToSignature = "/home/janek/IdeaProjects/MerkleSignatures/appData/signedMsg0";
+        verifyApplication.verify(pathToSignature);
+
+
+    }
+
+    public static void generateAndCheckSomeSignatures() {
+        String path = "/home/janek/IdeaProjects/MerkleSignatures/appData";
+        String path2 = "/home/janek/IdeaProjects/MerkleSignatures/appDataTwo";
+        ParametersBase params = new ParametersBase(32, 16, 4, 4, 6, 7, 8, 8, KeysKeeper.generateX(16), 1);
+        FileWriteReadHelper.sendParams(params, path);
+        FileWriteReadHelper.sendParams(params, path2);
+        SignerApplication signerApplication = new SignerApplication(path);
+        VerifyApplication verifyApplication = new VerifyApplication(path);
+        SignerApplication signerApplication2 = new SignerApplication(path2);
+        VerifyApplication verifyApplication2 = new VerifyApplication(path2);
+
+
+        FileWriteReadHelper.sendMsg(path, "TESTOWA WIADOMOSC", "/msgToSign.txt");
+        FileWriteReadHelper.sendMsg(path2, "TESTOWA WIADOMOSC", "/msgToSign.txt");
+        signerApplication.signMsg();
+        signerApplication2.signMsg();
+        String pathToSignature = "/home/janek/IdeaProjects/MerkleSignatures/appData/signedMsg0";
+        verifyApplication.verify(pathToSignature);
+        verifyApplication2.verify(pathToSignature);
 
     }
 

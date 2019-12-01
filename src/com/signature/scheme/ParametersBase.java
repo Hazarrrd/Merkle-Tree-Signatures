@@ -3,9 +3,11 @@ package com.signature.scheme;
 import com.signature.scheme.keys.KeysKeeper;
 import com.signature.scheme.tools.HelperFunctions;
 
+import java.io.Serializable;
+
 import static com.signature.scheme.tools.HelperFunctions.*;
 
-public class ParametersBase {
+public class ParametersBase implements Serializable {
     //msg length
     public int m = 32;
     public int lu1;
@@ -43,7 +45,7 @@ public class ParametersBase {
 
     public ParametersBase(int m, int n, int kU, int kL, int upperH, int lowerH, int wL, int wU, byte[] x, int treeGrowth) {
         if ((((upperH - kU) / 2) + 1) > (Math.pow(2, (lowerH - kL + 1)))) {
-            System.out.println("ERROR KL AND KU");
+            //  System.out.println("ERROR KL AND KU");
         }
         this.treeGrowth = treeGrowth;
         this.m = m;
@@ -69,9 +71,9 @@ public class ParametersBase {
         this.hashFunctionKey = hashFunctionKey;
 
         if (treeGrowth == 1)
-            this.signaturesNumber = (int) (Math.pow(2, lowerH + upperSize - 1) - Math.pow(2, lowerH));
+            this.signaturesNumber = (long) (Math.pow(2, lowerH + upperSize - 1) - Math.pow(2, lowerH));
         else
-            this.signaturesNumber = (int) ((upperSize - 1) * lowerSize);
+            this.signaturesNumber = ((upperSize - 1) * lowerSize);
     }
 
     public ParametersBase() {
@@ -93,9 +95,9 @@ public class ParametersBase {
         HelperFunctions.fillBytesRandomly(hashFunctionKey);
         this.hashFunctionKey = hashFunctionKey;
         if (treeGrowth == 1)
-            this.signaturesNumber = (int) (Math.pow(2, lowerH + upperSize - 1) - Math.pow(2, lowerH));
+            this.signaturesNumber = (long) (Math.pow(2, lowerH + upperSize - 1) - Math.pow(2, lowerH));
         else
-            this.signaturesNumber = (int) ((upperSize - 1) * lowerSize);
+            this.signaturesNumber = ((upperSize - 1) * lowerSize);
     }
 
     public void setTreeSizees(int lowerH, int treeGrowth, int upperH) {

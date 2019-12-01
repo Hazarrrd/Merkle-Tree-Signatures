@@ -1,6 +1,8 @@
 package com.signature.scheme.merkleTree;
 
-public class Node {
+import java.io.Serializable;
+
+public class Node implements Serializable {
 
     public int height;
     public final byte[] value;

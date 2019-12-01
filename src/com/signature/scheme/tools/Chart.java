@@ -1,4 +1,4 @@
-package com.signature.scheme;
+package com.signature.scheme.tools;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
