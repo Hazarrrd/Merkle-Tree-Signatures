@@ -21,7 +21,6 @@ class SignatureGeneratorTest {
         SignatureGenerator signatureGenerator = new SignatureGenerator(keysKeeper);
         int size = (int) params.lowerSize;
         for (int j = 0; j < size; j++) {
-            System.out.println(j);
             Signature signature = signatureGenerator.signMessage("TESTOWA WIDOMOSC");
 
             assertEquals(signature.treeIndex, 0);
