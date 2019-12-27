@@ -1,4 +1,4 @@
-package com.signature.scheme;
+package com.signature.scheme.applications;
 
 import com.signature.scheme.keys.PublicKey;
 import com.signature.scheme.signing.Signature;

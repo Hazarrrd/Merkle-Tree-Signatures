@@ -1,5 +1,7 @@
 package com.signature.scheme;
 
+import com.signature.scheme.applications.SignerApplication;
+import com.signature.scheme.applications.VerifyApplication;
 import com.signature.scheme.keys.KeysKeeper;
 import com.signature.scheme.tools.FileWriteReadHelper;
 
