@@ -16,7 +16,7 @@ class SignatureVerficatorTest {
         ParametersBase params = new ParametersBase();
         KeysKeeper keysKeeper = new KeysKeeper(params);
         keysKeeper.generateKeys();
-        SignatureVerficator signatureVerficator = new SignatureVerficator(keysKeeper.publicKey,keysKeeper.params);
+        SignatureVerficator signatureVerficator = new SignatureVerficator(keysKeeper.publicKey, keysKeeper.params);
         SignatureGenerator signatureGenerator = new SignatureGenerator(keysKeeper);
         Signature signature1 = signatureGenerator.signMessage("TEST");
         Signature signature2 = signatureGenerator.signMessage("TEST");
@@ -27,23 +27,20 @@ class SignatureVerficatorTest {
         SignatureGenerator signatureGenerator2 = new SignatureGenerator(keysKeeper2);
         Signature signature4 = signatureGenerator2.signMessage("TEST");
 
-        assertEquals(signatureVerficator.verifySignature(signature1,"TEST"),true);
-        assertEquals(signatureVerficator.verifySignature(signature1,"TESTt"),false);
-        assertEquals(signatureVerficator.verifySignature(signature2,"TEST"),true);
-        assertEquals(signatureVerficator.verifySignature(signature3,"TEST"),false);
-        assertEquals(signatureVerficator.verifySignature(signature4,"TEST"),false);
-       // System.out.println(params.maxH + " " + params.lowerH+((params.upperSize-2)*params.treeGrowth));
+        assertEquals(signatureVerficator.verifySignature(signature1, "TEST"), true);
+        assertEquals(signatureVerficator.verifySignature(signature1, "TESTt"), false);
+        assertEquals(signatureVerficator.verifySignature(signature2, "TEST"), true);
+        assertEquals(signatureVerficator.verifySignature(signature3, "TEST"), false);
+        assertEquals(signatureVerficator.verifySignature(signature4, "TEST"), false);
         int size = 10000;
         Signature[] signatures = new Signature[size];
         System.out.println("Key Generated");
-        for(int i =0;i<size-3;i++){
-           signatures[i] = signatureGenerator.signMessage("TESTtt" + i);
-           // System.out.println(i+ 3 + " " + signatures[i].treeIndex + " " + signatures[i].index );
+        for (int i = 0; i < size - 3; i++) {
+            signatures[i] = signatureGenerator.signMessage("TESTtt" + i);
         }
         System.out.println("Signature Generated");
-        for(int i =0;i<size-3;i++){
-           // System.out.println(i+3);
-            assertEquals(signatureVerficator.verifySignature(signatures[i],"TESTtt" + i),true);
+        for (int i = 0; i < size - 3; i++) {
+            assertEquals(signatureVerficator.verifySignature(signatures[i], "TESTtt" + i), true);
         }
 
     }
@@ -53,19 +50,17 @@ class SignatureVerficatorTest {
         ParametersBase params = new ParametersBase();
         KeysKeeper keysKeeper = new KeysKeeper(params);
         keysKeeper.generateKeys();
-        SignatureVerficator signatureVerficator = new SignatureVerficator(keysKeeper.publicKey,keysKeeper.params);
+        SignatureVerficator signatureVerficator = new SignatureVerficator(keysKeeper.publicKey, keysKeeper.params);
         SignatureGenerator signatureGenerator = new SignatureGenerator(keysKeeper);
         int size = 10000;
         Signature[] signatures = new Signature[size];
         System.out.println("Key Generated to sign :  " + size);
-        for(int i =0;i<size;i++){
+        for (int i = 0; i < size; i++) {
             signatures[i] = signatureGenerator.signMessage("TESTtt" + i);
-            //System.out.println(i + " structure: " + (signatures[i].structureSignatures.size()+1) + " lowerTreeIndex: " + signatures[i].treeIndex + " index: " + signatures[i].index );
         }
         System.out.println("Signature Generated");
-        for(int i =0;i<size;i++){
-            // System.out.println(i + " structure: " + (signatures[i].structureSignatures.size()+1) + " lowerTreeIndex: " + signatures[i].treeIndex + " index: " + signatures[i].index );
-            assertEquals(signatureVerficator.verifySignature(signatures[i],"TESTtt" + i),true);
+        for (int i = 0; i < size; i++) {
+            assertEquals(signatureVerficator.verifySignature(signatures[i], "TESTtt" + i), true);
         }
     }
 }

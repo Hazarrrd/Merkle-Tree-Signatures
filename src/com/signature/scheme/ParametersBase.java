@@ -7,6 +7,9 @@ import java.io.Serializable;
 
 import static com.signature.scheme.tools.HelperFunctions.*;
 
+/**
+ * Class that holds parameters of digital signature algorithm
+ */
 public class ParametersBase implements Serializable {
     //msg length
     public int m = 32;
@@ -45,7 +48,7 @@ public class ParametersBase implements Serializable {
 
     public ParametersBase(int m, int n, int kU, int kL, int upperH, int lowerH, int wL, int wU, byte[] x, int treeGrowth) {
         if ((((upperH - kU) / 2) + 1) > (Math.pow(2, (lowerH - kL + 1)))) {
-            //  System.out.println("ERROR KL AND KU");
+            System.out.println("ERROR KL AND KU");
         }
         this.treeGrowth = treeGrowth;
         this.m = m;
@@ -84,7 +87,7 @@ public class ParametersBase implements Serializable {
         this.X = KeysKeeper.generateX(n);
         this.seed = new byte[n];
 
-        this.initialLowerSize= lowerH;
+        this.initialLowerSize = lowerH;
         this.upperSize = (int) Math.pow(2, upperH);
         setTreeSizees(lowerH, treeGrowth, upperH);
 

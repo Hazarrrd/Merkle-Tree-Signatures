@@ -9,6 +9,9 @@ import static com.signature.scheme.merkleTree.MTreeOperations.computeParent;
 import static com.signature.scheme.merkleTree.MTreeOperations.leafCalc;
 import static com.signature.scheme.tools.HelperFunctions.reverseStack;
 
+/**
+ * Class represents Treehash algorithm
+ */
 public class Treehash {
     private int index;
     public Stack<Node> stack;
@@ -23,7 +26,7 @@ public class Treehash {
     public byte[] x;
     public int w;
 
-    public Treehash(Stack<Node> stack, int maxHeight, byte[][] maskMain,byte[][] maskL, int n, int l, byte[] x, int w) {
+    public Treehash(Stack<Node> stack, int maxHeight, byte[][] maskMain, byte[][] maskL, int n, int l, byte[] x, int w) {
         this.stack = stack;
         this.maxHeight = maxHeight;
         this.height = Integer.MAX_VALUE;
@@ -81,9 +84,8 @@ public class Treehash {
         return standardTreehash(last, stack, mask);
     }
 
-    //ULEPSZ POTEM NODE,ŻEBY DOPIERO NA KONIEC SIĘ WYPEŁNIAŁ
     private void doAlgorithm(byte[] seed) {
-        Node leaf = leafCalc(this.n, seed, this.l, this.x, this.w, this.maskL,index);
+        Node leaf = leafCalc(this.n, seed, this.l, this.x, this.w, this.maskL, index);
         Node top;
         while (stack.size() > 0 && leaf.height == this.stack.peek().height) {
             top = this.stack.pop();
@@ -97,14 +99,13 @@ public class Treehash {
                 node = computeParent(node, leaf, this.maskMain[node.height]);
                 if (node.height != maxHeight) {
                     this.height = node.height;
-                }
-                else {
+                } else {
                     this.height = Integer.MAX_VALUE;
                 }
             }
         } else {
             this.node = leaf;
-            if(maxHeight!=0) {
+            if (maxHeight != 0) {
                 this.height = 0;
             } else {
                 this.height = Integer.MAX_VALUE;
@@ -113,7 +114,7 @@ public class Treehash {
     }
 
     public void initialize(byte[] seedNext, int index) {
-        generator = new FSGenerator(new PseudorndFunction(n),new PseudorndFunction(n),seedNext);
+        generator = new FSGenerator(new PseudorndFunction(n), new PseudorndFunction(n), seedNext);
         this.node = null;
         this.index = index;
         this.height = this.maxHeight;

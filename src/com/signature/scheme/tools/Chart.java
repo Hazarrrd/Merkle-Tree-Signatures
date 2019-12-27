@@ -18,6 +18,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+/**
+ * Class allows to create charts for data stored in arrayLists
+ */
 public class Chart extends JFrame {
 
     public Chart(ArrayList<Double> arrayList, String path, String title) {
@@ -28,15 +31,6 @@ public class Chart extends JFrame {
 
         XYDataset dataset = createDataset(arrayList);
         JFreeChart chart = createChart(dataset, title);
-       /* ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-        chartPanel.setBackground(Color.white);
-        add(chartPanel);
-
-        pack();
-        setTitle(title);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
 
         try {
 
@@ -100,8 +94,6 @@ public class Chart extends JFrame {
 
         plot.setDomainGridlinesVisible(true);
         plot.setDomainGridlinePaint(Color.BLACK);
-
-        //chart.getLegend().setFrame(BlockBorder.NONE);
 
         chart.setTitle(new TextTitle(title,
                         new Font("Serif", java.awt.Font.BOLD, 18)

@@ -4,7 +4,11 @@ import com.signature.scheme.ParametersBase;
 
 import java.io.*;
 
+/**
+ * Class has helper functions, that allows to write/read data to/from files.
+ */
 public class FileWriteReadHelper {
+
     public static void writeToFile(byte[] data, OutputStream outputStream) {
         try {
             outputStream.write(data);

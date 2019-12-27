@@ -18,7 +18,7 @@ class HashFunctionTest {
         boolean bool = true;
         HelperFunctions.fillBytesRandomly(key);
         HelperFunctions.fillBytesRandomly(array);
-        HashFunction.setFunction(key,32);
+        HashFunction.setFunction(key, 32);
         byte[] arrayOutput = HashFunction.computeHash(array);
         byte[] arrayOutput2 = HashFunction.computeHash(array);
         byte[] arrayOutput3 = HashFunction.computeHash(array2);
@@ -42,10 +42,10 @@ class HashFunctionTest {
     void setHashFuncton() {
         byte[] array = new byte[32];
         HelperFunctions.fillBytesRandomly(array);
-        HashFunction.setFunction(array,32);
+        HashFunction.setFunction(array, 32);
         Assertions.assertEquals(HashFunction.n, 32);
         assertNotNull(HashFunction.k);
-        HashFunction.setFunction(array,64);
+        HashFunction.setFunction(array, 64);
         assertEquals(HashFunction.n, 64);
         assertNotNull(HashFunction.k);
     }

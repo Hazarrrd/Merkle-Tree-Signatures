@@ -12,6 +12,9 @@ import java.util.Stack;
 
 import static com.signature.scheme.tools.HelperFunctions.fillBytesRandomly;
 
+/**
+ * Class generates and keeps keys of the scheme.
+ */
 public class KeysKeeper {
 
     //Private Key
@@ -21,18 +24,16 @@ public class KeysKeeper {
     //Parameters
     public ParametersBase params;
 
-    public KeysKeeper(int m, int n, int kU, int kL, int upperH, int lowerH, int wL, int wU,int treeGrowth){
+    public KeysKeeper(int m, int n, int kU, int kL, int upperH, int lowerH, int wL, int wU, int treeGrowth) {
         byte[] x = KeysKeeper.generateX(n);
-        params = new ParametersBase(m,n,kU,kL,upperH,lowerH,wL,wU,x,treeGrowth);
+        params = new ParametersBase(m, n, kU, kL, upperH, lowerH, wL, wU, x, treeGrowth);
 
     }
 
-    public KeysKeeper(ParametersBase params){
+    public KeysKeeper(ParametersBase params) {
         this.params = params;
 
     }
-
-
 
     public void generateKeys() {
 
@@ -42,10 +43,10 @@ public class KeysKeeper {
         publicKey.bitmaskLTree = params.bitmaskLTree;
         publicKey.X = params.X;
 
-        HashFunction.setFunction(params.hashFunctionKey,params.n);
+        HashFunction.setFunction(params.hashFunctionKey, params.n);
         //generate upper and lower trees
         byte[] lowerRoot = generateTrees();
-        //SIGN lower by upper
+        //sign lower by upper
         SignatureGenerator.signLowerTree(privateKey, params.n, params.lu1, params.lu2, params.wU, publicKey.X, lowerRoot);
     }
 
@@ -59,35 +60,32 @@ public class KeysKeeper {
         privateKey.nextGenState = nextGenerator.initialState;
         privateKey.upperGenState = upperGenerator.initialState;
         int kLa = params.kL;
-        if(params.treeGrowth % 2 != 0){
-            //params.kL ++;
+        if (params.treeGrowth % 2 != 0) {
             kLa++;
         }
-        privateKey.nextThreehash = new TreehashNext(new Stack<Node>(),params.nextH,params.bitmaskMain,params.bitmaskLTree,params.n,params.lL,params.X,params.wL,kLa,privateKey.nextGenState);
+        privateKey.nextThreehash = new TreehashNext(new Stack<Node>(), params.nextH, params.bitmaskMain, params.bitmaskLTree, params.n, params.lL, params.X, params.wL, kLa, privateKey.nextGenState);
         Node[] auth = new Node[params.upperH];
         Treehash[] treeHashArray = new Treehash[params.upperH - params.kU];
-        //Rozwaz zmianę wielkości tablicy
         Stack<Node>[] retain = new Stack[params.upperH - 1];
-        for (int i = params.upperH -params.kU; i < retain.length; i++)
+        for (int i = params.upperH - params.kU; i < retain.length; i++)
             retain[i] = new Stack<Node>();
-        for(int i =0;i<treeHashArray.length;i++){
-            treeHashArray[i] = new Treehash(new Stack<Node>(),i,params.bitmaskMain,params.bitmaskLTree,params.n,params.lU,params.X,params.wU);
+        for (int i = 0; i < treeHashArray.length; i++) {
+            treeHashArray[i] = new Treehash(new Stack<Node>(), i, params.bitmaskMain, params.bitmaskLTree, params.n, params.lU, params.X, params.wU);
         }
 
-        publicKey.upperRoot = generateRootOfTree(upperGenerator, params.lU, params.wU, auth, treeHashArray, retain, params.upperH, params.kU,params.n);
+        publicKey.upperRoot = generateRootOfTree(upperGenerator, params.lU, params.wU, auth, treeHashArray, retain, params.upperH, params.kU, params.n);
         privateKey.upperPathComputation = new PathComputation(params.upperH, params.kU, params.n, params.lU, publicKey, params.wU, privateKey.upperGenState, auth, treeHashArray, retain);
 
         auth = new Node[params.lowerH];
         treeHashArray = new Treehash[params.lowerH - params.kL];
-        //Rozwaz zmianę wielkości tablicy
         retain = new Stack[params.lowerH - 1];
-        for (int i = params.lowerH -params.kL; i < retain.length; i++)
+        for (int i = params.lowerH - params.kL; i < retain.length; i++)
             retain[i] = new Stack<Node>();
-        for(int i =0;i<treeHashArray.length;i++){
-            treeHashArray[i] = new Treehash(new Stack<Node>(),i,params.bitmaskMain,params.bitmaskLTree,params.n,params.lL,params.X,params.wL);
+        for (int i = 0; i < treeHashArray.length; i++) {
+            treeHashArray[i] = new Treehash(new Stack<Node>(), i, params.bitmaskMain, params.bitmaskLTree, params.n, params.lL, params.X, params.wL);
         }
 
-        byte[] lowerRoot = generateRootOfTree(lowerGenerator, params.lL, params.wL, auth, treeHashArray, retain, params.lowerH, params.kL,params.n);
+        byte[] lowerRoot = generateRootOfTree(lowerGenerator, params.lL, params.wL, auth, treeHashArray, retain, params.lowerH, params.kL, params.n);
         privateKey.lowerPathComputation = new PathComputation(params.lowerH, params.kL, params.n, params.lL, publicKey, params.wL, privateKey.lowerGenState, auth, treeHashArray, retain);
         return lowerRoot;
     }
@@ -98,7 +96,7 @@ public class KeysKeeper {
         Stack<Node> stack = new Stack<Node>();
 
         for (int i = 0; i < howManyKeys; i++) {
-            leaf = MTreeOperations.leafCalc(n, generator.nextStateAndSeed(), l, publicKey.X, w, publicKey.bitmaskLTree,i);
+            leaf = MTreeOperations.leafCalc(n, generator.nextStateAndSeed(), l, publicKey.X, w, publicKey.bitmaskLTree, i);
             stack = Treehash.standardTreehash(leaf, stack, publicKey.bitmaskMain, auth, treeHashArray, retain, treeHeight, K);
         }
         return stack.pop().value;

@@ -1,5 +1,8 @@
 package com.signature.scheme.tools;
 
+/**
+ * Class implements FSGenerator
+ */
 public class FSGenerator {
     private PseudorndFunction otsSeedGenerator;
     private PseudorndFunction nextStateGenerator;

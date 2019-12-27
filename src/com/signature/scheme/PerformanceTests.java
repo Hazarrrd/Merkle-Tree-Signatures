@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Class doing performance tests
+ */
 public class PerformanceTests {
 
     static FileOutputStream outputStream;
@@ -30,7 +33,7 @@ public class PerformanceTests {
         //doTestTreeGrowth0();
         //doTestTreeGrowth1();
         //  doTestTreeGrowth2();
-        //  compare();
+        compare();
     }
 
     public static void compare() {
@@ -39,14 +42,14 @@ public class PerformanceTests {
         byte[] x = new byte[n];
         HelperFunctions.fillBytesRandomly(x);
 
-        signaturesToMake = 1000000;
+        signaturesToMake = 10000000;
         folder = "testTwoTrees";
 
 
-        ParametersBase params = new ParametersBase(m, n, 2, 2, 10, 10, 16, 16, x, 0);
+        ParametersBase params = new ParametersBase(m, n, 2, 3, 6, 7, 16, 16, x, 1);
         testThatConfiguration(params);
 
-        ParametersBase params2 = new ParametersBase(m, n, 2, 3, 4, 5, 16, 16, x, 1);
+        // ParametersBase params2 = new ParametersBase(m, n, 2, 3, 4, 5, 16, 16, x, 1);
         // testThatConfiguration(params2);
 
 
@@ -329,7 +332,7 @@ public class PerformanceTests {
 
         writeToFile("Generation time : " + timeResult);
         writeToFile("Possible signtures per structure : " + params.signaturesNumber);
-        //   System.out.println("Time : " + timeResult + " Memory : " + memoryResult);
+        System.out.println("Time : " + timeResult + " Memory : " + memoryResult);
 
         //TESTING SIGNATURE GENERATION
         SignatureGenerator signatureGenerator = new SignatureGenerator(keysKeeper);
@@ -377,7 +380,7 @@ public class PerformanceTests {
             }
             //  memorySignature.add(memoryResult());
 
-        //TESTING SIGNATURE VERIFICATION
+            //TESTING SIGNATURE VERIFICATION
 
             startTime();
             Boolean isValid = signatureVerficator.verifySignature(signatures.get(i), msg + i);
@@ -410,7 +413,7 @@ public class PerformanceTests {
             }
 
             if (isValid) {
-                // System.out.println("SIGNATURE IS FINE");
+                //System.out.println("SIGNATURE IS FINE");
             } else {
                 System.out.println("SIGNATURE IS FALSED, ERROR");
                 return;

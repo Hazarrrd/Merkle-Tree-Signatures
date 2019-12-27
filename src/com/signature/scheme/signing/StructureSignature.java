@@ -4,6 +4,9 @@ import com.signature.scheme.merkleTree.Node;
 
 import java.io.Serializable;
 
+/**
+ * Class represents signatures of new structures, that are signed by older (used up) ones.
+ */
 public class StructureSignature implements Serializable {
 
     public Node[] oldStructAuthPath;

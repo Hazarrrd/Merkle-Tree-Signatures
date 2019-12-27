@@ -2,6 +2,9 @@ package com.signature.scheme.merkleTree;
 
 import java.io.Serializable;
 
+/**
+ * Represents Merkle Tree single node
+ */
 public class Node implements Serializable {
 
     public int height;

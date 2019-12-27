@@ -18,21 +18,25 @@ import java.util.Stack;
 
 import static com.signature.scheme.tools.HelperFunctions.fillBytesRandomly;
 
-
+/**
+ * Class that generates messages digital signatures and signs lower trees by upper tree.
+ * It also constantly builds new lower trees and replaces with them older lower trees, when these are used up.
+ * When whole structure of upper and lower trees is used up, it generates new structure (and private key), signs it by older one and replace them.
+ */
 public class SignatureGenerator {
 
     private final int n;
     private PrivateKey privateKey;
     KeysKeeper keysKeeper;
     ParametersBase params;
-    ArrayList<StructureSignature> upperSignatures;
+    ArrayList<StructureSignature> structureSignatures;
 
     public SignatureGenerator(KeysKeeper keysKeeper) {
         this.keysKeeper = keysKeeper;
         privateKey = this.keysKeeper.privateKey;
         params = this.keysKeeper.params;
         n = params.n;
-        upperSignatures = new ArrayList<>();
+        structureSignatures = new ArrayList<>();
     }
 
     private  void replaceStructure() {
@@ -40,16 +44,15 @@ public class SignatureGenerator {
         PublicKey publicKey = keysKeeper.publicKey;
         params.setTreeSizees(params.initialLowerSize,params.treeGrowth,params.upperH);
         this.keysKeeper.generateKeys();
-        //Signing new structure by old
+        //Signing new structure by old one
         StructureSignature structureSignature = signNextStruct(privateKey, params.n, params.lu1, params.lu2, params.wU, publicKey.X, keysKeeper.publicKey.upperRoot);
-        upperSignatures.add(structureSignature);
+        structureSignatures.add(structureSignature);
         privateKey = this.keysKeeper.privateKey;
     }
 
     private StructureSignature signNextStruct(PrivateKey privateKey, int n, int l1, int l2, int w, byte[] x, byte[] msg) {
         FSGenerator fsGenerator = new FSGenerator(new PseudorndFunction(n), new PseudorndFunction(n), privateKey.upperGenState);
         Node[] authPath = (privateKey.upperPathComputation.auth).clone();
-        int index = privateKey.upperPathComputation.leafIndex;
         byte[] seed = fsGenerator.nextStateAndSeed();
         privateKey.upperGenState = fsGenerator.state;
 
@@ -85,12 +88,12 @@ public class SignatureGenerator {
 
         //make the signature of msg
         byte[][] msgSignature = generateMsgSignature(seed, new PseudorndFunction(n), params.ll1, params.ll2, params.wL, params.X,msgDigest);
-        Signature signature = new Signature(authPath, msgSignature, index, privateKey.lowerSignature, (ArrayList<StructureSignature>) upperSignatures.clone());
+        Signature signature = new Signature(authPath, msgSignature, index, privateKey.lowerSignature, (ArrayList<StructureSignature>) structureSignatures.clone());
 
-        // Prepere for the next signature
+        // prepare for the next signature
         if(index == params.lowerSize-1){
             if(signature.treeIndex != (params.upperSize-2)) {
-                //Prepare next lower tree
+                //prepare next lower tree
                 buildNextTree();
                 replaceLowerWithNext(signature.treeIndex);
             }
@@ -99,7 +102,7 @@ public class SignatureGenerator {
             }
 
         } else {
-            //Prepare next lower tree
+            //prepare next lower tree
             buildNextTree();
             privateKey.lowerPathComputation.doAlgorithm();
         }
@@ -154,7 +157,6 @@ public class SignatureGenerator {
         int kLB = params.kL;
         if (params.treeGrowth % 2 != 0) {
             if (treeIndex % 2 == 0) {
-                //params.kL ++;
                 kLA++;
             } else {
                 kLB++;

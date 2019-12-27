@@ -10,9 +10,11 @@ import static com.signature.scheme.merkleTree.MTreeOperations.computeParent;
 import static com.signature.scheme.merkleTree.MTreeOperations.leafCalc;
 import static java.lang.Math.*;
 
+/**
+ * Class represents algorithm of authentication path computation
+ */
 public class PathComputation {
 
-    private int firstLeftNode;
     private int treeHeight;
     private int k;
     public Node[] auth;
@@ -30,7 +32,7 @@ public class PathComputation {
     private int l;
     private byte[] x;
     private int w;
-    private int treehashBound;
+    private int treeHashBound;
     public int leafIndex;
 
     public PathComputation(int treeHeight, int k, int n, int l, PublicKey publicKey, int w, byte[] seed, Node[] auth, Treehash[] treehashArray, Stack<Node>[] retainStack) {
@@ -51,7 +53,7 @@ public class PathComputation {
         this.retainStack = retainStack;
         int limit;
         int j = 0;
-        for (int i = 0; i < treeHeight-k; i++) {
+        for (int i = 0; i < treeHeight - k; i++) {
             limit = (int) (3 * Math.pow(2, i));
             while (j < limit) {
                 generator.nextState();
@@ -61,7 +63,7 @@ public class PathComputation {
         }
         leafNumber = (int) pow(2, this.treeHeight);
         updatesNumber = (this.treeHeight - k) / 2;
-        treehashBound = this.treeHeight - this.k - 1;
+        treeHashBound = this.treeHeight - this.k - 1;
         leafIndex = 0;
     }
 
@@ -75,7 +77,7 @@ public class PathComputation {
             generator.nextState();
             seedNextArray[i] = generator.state;
         }
-
+        int firstLeftNode;
         //Setting firstLeftNode
         if (leafIndex % 2 == 0) {
             firstLeftNode = 0;
@@ -90,29 +92,29 @@ public class PathComputation {
             firstLeftNode = h - 1;
         }
 
-        //Saveing node for left authentiacation node computation in future
+        //Saving node for left authentication node computation in future
         if (firstLeftNode < (treeHeight - 1) && floor(leafIndex / (int) Math.pow(2, firstLeftNode + 1)) % 2 == 0) {
             keep[firstLeftNode] = auth[firstLeftNode];
         }
 
-        //Computing left authentiaction node
+        //Computing left authentication node
         if (firstLeftNode == 0) {
-            auth[0] = leafCalc(this.n, seedForPK, this.l, this.x, this.w, maskL,leafIndex);
+            auth[0] = leafCalc(this.n, seedForPK, this.l, this.x, this.w, maskL, leafIndex);
         } else {
             auth[firstLeftNode] = computeParent(auth[firstLeftNode - 1], keep[firstLeftNode - 1], maskMain[firstLeftNode - 1]);
             keep[firstLeftNode - 1] = null;
 
-            //Computing right autheniaction nodes on heights [0,firstLeftNode-1]
+            //Computing right authentication nodes on heights [0,firstLeftNode-1]
             for (int h = 0; h < firstLeftNode; h++) {
-                if (h <= treehashBound) {
+                if (h <= treeHashBound) {
                     auth[h] = treehashArray[h].node;
                 } else {
                     auth[h] = retainStack[h].pop();
                 }
             }
 
-            //Initialize threehash instances for heights 0 .. min{firstLeftNode-1, treeHeight - k - 1}
-            int minimum = min(firstLeftNode - 1, treehashBound);
+            //Initialize treehash instances for heights 0 .. min{firstLeftNode-1, treeHeight - k - 1}
+            int minimum = min(firstLeftNode - 1, treeHashBound);
             for (int h = 0; h <= minimum; h++) {
                 int index = (int) (leafIndex + 1 + 3 * pow(2, h));
                 if (index < this.leafNumber) {
@@ -121,11 +123,11 @@ public class PathComputation {
             }
         }
 
-        //(treeHeight-k)/2 updates of threehash
+        //(treeHeight-k)/2 updates of treehash
         Treehash toUpdate = null;
         int min = Integer.MAX_VALUE;
         for (int i = 0; i < updatesNumber; i++) {
-            for (int j = 0; j <= treehashBound; j++) {
+            for (int j = 0; j <= treeHashBound; j++) {
                 if (min > treehashArray[j].height) {
                     toUpdate = treehashArray[j];
                     min = toUpdate.height;

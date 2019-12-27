@@ -1,9 +1,7 @@
 package com.signature.scheme.tests.tools;
 
 import com.signature.scheme.merkleTree.Node;
-import com.signature.scheme.tools.HashFunction;
 import com.signature.scheme.tools.HelperFunctions;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Stack;
@@ -57,11 +55,7 @@ class HelperFunctionsTest {
         byte[] array4 = {63};
         a = HelperFunctions.fromByteArray(array4);
         assertEquals(63, 63);
-        /*
-        byte [] array5 = {63,1};
-        a = HelperFunctions.fromByteArray(array5);
 
-        assertEquals(190, a);*/
     }
 
     @Test
@@ -146,32 +140,32 @@ class HelperFunctionsTest {
     }
 
     @Test
-    void msgDigest(){
+    void msgDigest() {
         String msg1 = "msgTest";
         String msg2 = "msgTest2";
         String msg3 = "msgTest";
         byte[] hash1 = HelperFunctions.messageDigestSHA3_256(msg1);
         byte[] hash2 = HelperFunctions.messageDigestSHA3_256(msg2);
         byte[] hash3 = HelperFunctions.messageDigestSHA3_256(msg3);
-        assertEquals(hash1.length,32);
-        assertEquals(hash2.length,32);
-        assertEquals(hash3.length,32);
-        assertArrayEquals(hash1,hash3);
+        assertEquals(hash1.length, 32);
+        assertEquals(hash2.length, 32);
+        assertEquals(hash3.length, 32);
+        assertArrayEquals(hash1, hash3);
         Boolean bool = false;
-        for(int i = 0;i<hash1.length;i++){
-            if(hash1[i]!=hash2[i]){
+        for (int i = 0; i < hash1.length; i++) {
+            if (hash1[i] != hash2[i]) {
                 bool = true;
                 break;
             }
         }
-        assertEquals(bool,true);
+        assertEquals(bool, true);
 
     }
 
     @Test
-    void byteArrayToBinaryString(){
-        byte[] array = {1,2,3};
+    void byteArrayToBinaryString() {
+        byte[] array = {1, 2, 3};
         String string = HelperFunctions.byteArrayToBinaryString(array);
-        assertEquals("000000010000001000000011",string);
+        assertEquals("000000010000001000000011", string);
     }
 }

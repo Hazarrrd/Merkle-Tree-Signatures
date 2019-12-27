@@ -12,8 +12,6 @@ public class Main {
         VerifyApplication verifyApplication = new VerifyApplication(path);
         String pathToSignature = "/home/janek/IdeaProjects/MerkleSignatures/appData/signedMsg0";
         verifyApplication.verify(pathToSignature);
-
-
     }
 
     public static void generateAndCheckSomeSignatures() {
@@ -22,8 +20,10 @@ public class Main {
         ParametersBase params = new ParametersBase(32, 16, 4, 4, 6, 7, 8, 8, KeysKeeper.generateX(16), 1);
         FileWriteReadHelper.sendParams(params, path);
         FileWriteReadHelper.sendParams(params, path2);
+
         SignerApplication signerApplication = new SignerApplication(path);
         VerifyApplication verifyApplication = new VerifyApplication(path);
+
         SignerApplication signerApplication2 = new SignerApplication(path2);
         VerifyApplication verifyApplication2 = new VerifyApplication(path2);
 

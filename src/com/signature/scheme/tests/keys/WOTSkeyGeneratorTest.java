@@ -13,15 +13,15 @@ class WOTSkeyGeneratorTest {
     void computeOTSPublicKey() {
         ParametersBase params = new ParametersBase();
         byte[][] signature = new byte[params.lL][params.n];
-        for(int i =0;i<params.lL;i++){
+        for (int i = 0; i < params.lL; i++) {
             byte[] array = new byte[params.n];
             HelperFunctions.fillBytesRandomly(array);
             signature[i] = array;
         }
-        byte[][] pk = WOTSkeyGenerator.computeOTSPublicKey(params.seed,params.ll1,params.ll2,params.wL,params.X,signature);
-        assertEquals(pk.length,params.lL);
-        for (byte [] array:pk) {
-            assertEquals(array.length,params.n);
+        byte[][] pk = WOTSkeyGenerator.computeWOTSPublicKey(params.seed, params.ll1, params.ll2, params.wL, params.X, signature);
+        assertEquals(pk.length, params.lL);
+        for (byte[] array : pk) {
+            assertEquals(array.length, params.n);
         }
     }
 }

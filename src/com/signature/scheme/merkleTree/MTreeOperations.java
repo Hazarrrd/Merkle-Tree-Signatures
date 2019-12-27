@@ -8,21 +8,23 @@ import java.util.Stack;
 
 import static com.signature.scheme.tools.HelperFunctions.xorTwoByteArrays;
 
+/**
+ * Class holds functions that are used on Merkle Tree.
+ */
 public class MTreeOperations {
 
-    private MTreeOperations() {
-    }
-
-    public static Node computeParent(Node top, Node leaf, byte[] mask) {
+    //Computes parent from left and right child nodes.
+    public static Node computeParent(Node left, Node right, byte[] mask) {
         int n = mask.length / 2;
         byte[] value = new byte[mask.length];
-        System.arraycopy(top.value, 0, value, 0, n);
-        System.arraycopy(leaf.value, 0, value, n, n);
+        System.arraycopy(left.value, 0, value, 0, n);
+        System.arraycopy(right.value, 0, value, n, n);
         value = xorTwoByteArrays(value, mask);
-        Node parent = new Node(leaf.height + 1, HashFunction.computeHash(value), top.index / 2);
+        Node parent = new Node(right.height + 1, HashFunction.computeHash(value), left.index / 2);
         return parent;
     }
 
+    //Computes leaf of Merkle Tree
     public static Node leafCalc(int n, byte[] seed, int l, byte[] x, int w, byte[][] mask, int index) {
 
         PseudorndFunction f = new PseudorndFunction(n);
@@ -44,6 +46,7 @@ public class MTreeOperations {
         return result;
     }
 
+    //Computes leaf of Merkle Tree
     public static Node leafCalc(int n, int l, byte[][] publicKey, byte[][] mask, int index) {
 
         PseudorndFunction f = new PseudorndFunction(n);
@@ -62,6 +65,7 @@ public class MTreeOperations {
         return result;
     }
 
+    //Computes Merkle tree's root using leaf and this leaf's authentication path
     public static Node computeRoot(int h, int index, Node node, Node[] auth, byte[][] bitmask) {
         for (int i = 0; i < h; i++) {
             if (Math.floor(index / Math.pow(2, i)) % 2 == 0) {

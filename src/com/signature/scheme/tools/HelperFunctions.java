@@ -8,21 +8,12 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Stack;
 
+/**
+ * Class contains set of helper functions
+ */
 public class HelperFunctions {
 
-    //Nieoptymalnie, do naprawy BROOOOOKEN !!!!!
     public static byte[] intToByteArray(int number, int l) {
-       /* int size = ceilLogTwo(l);
-        byte[] array = new byte[size];
-        for (int i = 0;i<size;i++){
-            if ((number & (1 << i)) != 0){
-                array[size - 1 - i] = 1;
-            }
-            else {
-                array[size - 1 - i] = 0;
-            }
-        }
-        return array;*/
         byte[] array = new byte[l];
         for (int i = 0; i < l; i++) {
             array[i] = 0;
@@ -39,7 +30,6 @@ public class HelperFunctions {
         return array;
     }
 
-    //Nieoptymalnie, do naprawy BROOOOOKEN !!!!!
     public static int fromByteArray(byte[] bytes) {
         int result = 0;
         int size = bytes.length;
@@ -61,22 +51,9 @@ public class HelperFunctions {
         return counter;
     }
 
-    //Maybe is this too strong ? TOEDIT!!! ZMIENIA MOOOOOODY
     public static void fillBytesRandomly(byte[] bytes) {
-       /* try {
-            SecureRandom.getInstanceStrong().nextBytes(bytes);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }*/
         SecureRandom random = new SecureRandom();
         random.nextBytes(bytes);
-       /* for(int i =0;i<bytes.length;i++){
-            if(bytes[i]%2 == 0){
-                bytes[i] = 1;
-            } else{
-                bytes[i] = 0;
-            }
-        }*/
     }
 
     public static byte[] xorTwoByteArrays(byte[] a, byte[] b) {
@@ -97,7 +74,6 @@ public class HelperFunctions {
         return digest.digest(msg.getBytes(StandardCharsets.UTF_8));
     }
 
-    //POTENCJALNIE TRACI DOKLADNOSC
     public static double log2(int n) {
         return (Math.log(n) / Math.log(2));
     }
@@ -105,7 +81,7 @@ public class HelperFunctions {
     public static void reverseStack(Stack<Node>[] stack) {
         Stack<Node>[] stackReversed = new Stack[stack.length];
         for (int h = 0; h < stack.length; h++) {
-            if(stack[h]!= null) {
+            if (stack[h] != null) {
                 stackReversed[h] = new Stack<Node>();
                 int size = stack[h].size();
                 for (int i = 0; i < size; i++)
@@ -116,9 +92,6 @@ public class HelperFunctions {
     }
 
     public static String stringPadding(int l, int wBytes, String msgBinaryString) {
-       /* while (msgBinaryString.length() != l * wBytes) {
-            msgBinaryString += "0";
-        }*/
         while (msgBinaryString.length() < l * wBytes) {
             msgBinaryString += "0";
         }
@@ -126,22 +99,22 @@ public class HelperFunctions {
     }
 
     public static String byteArrayToBinaryString(byte[] byteArray) {
-            char[] bits = new char[8 * byteArray.length];
-            for(int i = 0; i < byteArray.length; i++) {
-                byte temp = byteArray[i];
-                int mask = 1;
-                int byteNum = i * 8;
-                for(int j = 7; j >= 0; j--) {
-                    int bitValue = temp & mask;
-                    if(bitValue == 0) {
-                        bits[byteNum + j] = '0';
-                    } else {
-                        bits[byteNum + j] = '1';
-                    }
-                    mask <<= 1;
+        char[] bits = new char[8 * byteArray.length];
+        for (int i = 0; i < byteArray.length; i++) {
+            byte temp = byteArray[i];
+            int mask = 1;
+            int byteNum = i * 8;
+            for (int j = 7; j >= 0; j--) {
+                int bitValue = temp & mask;
+                if (bitValue == 0) {
+                    bits[byteNum + j] = '0';
+                } else {
+                    bits[byteNum + j] = '1';
                 }
+                mask <<= 1;
             }
-            return String.valueOf(bits);
+        }
+        return String.valueOf(bits);
     }
 
 }

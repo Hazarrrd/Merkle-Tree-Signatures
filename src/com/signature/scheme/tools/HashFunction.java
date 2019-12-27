@@ -4,8 +4,10 @@ import java.util.Arrays;
 
 import static com.signature.scheme.tools.HelperFunctions.xorTwoByteArrays;
 
-//second preimage
-// {H_k : {0,1}^2n -> {0,1}^n | K belong to {0,1}^n }
+/**
+ * Class implements hash function
+ * {H_k : {0,1}^2n -> {0,1}^n | K belong to {0,1}^n }
+ */
 public class HashFunction {
     public static int n;
     public static byte[] k;
@@ -26,10 +28,10 @@ public class HashFunction {
         return xorTwoByteArrays(temp, b);
     }
 
-    public static void setFunction (byte[] hashKey,int outputSize){
-            n = outputSize;
-            f = new PseudorndFunction(n);
-            k = hashKey;
+    public static void setFunction(byte[] hashKey, int outputSize) {
+        n = outputSize;
+        f = new PseudorndFunction(n);
+        k = hashKey;
     }
 
 }

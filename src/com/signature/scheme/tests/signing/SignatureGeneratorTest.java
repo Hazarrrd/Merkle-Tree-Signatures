@@ -15,18 +15,18 @@ class SignatureGeneratorTest {
     @Test
     void signMessage() {
         ParametersBase params = new ParametersBase();
-        KeysKeeper keysKeeper = new KeysKeeper(params.m,params.n,params.kU,params.kL,params.upperH,params.lowerH,params.wL,params.wU,params.treeGrowth);
+        KeysKeeper keysKeeper = new KeysKeeper(params.m, params.n, params.kU, params.kL, params.upperH, params.lowerH, params.wL, params.wU, params.treeGrowth);
         keysKeeper.generateKeys();
 
         SignatureGenerator signatureGenerator = new SignatureGenerator(keysKeeper);
         int size = (int) params.lowerSize;
-        for(int j = 0;j<size;j++) {
+        for (int j = 0; j < size; j++) {
             System.out.println(j);
             Signature signature = signatureGenerator.signMessage("TESTOWA WIDOMOSC");
 
             assertEquals(signature.treeIndex, 0);
             assertEquals(signature.lowerTreeSignature[0].length, params.n);
-            assertEquals(signature.upperAuthPath.length, params.upperH );
+            assertEquals(signature.upperAuthPath.length, params.upperH);
             for (int i = 0; i < signature.upperAuthPath.length; i++) {
                 assertEquals(signature.upperAuthPath[i].height, i);
                 assertEquals(signature.upperAuthPath[i].value.length, params.n);
@@ -42,12 +42,12 @@ class SignatureGeneratorTest {
             }
         }
 
-        for(int j = 0;j<size;j++) {
+        for (int j = 0; j < size; j++) {
             Signature signature = signatureGenerator.signMessage("TESTOWA WIDOMOSC");
 
             assertEquals(signature.treeIndex, 1);
             assertEquals(signature.lowerTreeSignature[0].length, params.n);
-            assertEquals(signature.upperAuthPath.length, params.upperH );
+            assertEquals(signature.upperAuthPath.length, params.upperH);
             assertEquals(signature.upperAuthPath[0].index, 0);
             for (int i = 1; i < signature.upperAuthPath.length; i++) {
                 assertEquals(signature.upperAuthPath[i].height, i);
@@ -67,22 +67,22 @@ class SignatureGeneratorTest {
     @Test
     void signLowerTree() {
         ParametersBase params = new ParametersBase();
-        KeysKeeper keysKeeper = new KeysKeeper(params.m,params.n,params.kU,params.kL,params.upperH,params.lowerH,params.wL,params.wU,params.treeGrowth);
+        KeysKeeper keysKeeper = new KeysKeeper(params.m, params.n, params.kU, params.kL, params.upperH, params.lowerH, params.wL, params.wU, params.treeGrowth);
         keysKeeper.privateKey = new PrivateKey();
         keysKeeper.publicKey = new PublicKey();
         keysKeeper.publicKey.bitmaskMain = keysKeeper.params.bitmaskMain;
         keysKeeper.publicKey.bitmaskLTree = keysKeeper.params.bitmaskLTree;
         keysKeeper.publicKey.X = params.X;
         byte[] root = keysKeeper.generateTrees();
-        SignatureGenerator.signLowerTree(keysKeeper.privateKey,params.n,params.ll1,params.ll2,params.wL,params.X,root);
+        SignatureGenerator.signLowerTree(keysKeeper.privateKey, params.n, params.ll1, params.ll2, params.wL, params.X, root);
         Signature signature = keysKeeper.privateKey.lowerSignature;
-        assertEquals(signature.treeIndex,0);
-        assertEquals(signature.lowerTreeSignature[0].length,params.n);
-        assertEquals(signature.upperAuthPath.length,params.upperH);
-        for (int i =0;i<signature.upperAuthPath.length;i++){
-            assertEquals(signature.upperAuthPath[i].height , i);
-            assertEquals(signature.upperAuthPath[i].value.length , params.n);
-            assertEquals(signature.upperAuthPath[i].index , 1);
+        assertEquals(signature.treeIndex, 0);
+        assertEquals(signature.lowerTreeSignature[0].length, params.n);
+        assertEquals(signature.upperAuthPath.length, params.upperH);
+        for (int i = 0; i < signature.upperAuthPath.length; i++) {
+            assertEquals(signature.upperAuthPath[i].height, i);
+            assertEquals(signature.upperAuthPath[i].value.length, params.n);
+            assertEquals(signature.upperAuthPath[i].index, 1);
         }
     }
 }

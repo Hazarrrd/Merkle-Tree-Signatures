@@ -38,13 +38,13 @@ class PseudorndFunctionTest {
 
         f.setKey(array);
         array4 = f.encrypt(array2);
-        assertArrayEquals(array3,array4);
+        assertArrayEquals(array3, array4);
 
 
         PseudorndFunction f2 = new PseudorndFunction(n);
         f2.setKey(array);
         array4 = f.encrypt(array2);
-        assertArrayEquals(array3,array4);
+        assertArrayEquals(array3, array4);
     }
 
     @Test

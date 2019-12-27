@@ -6,7 +6,10 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.NoSuchAlgorithmException;
 
-// {F_k : {0,1}^n -> {0,1}^n | K belong to {0,1}^n }
+/**
+ * Class implements pseudorandom function
+ * {F_k : {0,1}^n -> {0,1}^n | K belong to {0,1}^n }
+ */
 public class PseudorndFunction {
     public int n;
     private String algorithm;
@@ -30,13 +33,6 @@ public class PseudorndFunction {
     }
 
     public void setKey(byte[] myKey) {
-
-        //   MessageDigest sha = null;
-        //   key = myKey.getBytes("UTF-8");
-        //   sha = MessageDigest.getInstance("SHA-1");
-        //   key = sha.digest(key);
-        //   key = Arrays.copyOf(key, 16);
-
         if (myKey.length == this.n) {
             this.key = myKey;
             secretKey = new SecretKeySpec(this.key, this.algorithm);
@@ -69,7 +65,6 @@ public class PseudorndFunction {
         try {
             cipher.init(Cipher.DECRYPT_MODE, this.secretKey, ivParams);
             return cipher.doFinal(x);
-            //POMYSL O BASE
         } catch (Exception e) {
             System.out.println("Error while decrypting: " + e.toString());
         }

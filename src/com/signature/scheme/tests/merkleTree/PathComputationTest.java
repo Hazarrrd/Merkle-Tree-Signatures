@@ -28,38 +28,35 @@ class PathComputationTest {
         stack = new Stack<Node>();
         Node[] auth = new Node[params.upperH];
         Treehash[] treeHashArray = new Treehash[params.upperH - params.kU];
-        //Rozwarz zmianę wielkości tablicy
         Stack<Node>[] retain = new Stack[params.upperH - 1];
-        for (int i = params.upperH -params.kU; i < retain.length; i++)
+        for (int i = params.upperH - params.kU; i < retain.length; i++)
             retain[i] = new Stack<Node>();
-        for(int i =0;i<treeHashArray.length;i++){
-            treeHashArray[i] = new Treehash(new Stack<Node>(),i,params.bitmaskMain,params.bitmaskLTree,params.n,params.lU,params.X,params.wU);
+        for (int i = 0; i < treeHashArray.length; i++) {
+            treeHashArray[i] = new Treehash(new Stack<Node>(), i, params.bitmaskMain, params.bitmaskLTree, params.n, params.lU, params.X, params.wU);
         }
 
-        FSGenerator generator = new FSGenerator(new PseudorndFunction(params.n),new PseudorndFunction(params.n),params.seed);
+        FSGenerator generator = new FSGenerator(new PseudorndFunction(params.n), new PseudorndFunction(params.n), params.seed);
 
         for (int i = 0; i < size; i++) {
             byte[] pkseed = generator.nextStateAndSeed();
-            publicKey[i] = MTreeOperations.leafCalc(params.n,pkseed,params.lU,params.X,params.wU,params.bitmaskLTree,i).value;
+            publicKey[i] = MTreeOperations.leafCalc(params.n, pkseed, params.lU, params.X, params.wU, params.bitmaskLTree, i).value;
 
-            stack = Treehash.standardTreehash(new Node(0, publicKey[i], i), stack, params.bitmaskMain,auth,treeHashArray,retain,params.upperH,params.kU);
+            stack = Treehash.standardTreehash(new Node(0, publicKey[i], i), stack, params.bitmaskMain, auth, treeHashArray, retain, params.upperH, params.kU);
 
         }
         PublicKey publicKeyMTree = new PublicKey();
         publicKeyMTree.X = params.X;
-        publicKeyMTree.bitmaskLTree=params.bitmaskLTree;
+        publicKeyMTree.bitmaskLTree = params.bitmaskLTree;
         publicKeyMTree.bitmaskMain = params.bitmaskMain;
-        PathComputation pathComputation = new PathComputation(params.upperH,params.kU,params.n,params.lU,publicKeyMTree,params.wU,params.seed,auth,treeHashArray,retain);
-        generator = new FSGenerator(new PseudorndFunction(params.n),new PseudorndFunction(params.n),params.seed);
-        byte[] memory0 = treeHashArray[0].node.value;
-        byte[] memory1 = treeHashArray[1].node.value;
+        PathComputation pathComputation = new PathComputation(params.upperH, params.kU, params.n, params.lU, publicKeyMTree, params.wU, params.seed, auth, treeHashArray, retain);
+        generator = new FSGenerator(new PseudorndFunction(params.n), new PseudorndFunction(params.n), params.seed);
 
-        for(int i=0;i<size-1;i++){
+        for (int i = 0; i < size - 1; i++) {
             auth = pathComputation.auth;
             byte[] pkseed = generator.nextStateAndSeed();
-            Node node = MTreeOperations.leafCalc(params.n,pkseed,params.lU,params.X,params.wU,params.bitmaskLTree,i);
+            Node node = MTreeOperations.leafCalc(params.n, pkseed, params.lU, params.X, params.wU, params.bitmaskLTree, i);
 
-            assertArrayEquals(node.value,publicKey[i]);
+            assertArrayEquals(node.value, publicKey[i]);
             for (int j = 1; j <= params.upperH; j++) {
 
                 if (node.index % 2 == 0) {
@@ -70,13 +67,13 @@ class PathComputationTest {
                 }
             }
 
-            assertEquals(stack.size(),1);
-            assertEquals(stack.peek().height,params.upperH);
-            assertEquals(node.height,stack.peek().height);
-            assertEquals(node.index,0);
-            assertEquals(stack.peek().index,node.index);
-            assertEquals(stack.peek().value.length,node.value.length);
-            assertArrayEquals(node.value,stack.peek().value);
+            assertEquals(stack.size(), 1);
+            assertEquals(stack.peek().height, params.upperH);
+            assertEquals(node.height, stack.peek().height);
+            assertEquals(node.index, 0);
+            assertEquals(stack.peek().index, node.index);
+            assertEquals(stack.peek().value.length, node.value.length);
+            assertArrayEquals(node.value, stack.peek().value);
 
 
             pathComputation.doAlgorithm();

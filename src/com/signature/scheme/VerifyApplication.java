@@ -10,6 +10,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+/**
+ * Application that verify digital signatures
+ */
 public class VerifyApplication {
     private SignatureVerficator signatureVerficator;
 

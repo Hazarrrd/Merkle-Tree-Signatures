@@ -5,6 +5,9 @@ import com.signature.scheme.merkleTree.Node;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Class represents digital signature
+ */
 public class Signature implements Serializable {
     public Node[] upperAuthPath;
     public byte[][] lowerTreeSignature;
@@ -20,7 +23,7 @@ public class Signature implements Serializable {
         this.treeIndex = index;
     }
 
-    public Signature(Node[] authPath, byte[][] msgSignature, int index,Signature signature,ArrayList<StructureSignature> structureSignatures) {
+    public Signature(Node[] authPath, byte[][] msgSignature, int index, Signature signature, ArrayList<StructureSignature> structureSignatures) {
 
         this.structureSignatures = structureSignatures;
 

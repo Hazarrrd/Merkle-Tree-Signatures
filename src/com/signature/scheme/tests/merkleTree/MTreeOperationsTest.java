@@ -46,13 +46,13 @@ class MTreeOperationsTest {
 
     @Test
     void testLeafCalc1() {
-        Node a = MTreeOperations.leafCalc(param.n, param.seed, param.lL, param.X, param.wL, param.bitmaskLTree,2);
+        Node a = MTreeOperations.leafCalc(param.n, param.seed, param.lL, param.X, param.wL, param.bitmaskLTree, 2);
         assertEquals(a.height, 0);
         assertNotNull(a.value);
         assertEquals(a.value.length, param.n);
         assertEquals(a.index, 2);
 
-        a = MTreeOperations.leafCalc(param.n, param.seed, param.lL, param.X, param.wL, param.bitmaskLTree,0);
+        a = MTreeOperations.leafCalc(param.n, param.seed, param.lL, param.X, param.wL, param.bitmaskLTree, 0);
         assertEquals(a.height, 0);
         assertNotNull(a.value);
         assertEquals(a.value.length, param.n);
@@ -66,13 +66,13 @@ class MTreeOperationsTest {
             HelperFunctions.fillBytesRandomly(pKey[i]);
         }
 
-        Node a = MTreeOperations.leafCalc(param.n, param.lL, pKey, param.bitmaskLTree,2);
+        Node a = MTreeOperations.leafCalc(param.n, param.lL, pKey, param.bitmaskLTree, 2);
         assertEquals(a.height, 0);
         assertNotNull(a.value);
         assertEquals(a.value.length, param.n);
         assertEquals(a.index, 2);
 
-        a = MTreeOperations.leafCalc(param.n, param.lL, pKey, param.bitmaskLTree,0);
+        a = MTreeOperations.leafCalc(param.n, param.lL, pKey, param.bitmaskLTree, 0);
         assertEquals(a.height, 0);
         assertNotNull(a.value);
         assertEquals(a.value.length, param.n);
@@ -80,16 +80,16 @@ class MTreeOperationsTest {
     }
 
     @Test
-    void computeRoot () {
+    void computeRoot() {
         ParametersBase params = new ParametersBase();
         Node[] auth = new Node[params.lowerH];
         for (int i = 0; i < params.lowerH; i++) {
-            auth[i] = new Node(i,params.seed,1);
+            auth[i] = new Node(i, params.seed, 1);
         }
-        Node node = new Node(0,params.seed,0);
-        node = MTreeOperations.computeRoot(params.lowerH,0,node,auth,params.bitmaskMain);
-        assertEquals(node.index,0);
-        assertEquals(node.height,params.lowerH);
-        assertEquals(node.value.length,params.n);
+        Node node = new Node(0, params.seed, 0);
+        node = MTreeOperations.computeRoot(params.lowerH, 0, node, auth, params.bitmaskMain);
+        assertEquals(node.index, 0);
+        assertEquals(node.height, params.lowerH);
+        assertEquals(node.value.length, params.n);
     }
 }

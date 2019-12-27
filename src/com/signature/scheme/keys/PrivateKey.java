@@ -4,6 +4,9 @@ import com.signature.scheme.merkleTree.PathComputation;
 import com.signature.scheme.merkleTree.TreehashNext;
 import com.signature.scheme.signing.Signature;
 
+/**
+ * Represents private key of the scheme
+ */
 public class PrivateKey {
 
     public byte[] lowerGenState;
