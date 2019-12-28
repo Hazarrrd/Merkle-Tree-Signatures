@@ -1,9 +1,10 @@
 package com.signature.scheme;
 
-import com.signature.scheme.applications.SignerApplication;
-import com.signature.scheme.applications.VerifyApplication;
-import com.signature.scheme.keys.KeysKeeper;
-import com.signature.scheme.tools.FileWriteReadHelper;
+import com.signature.scheme.algorithm.applications.SignerApplication;
+import com.signature.scheme.algorithm.applications.VerifyApplication;
+import com.signature.scheme.algorithm.keys.KeysKeeper;
+import com.signature.scheme.algorithm.keys.ParametersBase;
+import com.signature.scheme.algorithm.tools.FileWriteReadHelper;
 
 
 public class Main {
@@ -29,11 +30,8 @@ public class Main {
         SignerApplication signerApplication2 = new SignerApplication(path2);
         VerifyApplication verifyApplication2 = new VerifyApplication(path2);
 
-
-        FileWriteReadHelper.sendMsg(path, "TESTOWA WIADOMOSC", "/msgToSign.txt");
-        FileWriteReadHelper.sendMsg(path2, "TESTOWA WIADOMOSC", "/msgToSign.txt");
-        signerApplication.signMsg();
-        signerApplication2.signMsg();
+        signerApplication.signMsg("TESTOWA");
+        signerApplication2.signMsg("TESTOWA");
         String pathToSignature = "/home/janek/IdeaProjects/MerkleSignatures/appData/signedMsg0";
         verifyApplication.verify(pathToSignature);
         verifyApplication2.verify(pathToSignature);
