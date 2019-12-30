@@ -1,6 +1,11 @@
 package com.signature.scheme.algorithm.tools;
 
 import com.signature.scheme.algorithm.keys.ParametersBase;
+import com.signature.scheme.algorithm.tools.ASN1.ASN1Params;
+import org.bouncycastle.asn1.ASN1Integer;
+import org.bouncycastle.asn1.ASN1Sequence;
+import org.bouncycastle.asn1.BEROctetString;
+import org.bouncycastle.util.encoders.Base64;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -42,7 +47,7 @@ public class FileWriteReadHelper {
         }
     }
 
-    public static void sendParams(ParametersBase params, String path) {
+    public static void sendSerilizedParams(ParametersBase params, String path) {
         FileOutputStream outputStream = null;
         File targetFile = new File(path + "/params.txt");
         File parent = targetFile.getParentFile();
@@ -65,6 +70,24 @@ public class FileWriteReadHelper {
             e.printStackTrace();
         }
 
+    }
+
+    public static void sendASN1Params(ParametersBase params, String path) {
+        FileOutputStream outputStream = null;
+        String pathToFile = path + "/params.txt";
+        File targetFile = new File(pathToFile);
+        File parent = targetFile.getParentFile();
+        if (!parent.exists() && !parent.mkdirs()) {
+            throw new IllegalStateException("Couldn't create dir: " + parent);
+        }
+        try {
+            ParametersBase paramsToSend = new ParametersBase(params.m, params.n, params.upperH, params.lowerH, params.wU, params.wL, params.treeGrowth, params.hashFunctionKey);
+            ASN1Params asn1Params = new ASN1Params(paramsToSend);
+            String base64String = new String(Base64.encode(asn1Params.getEncoded()));
+            FileWriteReadHelper.stringToFile(pathToFile, base64String);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void sendMsg(String path, String msg, String fileName) {
@@ -110,7 +133,7 @@ public class FileWriteReadHelper {
         return null;
     }
 
-    public static ParametersBase loadParams(String path) {
+    public static ParametersBase loadSerializedParams(String path) {
 
         File file = new File(path + "/params.txt");
 
@@ -129,6 +152,31 @@ public class FileWriteReadHelper {
         }
 
         return null;
+    }
+
+    public static ParametersBase loadASN1Params(String path) {
+        String pathToFile = path + "/params.txt";
+        String base64String = FileWriteReadHelper.fileToString(pathToFile);
+        if (base64String == null) {
+            System.out.println("Niepoprawna ścieżka lub uszkodzone pliki - kończenie pracy aplikacji");
+            System.exit(64);
+        }
+        ASN1Sequence seq = null;
+        try {
+            seq = (ASN1Sequence) BEROctetString.fromByteArray(Base64.decode(base64String.getBytes()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new ParametersBase(
+                ((ASN1Integer) seq.getObjectAt(0)).getValue().intValue(),
+                ((ASN1Integer) seq.getObjectAt(1)).getValue().intValue(),
+                ((ASN1Integer) seq.getObjectAt(2)).getValue().intValue(),
+                ((ASN1Integer) seq.getObjectAt(3)).getValue().intValue(),
+                ((ASN1Integer) seq.getObjectAt(4)).getValue().intValue(),
+                ((ASN1Integer) seq.getObjectAt(5)).getValue().intValue(),
+                ((ASN1Integer) seq.getObjectAt(6)).getValue().intValue(),
+                ((BEROctetString) seq.getObjectAt(7)).getOctets());
     }
 
     public static String fileToString(String filePath) {

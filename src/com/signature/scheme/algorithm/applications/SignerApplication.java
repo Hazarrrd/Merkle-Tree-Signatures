@@ -62,13 +62,12 @@ public class SignerApplication {
                 input.nextLine();
             }
         }
-        FileWriteReadHelper.sendParams(params, path);
-        SignerApplication signerApplication = new SignerApplication(path);
+        FileWriteReadHelper.sendASN1Params(params, path);
+        SignerApplication signerApplication = new SignerApplication(path, params);
 
         while (true) {
             System.out.println("Podaj ścieżkę do pliku .txt, dla którego zawartości ma zostać wygenerowany podpis cyfrowy");
             String pathToMsgFile = input.nextLine();
-            System.out.println(pathToMsgFile);
             String msg = FileWriteReadHelper.fileToString(pathToMsgFile);
             if (msg != null) {
                 signerApplication.signMsg(msg);
@@ -77,11 +76,10 @@ public class SignerApplication {
         }
     }
 
-    public SignerApplication(String path) {
+    public SignerApplication(String path, ParametersBase params) {
         this.path = path;
         signatureCounter = 0;
 
-        ParametersBase params = FileWriteReadHelper.loadParams(path);
 
         KeysKeeper keysKeeper = new KeysKeeper(params);
         keysKeeper.generateKeys();

@@ -33,7 +33,7 @@ public class SignatureVerficator {
         byte[] msgDigest = HelperFunctions.messageDigestSHA3_256(msg);
         byte[][] bitmask = publicKey.bitmaskMain;
         int n = params.n;
-        byte[] x = params.X;
+        byte[] x = publicKey.X;
 
         //setting params for lower tree
         int ll1 = params.ll1;

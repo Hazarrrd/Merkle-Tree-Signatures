@@ -29,7 +29,7 @@ public class VerifyApplication {
     private SignatureVerficator signatureVerficator;
 
     public VerifyApplication(String path) {
-        ParametersBase params = FileWriteReadHelper.loadParams(path);
+        ParametersBase params = FileWriteReadHelper.loadASN1Params(path);
         signatureVerficator = new SignatureVerficator(loadASN1PublicKey(path, params)
                 , params);
     }
@@ -45,9 +45,14 @@ public class VerifyApplication {
         VerifyApplication verifyApplication = new VerifyApplication(path);
         while (true) {
             System.out.println("Podaj numer folderu, zawierającego wiadomość i podpis cyfrowy do weryfikacji");
-            int signatureNumber = input.nextInt();
-            String pathToSignature = path + "/signedMsg" + signatureNumber;
-            verifyApplication.verify(pathToSignature);
+            try {
+                int signatureNumber = input.nextInt();
+                String pathToSignature = path + "/signedMsg" + signatureNumber;
+                verifyApplication.verify(pathToSignature);
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("Niepoprawny indeks podpisu cyfrowego");
+                input.nextLine();
+            }
         }
     }
 
@@ -81,7 +86,6 @@ public class VerifyApplication {
         int sizeSingleByteArray = 2 * params.n;
 
         newKey.bitmaskLTree = getBytesDoubleArray(seq, sizeL, sizeSingleByteArray, 0);
-
         int sizeMain = params.maxH;
         newKey.bitmaskMain = getBytesDoubleArray(seq, sizeMain, sizeSingleByteArray, sizeL);
 

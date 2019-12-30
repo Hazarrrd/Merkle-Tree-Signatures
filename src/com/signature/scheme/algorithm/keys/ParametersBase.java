@@ -102,6 +102,21 @@ public class ParametersBase implements Serializable {
             this.signaturesNumber = ((upperSize - 1) * lowerSize);
     }
 
+    public ParametersBase(int m, int n, int upperH, int lowerH, int wU, int wL, int treeGrowth, byte[] hashFunctionKey) {
+        this.treeGrowth = treeGrowth;
+        this.m = m;
+        this.n = n;
+        this.initialLowerSize = lowerH;
+        this.upperH = upperH;
+        this.lowerH = lowerH;
+        this.wL = wL;
+        this.wU = wU;
+        int temp = (int) (lowerH + (Math.pow(2, upperH) - 2) * treeGrowth);
+        this.maxH = Math.max(upperH, temp);
+        setLengths(m, n, wL, wU);
+        this.hashFunctionKey = hashFunctionKey;
+    }
+
     public void setTreeSizees(int lowerH, int treeGrowth, int upperH) {
         this.nextH = lowerH + treeGrowth;
         this.lowerSize = (int) Math.pow(2, lowerH);
