@@ -69,12 +69,7 @@ public class SignatureVerficator {
         }
 
         //checking if publicKey belongs to Merkle Tree
-        if (Arrays.equals(node.value, publicKey.upperRoot)) {
-            return true;
-        } else {
-            System.out.println("Root doesnt match");
-            return false;
-        }
+        return Arrays.equals(node.value, publicKey.upperRoot);
 
 
     }

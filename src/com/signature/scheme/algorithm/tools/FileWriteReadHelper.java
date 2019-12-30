@@ -116,7 +116,6 @@ public class FileWriteReadHelper {
 
 
         try {
-
             FileInputStream fi = new FileInputStream(file);
             ObjectInputStream oi = new ObjectInputStream(fi);
             try {
@@ -125,7 +124,8 @@ public class FileWriteReadHelper {
                 e.printStackTrace();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Niepoprawna ścieżka lub uszkodzone pliki - kończenie pracy aplikacji");
+            System.exit(64);
         }
 
         return null;
@@ -137,7 +137,8 @@ public class FileWriteReadHelper {
         try {
             content = new String(Files.readAllBytes(Paths.get(filePath)));
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Nie ma takiego pliku");
+            content = null;
         }
 
         return content;

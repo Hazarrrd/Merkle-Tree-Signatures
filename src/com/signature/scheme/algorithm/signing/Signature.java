@@ -17,6 +17,10 @@ public class Signature implements Serializable {
     public int treeIndex;
     public ArrayList<StructureSignature> structureSignatures;
 
+    public Signature() {
+
+    }
+
     public Signature(Node[] authPath, byte[][] msgSignature, int index) {
         this.upperAuthPath = authPath;
         this.lowerTreeSignature = msgSignature;

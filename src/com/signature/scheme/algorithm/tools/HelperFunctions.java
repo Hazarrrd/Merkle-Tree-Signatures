@@ -1,6 +1,8 @@
 package com.signature.scheme.algorithm.tools;
 
 import com.signature.scheme.algorithm.merkleTree.Node;
+import org.bouncycastle.asn1.ASN1OctetString;
+import org.bouncycastle.asn1.DEROctetString;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -115,6 +117,14 @@ public class HelperFunctions {
             }
         }
         return String.valueOf(bits);
+    }
+
+    public static ASN1OctetString[] getSequenceOfBitArray(byte[][] bitArray) {
+        ASN1OctetString[] array = new DEROctetString[bitArray.length];
+        for (int i = 0; i < bitArray.length; i++) {
+            array[i] = new DEROctetString(bitArray[i]);
+        }
+        return array;
     }
 
 }
