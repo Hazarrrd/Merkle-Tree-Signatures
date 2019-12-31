@@ -138,6 +138,10 @@
 
     <!-- Project Libraries -->
 
+    <path id="library.bcprov-jdk15on-164.classpath">
+        <pathelement location="${basedir}/.idea/libraries/bcprov-jdk15on-164.jar"/>
+    </path>
+
     <path id="library.jcommon-1.0.23.classpath">
         <pathelement location="${basedir}/../jar_files/jcommon-1.0.23.jar"/>
     </path>
