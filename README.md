@@ -3,6 +3,10 @@ The paper concerns the theoretical description and implementation of the digital
 
 Keywords: digital signatures, Merkle tree, post-quantum cryptography, hash functions, implementation, XMSS, ASN.1
 
+In order to run the generating and signing application, you need to build a project and run classes: 
+SignerApplication.java and VerifyApplicaton.java.
+
+
 ---------------------------------------------------------------------------------------------------------------------------
 
 Praca dotyczy opisu teoretycznego i implementacji schematu podpisów cyfrowych opartych o hierarchię drzew Merkla o różnych wysokościach. Na początku określone jest zapotrzebowanie na takie schematy i przedstawione zostają aktualnie wykorzystywane algorytmy podpisów cyfrowych. W dalszej części szczegółowo omówione zostały algorytmy wchodzące w skład podpisów cyfrowych metodą hierarchii drzew Merkla. Omówiona jest implementacja i komunikacja między aplikacją generującą podpisy a weryfikującą (została tu wykorzystana notacja ASN.1). Na koniec ukazane są wyniki testów wydajnościowych i porównania ze schematem XMSS+.
@@ -24,7 +28,7 @@ Słowa klucze : podpisy cyfrowe, drzewo Merla, kryptografia post-quantum, funkcj
             - folder tools - zawiera pakiet klas pomocniczych oraz definicje funkcji pseudolosowej, generatora, funkcji haszującej oraz obiektów ASN.1
             - folder verification - zawiera pakiet klas odpowiedzialnych za weryfikację podpisów cyfrowych
 
-        - folder tests - tu się znajduje klasa przeprowadzająca test wydajnościowe, klasa pomocnicza do rysowania wykresów i klasy testów jednostkowych
+        - folder tests - tu się znajduje klasa przeprowadzająca testy wydajnościowe, klasa pomocnicza do rysowania wykresów i klasy testów jednostkowych
 
             - plik Chart.java - klasa odpowiedzialna za rysowanie wykresów
             - plik PerformanceTest.java - klasa przeprowadzająca testy wydajnościowe (posiada metodę main)
