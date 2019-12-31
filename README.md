@@ -10,7 +10,6 @@ Praca dotyczy opisu teoretycznego i implementacji schematu podpisów cyfrowych o
 Słowa klucze : podpisy cyfrowe, drzewo Merla, kryptografia post-quantum, funkcje haszujące, implementacja, XMSS, ASN.1
 
 
-- Folder MerkleSignatureScheme - zawiera kod źródłowy aplikacji podpisującej oraz aplikacji weryfikującej podpisy cyfrowe
 
     	- folder algorithm - posiada kody źródłowe aplikacji i klas niezbędnych do działania algorytmu
 
