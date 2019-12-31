@@ -11,7 +11,7 @@ Słowa klucze : podpisy cyfrowe, drzewo Merla, kryptografia post-quantum, funkcj
 
 
 
-    - folder algorithm - posiada kody źródłowe aplikacji i klas niezbędnych do działania algorytmu
+        - folder algorithm - posiada kody źródłowe aplikacji i klas niezbędnych do działania algorytmu
 
             - folder applications - zawiera aplikację podpisującą oraz aplikację weryfikującą
 
@@ -24,7 +24,7 @@ Słowa klucze : podpisy cyfrowe, drzewo Merla, kryptografia post-quantum, funkcj
             - folder tools - zawiera pakiet klas pomocniczych oraz definicje funkcji pseudolosowej, generatora, funkcji haszującej oraz obiektów ASN.1
             - folder verification - zawiera pakiet klas odpowiedzialnych za weryfikację podpisów cyfrowych
 
-     - folder tests - tu się znajduje klasa przeprowadzająca test wydajnościowe, klasa pomocnicza do rysowania wykresów i klasy testów jednostkowych
+        - folder tests - tu się znajduje klasa przeprowadzająca test wydajnościowe, klasa pomocnicza do rysowania wykresów i klasy testów jednostkowych
 
             - plik Chart.java - klasa odpowiedzialna za rysowanie wykresów
             - plik PerformanceTest.java - klasa przeprowadzająca testy wydajnościowe (posiada metodę main)
