@@ -13,16 +13,16 @@ Słowa klucze : podpisy cyfrowe, drzewo Merla, kryptografia post-quantum, funkcj
 
     	- folder algorithm - posiada kody źródłowe aplikacji i klas niezbędnych do działania algorytmu
 
-    	- folder applications - zawiera aplikację podpisującą oraz aplikację weryfikującą
+            - folder applications - zawiera aplikację podpisującą oraz aplikację weryfikującą
 
-            - plik SignerApplication.java - aplikacja generująca podpisy cyfrowe (posiada metodę main)
-            - plik VerifyApplicaton.java - aplikacja weryfikująca podpisy cyfrowe (posiada metodę main)
+                - plik SignerApplication.java - aplikacja generująca podpisy cyfrowe (posiada metodę main)
+                - plik VerifyApplicaton.java - aplikacja weryfikująca podpisy cyfrowe (posiada metodę main)
 
-        - folder keys - zawiera pakiet klas reprezentujących klucze oraz odpowiedzialnych za ich generację
-        - folder merkleTree - zawiera pakiet klas implementujących drzewo Merkla i związane z nim operacje i struktury
-        - folder signing - zawiera pakiet klas odpowiedzialnych za generowanie podpisów cyfrowych
-        - folder tools - zawiera pakiet klas pomocniczych oraz definicje funkcji pseudolosowej, generatora, funkcji haszującej oraz obiektów ASN.1
-        - folder verification - zawiera pakiet klas odpowiedzialnych za weryfikację podpisów cyfrowych
+            - folder keys - zawiera pakiet klas reprezentujących klucze oraz odpowiedzialnych za ich generację
+            - folder merkleTree - zawiera pakiet klas implementujących drzewo Merkla i związane z nim operacje i struktury
+            - folder signing - zawiera pakiet klas odpowiedzialnych za generowanie podpisów cyfrowych
+            - folder tools - zawiera pakiet klas pomocniczych oraz definicje funkcji pseudolosowej, generatora, funkcji haszującej oraz obiektów ASN.1
+            - folder verification - zawiera pakiet klas odpowiedzialnych za weryfikację podpisów cyfrowych
 
         - folder tests - tu się znajduje klasa przeprowadzająca test wydajnościowe, klasa pomocnicza do rysowania wykresów i klasy testów jednostkowych
 
