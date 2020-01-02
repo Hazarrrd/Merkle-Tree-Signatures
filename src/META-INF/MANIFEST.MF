@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: com.signature.scheme.algorithm.applications.SignerApplicatio
+ n
+

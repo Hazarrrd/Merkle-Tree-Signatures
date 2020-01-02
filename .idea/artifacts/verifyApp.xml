@@ -1,0 +1,15 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="verifyApp">
+    <output-path>$PROJECT_DIR$/out/artifacts/verifyApp</output-path>
+    <root id="archive" name="verifyApp.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="MerkleSignatures" />
+      <element id="library" level="module" name="JUnit5.4" module-name="MerkleSignatures" />
+      <element id="library" level="project" name="jcommon-1.0.23" />
+      <element id="library" level="project" name="jfreechart-1.0.19" />
+      <element id="library" level="project" name="bcprov-jdk15on-164" />
+    </root>
+  </artifact>
+</component>

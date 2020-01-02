@@ -25,7 +25,7 @@
     </orderEntry>
     <orderEntry type="library" exported="" name="jcommon-1.0.23" level="project" />
     <orderEntry type="library" exported="" name="jfreechart-1.0.19" level="project" />
-    <orderEntry type="library" name="bcprov-jdk15on-164" level="project" />
-    <orderEntry type="library" name="bcprov-jdk15on-164" level="project" />
+    <orderEntry type="library" exported="" name="bcprov-jdk15on-164" level="project" />
+    <orderEntry type="library" exported="" name="bcprov-jdk15on-164" level="project" />
   </component>
 </module>
