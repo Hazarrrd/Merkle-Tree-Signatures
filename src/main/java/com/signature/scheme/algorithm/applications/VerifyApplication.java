@@ -152,7 +152,7 @@ public class VerifyApplication {
         startIndex += params.lL;
 
 
-        ArrayList<StructureSignature> newStructureSignatures = new ArrayList<>();
+        ArrayList<StructureSignature> newStructureSignatures = new ArrayList<StructureSignature>();
         for (int z = startIndex; z < seq.size(); z++) {
             BERSequence asn1StructureSignatures = (BERSequence) (seq.getObjectAt(z));
             newStructureSignatures.add(new StructureSignature(getNodesArray(params, params.upperH, asn1StructureSignatures, 0)

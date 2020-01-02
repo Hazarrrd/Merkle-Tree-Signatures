@@ -32,14 +32,7 @@ public class SignerApplication {
 
         System.out.println("Czy chcesz podać własne prarametry algorytmu ('T'-własne parametry/INACZEJ-domyślne parametry)");
         Boolean ownParams;
-        switch (input.nextLine()) {
-            case "T":
-                ownParams = true;
-                break;
-            default:
-                ownParams = false;
-                break;
-        }
+        ownParams = "T".equals(input.nextLine());
         ParametersBase params;
         if (!ownParams) {
             params = new ParametersBase(32, 16, 4, 4, 6, 7, 8, 8, KeysKeeper.generateX(16), 1);

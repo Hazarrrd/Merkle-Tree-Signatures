@@ -36,6 +36,7 @@
         <pathelement location="${path.variable.maven_repository}/org/opentest4j/opentest4j/1.1.1/opentest4j-1.1.1.jar"/>
         <path refid="library.jcommon-1.0.23.classpath"/>
         <path refid="library.jfreechart-1.0.19.classpath"/>
+        <path refid="library.bcprov-jdk15on-164.classpath"/>
     </path>
 
     <path id="merklesignatures.runtime.production.module.classpath">
@@ -57,6 +58,7 @@
         <pathelement location="${path.variable.maven_repository}/org/opentest4j/opentest4j/1.1.1/opentest4j-1.1.1.jar"/>
         <path refid="library.jcommon-1.0.23.classpath"/>
         <path refid="library.jfreechart-1.0.19.classpath"/>
+        <path refid="library.bcprov-jdk15on-164.classpath"/>
     </path>
 
     <path id="merklesignatures.module.classpath">
@@ -79,6 +81,7 @@
         <pathelement location="${path.variable.maven_repository}/org/opentest4j/opentest4j/1.1.1/opentest4j-1.1.1.jar"/>
         <path refid="library.jcommon-1.0.23.classpath"/>
         <path refid="library.jfreechart-1.0.19.classpath"/>
+        <path refid="library.bcprov-jdk15on-164.classpath"/>
     </path>
 
     <path id="merklesignatures.runtime.module.classpath">
@@ -101,6 +104,7 @@
         <pathelement location="${path.variable.maven_repository}/org/opentest4j/opentest4j/1.1.1/opentest4j-1.1.1.jar"/>
         <path refid="library.jcommon-1.0.23.classpath"/>
         <path refid="library.jfreechart-1.0.19.classpath"/>
+        <path refid="library.bcprov-jdk15on-164.classpath"/>
     </path>
 
 

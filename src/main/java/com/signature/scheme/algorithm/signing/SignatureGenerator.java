@@ -35,10 +35,10 @@ public class SignatureGenerator {
         structureSignatures = new ArrayList<>();
     }
 
-    private  void replaceStructure() {
+    private void replaceStructure() {
         //Generating new structure and replacing actual
         PublicKey publicKey = keysKeeper.publicKey;
-        params.setTreeSizees(params.initialLowerSize,params.treeGrowth,params.upperH);
+        params.setTreeSizees(params.initialLowerSize, params.treeGrowth, params.upperH);
         this.keysKeeper.generateKeys();
         //Signing new structure by old one
         StructureSignature structureSignature = signNextStruct(privateKey, params.n, params.lu1, params.lu2, params.wU, publicKey.X, keysKeeper.publicKey.upperRoot);
@@ -75,7 +75,7 @@ public class SignatureGenerator {
 
     public Signature signMessage(String msg) {
         byte[] msgDigest = HelperFunctions.messageDigestSHA3_256(msg);
-        HashFunction.setFunction(keysKeeper.params.hashFunctionKey,keysKeeper.params.n);
+        HashFunction.setFunction(keysKeeper.params.hashFunctionKey, keysKeeper.params.n);
         FSGenerator fsGenerator = new FSGenerator(new PseudorndFunction(n), new PseudorndFunction(n), privateKey.lowerGenState);
         Node[] authPath = (privateKey.lowerPathComputation.auth).clone();
         int index = privateKey.lowerPathComputation.leafIndex;
@@ -83,17 +83,16 @@ public class SignatureGenerator {
         privateKey.lowerGenState = fsGenerator.state;
 
         //make the signature of msg
-        byte[][] msgSignature = generateMsgSignature(seed, new PseudorndFunction(n), params.ll1, params.ll2, params.wL, params.X,msgDigest);
+        byte[][] msgSignature = generateMsgSignature(seed, new PseudorndFunction(n), params.ll1, params.ll2, params.wL, params.X, msgDigest);
         Signature signature = new Signature(authPath, msgSignature, index, privateKey.lowerSignature, (ArrayList<StructureSignature>) structureSignatures.clone());
 
         // prepare for the next signature
-        if(index == params.lowerSize-1){
-            if(signature.treeIndex != (params.upperSize-2)) {
+        if (index == params.lowerSize - 1) {
+            if (signature.treeIndex != (params.upperSize - 2)) {
                 //prepare next lower tree
                 buildNextTree();
                 replaceLowerWithNext(signature.treeIndex);
-            }
-            else{
+            } else {
                 replaceStructure();
             }
 
@@ -118,7 +117,7 @@ public class SignatureGenerator {
         int n = f.n;
         int wBytes = HelperFunctions.ceilLogTwo(w);
         int actualMsgIndex = 0;
-        int nextMsgIndex=wBytes;
+        int nextMsgIndex = wBytes;
         byte[] privatePart;
         int msgPartBaseW;
         int controlSum = 0;
@@ -127,7 +126,7 @@ public class SignatureGenerator {
         byte[][] signature = new byte[l][n];
         for (int i = 0; i < l1; i++) {
             privatePart = WOTSkeyGenerator.getPrivPart(l, f, i, seed);
-            msgPartBaseW = Integer.parseInt(msgBinaryString.substring(actualMsgIndex, nextMsgIndex),2);
+            msgPartBaseW = Integer.parseInt(msgBinaryString.substring(actualMsgIndex, nextMsgIndex), 2);
             controlSum += (w - 1 - msgPartBaseW);
             actualMsgIndex = nextMsgIndex;
             nextMsgIndex += wBytes;
@@ -159,18 +158,18 @@ public class SignatureGenerator {
             }
         }
         privateKey.lowerGenState = privateKey.nextGenState;
-        privateKey.lowerPathComputation = new PathComputation(params.nextH,kLA,params.n,params.lL,keysKeeper.publicKey,params.wL
-                ,privateKey.nextGenState,privateKey.nextThreehash.authNext,privateKey.nextThreehash.treeHashArrayNext,privateKey.nextThreehash.retainNext);
+        privateKey.lowerPathComputation = new PathComputation(params.nextH, kLA, params.n, params.lL, keysKeeper.publicKey, params.wL
+                , privateKey.nextGenState, privateKey.nextThreehash.authNext, privateKey.nextThreehash.treeHashArrayNext, privateKey.nextThreehash.retainNext);
         byte[] initialState = new byte[n];
         fillBytesRandomly(initialState);
         privateKey.nextGenState = initialState;
-        byte [] lowerRootValue = privateKey.nextThreehash.stack.pop().value;
+        byte[] lowerRootValue = privateKey.nextThreehash.stack.pop().value;
         SignatureGenerator.signLowerTree(privateKey, params.n, params.lu1, params.lu2, params.wU, keysKeeper.publicKey.X, lowerRootValue);
         params.lowerH = params.nextH;
         params.nextH = params.lowerH + params.treeGrowth;
         params.lowerSize = params.nextSize;
-        params.nextSize = (int) (params.nextSize*Math.pow(2,params.treeGrowth));
-        privateKey.nextThreehash = new TreehashNext(new Stack<>(),params.nextH,params.bitmaskMain,params.bitmaskLTree,params.n,params.lL,params.X,params.wL,kLB,privateKey.nextGenState);
+        params.nextSize = (int) (params.nextSize * Math.pow(2, params.treeGrowth));
+        privateKey.nextThreehash = new TreehashNext(new Stack<>(), params.nextH, params.bitmaskMain, params.bitmaskLTree, params.n, params.lL, params.X, params.wL, kLB, privateKey.nextGenState);
     }
 
 }
