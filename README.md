@@ -35,7 +35,7 @@ Słowa klucze : podpisy cyfrowe, drzewo Merla, kryptografia post-quantum, funkcj
             - folder unitTests - przetrzymuje klasy zawierające testy jednostkowe klas z folderu algorithm
 
 
-W celu uruchomienia aplikacji generującej oraz podpisującej, należy zbudować projekt oraz wywołać kolejno klasy: SignerApplication.java oraz VerifyApplicaton.java. bądź skorzystać z załączonego pliku .jar i użyć poniższych komend
+W celu uruchomienia aplikacji generującej oraz podpisującej, należy zbudować projekt oraz wywołać kolejno klasy SignerApplication.java oraz VerifyApplicaton.java. bądź skorzystać z załączonego pliku .jar i użyć poniższych komend:
 
 -> java -cp MerkleTreeRepository-master/out/artifacts/MerkleSignatures_jar/MerkleSignatures.jar MerkleTreeRepository-master/src/main/java/com/signature/scheme/algorithm/applications/SignerApplication.java
 
